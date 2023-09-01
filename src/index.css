@@ -1,0 +1,16 @@
+:root {
+  --primary-color: #f02c33;
+  --white: #fff;
+  --gray: #1c1c1c;
+  --black: #000;
+  --mont: "Montserrat", sans-serif;
+  --teko: "Teko", sans-serif;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
