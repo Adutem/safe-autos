@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import SmallScreenNav from "./components/SmallScreenNav";
 import RoutesComponent from "./routes/Routes.jsx";
 import Footer from "./components/Footer";
+import HomeHero from "./components/HomeHero";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <SmallScreenNav />
       <Alert />
       <Navbar />
+      <HomeHero />
       <RoutesComponent />
       <Footer />
     </AppContainer>

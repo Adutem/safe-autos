@@ -82,6 +82,7 @@ const ComposedList = styled.ul`
   top: 100%;
   background: var(--gray);
   display: none;
+  z-index: 100;
 `;
 
 const ComposedLinkItem = styled(MainLinkItem)`

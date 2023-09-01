@@ -100,3 +100,11 @@ export const ColumnFlexContainer = styled.div`
   align-items: center;
   gap: 1rem;
 `;
+
+export const RedBackgroundHeading = styled.h2`
+  font-family: var(--teko);
+  color: var(--white);
+  background-color: var(--primary-color);
+  padding: 1rem 5%;
+  text-transform: uppercase;
+`;

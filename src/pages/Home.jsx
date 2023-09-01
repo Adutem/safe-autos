@@ -13,7 +13,6 @@ import AboutSection from "../components/AboutSection";
 const Home = () => {
   return (
     <HomeContainer>
-      <HomeHero />
       <BoxNav />
       <Advert />
       <GetYourTire />
