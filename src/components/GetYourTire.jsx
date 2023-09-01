@@ -17,7 +17,7 @@ const GetYourTire = () => {
       <Container>
         <LayoutContainter>
           <Div>
-            <i className="fi fi-rr-tire"></i>,
+            <i className="fi fi-rr-tire"></i>
           </Div>
           <SectionHeading>
             Get your <span className="colored">Tire Anytime</span>
