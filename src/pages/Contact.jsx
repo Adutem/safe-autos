@@ -61,7 +61,7 @@ const Contact = () => {
             <RightContainer>
               <FormGroupComponent
                 label={"Telephone"}
-                placeholder={"Enter tel: "}
+                placeholder={"Enter tel"}
                 name={"tel"}
                 value={contactData?.tel}
                 onChange={handleInputChange}

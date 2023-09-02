@@ -33,7 +33,7 @@ const routes = [
         name: "Schedule My Service",
       },
       {
-        path: "/care-tips",
+        path: "/car-care-tips",
         name: "Car Care Tips",
       },
     ],

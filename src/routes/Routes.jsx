@@ -8,6 +8,10 @@ import Coupons from "../pages/Coupons";
 import FindUs from "../pages/FindUs";
 import Contact from "../pages/Contact";
 import Jobs from "../pages/Jobs";
+import CarCareTips from "../pages/CarCareTips";
+import TireCareTips from "../pages/TireCareTips";
+import TermsOfUse from "../pages/TermsOfUse";
+import Privacy from "../pages/Privacy";
 
 const RoutesComponent = () => {
   return (
@@ -24,6 +28,14 @@ const RoutesComponent = () => {
         <Route path="jobs" element={<Jobs />} />
       </Route>
       <Route path="/coupons" element={<Coupons />} />
+      <Route path="services">
+        <Route path="car-care-tips" element={<CarCareTips />} />
+      </Route>
+      <Route path="tires">
+        <Route path="tire-care-tips" element={<TireCareTips />} />
+      </Route>
+      <Route path="/terms-of-use" element={<TermsOfUse />} />
+      <Route path="/privacy" element={<Privacy />} />
     </Routes>
   );
 };

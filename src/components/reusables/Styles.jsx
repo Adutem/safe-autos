@@ -50,7 +50,7 @@ export const ButtonLink = styled(Link)`
   color: var(--white);
   background: var(--gray);
   font-size: 1.5rem;
-  padding: 1rem;
+  padding: 0.8rem;
   min-width: 150px;
   width: 100%;
   max-width: 300px;
@@ -61,6 +61,10 @@ export const ButtonLink = styled(Link)`
 
   &:hover {
     background: var(--primary-color);
+  }
+
+  @media (max-width: 400px) {
+    font-size: 1.2rem;
   }
 `;
 
@@ -107,6 +111,10 @@ export const RedBackgroundHeading = styled.h2`
   background-color: var(--primary-color);
   padding: 1rem 5%;
   text-transform: uppercase;
+
+  @media (max-width: 400px) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const FormButton = styled(ButtonLink)`
@@ -134,3 +142,43 @@ export const GridLayoutContainer = styled.div`
 export const LeftContainer = styled.div``;
 
 export const RightContainer = styled.div``;
+
+export const NormalPara = styled.p`
+  font-family: var(--mont);
+  line-height: 1.5;
+  margin: 1rem 0;
+  word-wrap: break-word;
+
+  @media (max-width: 400px) {
+    0.9rem;
+  }
+`;
+
+export const ListItem = styled.li`
+  list-style: initial;
+`;
+
+export const List = styled.ul`
+  list-style: initial;
+  padding-left: 1rem;
+  margin: 1rem 0;
+`;
+
+export const OptimizedButtonLink = styled(ButtonLink)`
+  margin: auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  justify-content: center;
+
+  i {
+    margin-right: 1rem;
+    display: flex;
+    margin-top: -0.1rem;
+
+    @media (max-width: 400px) {
+      display: none;
+    }
+  }
+`;

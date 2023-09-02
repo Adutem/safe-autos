@@ -17,10 +17,10 @@ const Advert = () => {
             <Heading>Services You Can Trust</Heading>
             <ParaText>
               When you need convenient auto service or tire service from a shop
-              you can trust, it’s time to visit your friends at Fred's Brake and
-              Alignment . Our expert technicians work hard, so you can be in and
-              out of our shop in a jiffy. See us for your automotive and tire
-              needs today!
+              you can trust, it’s time to visit your friends at Acorn Tire &
+              Auto. Our expert technicians work hard, so you can be in and out
+              of our shop in a jiffy. See us for your automotive and tire needs
+              today!
             </ParaText>
           </Div>
           <ButtonLink>View Repair</ButtonLink>

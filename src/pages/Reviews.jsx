@@ -104,12 +104,13 @@ const Reviews = () => {
               <ReviewText>
                 So we had an issue on the road coming back from a camping
                 trip/had a tire issue/battery issue and needs for some general
-                service/called Fred's and talked with Brandon/brought the truck
-                to them and said squeeze us in whenever you can and they
-                did/fluids replaced and battery replaced and new tires rated for
-                a pickup which does some towing and not a passenger car/easy to
-                work with/any troubles with the work we did give us a call/you
-                can't ask for more.......Thank You Guy's!! (u 2 Jake!)
+                service/called Acorn Tire & Auto and talked with Brandon/brought
+                the truck to them and said squeeze us in whenever you can and
+                they did/fluids replaced and battery replaced and new tires
+                rated for a pickup which does some towing and not a passenger
+                car/easy to work with/any troubles with the work we did give us
+                a call/you can't ask for more.......Thank You Guy's!! (u 2
+                Jake!)
               </ReviewText>
             </ReviewCard>
           </RightContainer>
