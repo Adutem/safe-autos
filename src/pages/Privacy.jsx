@@ -179,15 +179,25 @@ const Privacy = () => {
               Policy: https://www.facebook.com/privacy/explanation
             </NormalPara>
           </ListItem>
+          <ListItem>
+            <NormalPara>
+              AdRoll – AdRoll remarketing service is provided by Semantic
+              SugarYou can opt-out of AdRoll remarketing by visiting this AdRoll
+              Advertising Preferences web page:{" "}
+              <Links
+                target="_blank"
+                to="http://info.evidon.com/pub_info/573?v=1nt=1nw=false"
+              >
+                 http://info.evidon.com/pub_info/573?v=1nt=1nw=false
+              </Links>{" "}
+              For more information on the privacy practices of AdRoll, please
+              visit the AdRoll Privacy Policy web page:{" "}
+              <Links target="_blank" to="http://www.adroll.com/about/privacy">
+                http://www.adroll.com/about/privacy
+              </Links>{" "}
+            </NormalPara>
+          </ListItem>
         </List>
-        <NormalPara>
-          AdRoll – AdRoll remarketing service is provided by Semantic SugarYou
-          can opt-out of AdRoll remarketing by visiting this AdRoll Advertising
-          Preferences web
-          page: http://info.evidon.com/pub_info/573?v=1nt=1nw=false For more
-          information on the privacy practices of AdRoll, please visit the
-          AdRoll Privacy Policy web page: http://www.adroll.com/about/privacy
-        </NormalPara>
         <OptimizedPara>Do Not Track Disclosure</OptimizedPara>
         <NormalPara>
           We support Do Not Track (“DNT”). Do Not Track is a preference you can
