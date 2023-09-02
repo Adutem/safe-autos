@@ -43,11 +43,11 @@ const routes = [
     path: "/coupons",
     name: "Coupons",
   },
-  {
-    type: "normal",
-    path: "/financing",
-    name: "Financing",
-  },
+  // {
+  //   type: "normal",
+  //   path: "/financing",
+  //   name: "Financing",
+  // },
   {
     type: "composed",
     routePath: "/about",

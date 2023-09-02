@@ -108,3 +108,29 @@ export const RedBackgroundHeading = styled.h2`
   padding: 1rem 5%;
   text-transform: uppercase;
 `;
+
+export const FormButton = styled(ButtonLink)`
+  border: none;
+  outline: none;
+  width: 100%;
+  max-width: initial;
+  padding: 0.8rem;
+`;
+
+export const Form = styled.form`
+  margin: 3rem 0;
+`;
+
+export const GridLayoutContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem 2rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const LeftContainer = styled.div``;
+
+export const RightContainer = styled.div``;

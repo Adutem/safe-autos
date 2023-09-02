@@ -17,7 +17,7 @@ const HomeHero = () => {
 };
 
 const HeroContainer = styled.div`
-  min-height: 500px;
+  min-height: 400px;
   max-height: 600px;
   display: flex;
   align-items: center;

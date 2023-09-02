@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import HomeHero from "../components/HomeHero";
 import BoxNav from "../components/BoxNav";
 import Advert from "../components/Advert";
-import { SectionHeading, SectionPara } from "../components/reusables/Styles";
 import GetYourTire, {
   AdditionalOffer,
   GetAQuote,
