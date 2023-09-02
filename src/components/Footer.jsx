@@ -63,9 +63,10 @@ const Footer = () => {
         <Para>
           Copyright &copy; 2018-2023{" "}
           <LinkItem to="/terms-of-use">Terms of Use</LinkItem> |{" "}
-          <LinkItem to={"/privacy"}>Privacy</LinkItem> |{" "}
+          <LinkItem to={"/privacy"}>Privacy</LinkItem>
+          {/* |{" "}
           <LinkItem to={"/accessiblity"}>Accessibility</LinkItem> |{" "}
-          <LinkItem to={"/sitemap"}>Sitemap</LinkItem>
+          <LinkItem to={"/sitemap"}>Sitemap</LinkItem> */}
         </Para>
       </Sections>
     </FooterContainer>
