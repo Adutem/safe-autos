@@ -73,6 +73,10 @@ const routes = [
     name: "Find Us",
     subRoutes: [
       {
+        path: "/",
+        name: "Find Us",
+      },
+      {
         path: "/contact",
         name: "Contact",
       },

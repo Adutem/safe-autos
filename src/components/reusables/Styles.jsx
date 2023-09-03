@@ -188,3 +188,17 @@ export const RowFlex = styled.div`
   justify-content: ${(props) => props.jus || "flex-start"};
   align-items: ${(props) => props.align || "stretch"};
 `;
+
+export const PortalModalContainer = styled.div`
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+`;

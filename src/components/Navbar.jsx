@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import routes from "../data/nav-data";
 
 const Navbar = () => {
+  const navbarRef = useRef(null);
+
+  const hideNavbar = () => {
+    navbarRef?.current.classList.remove("show");
+  };
+
   return (
-    <NavBar>
+    <NavBar id="nav-bar" ref={navbarRef}>
+      <Underlay onClick={hideNavbar} className="underlay" />
       <NavBarContentContainer>
         <LinkList>
           {routes.map((route) => {
             if (route.type === "normal") {
-              return <NormalNavItem {...route} />;
+              return <NormalNavItem {...route} hideNavbar={hideNavbar} />;
             }
-            return <ComposedNavItem {...route} />;
+            return <ComposedNavItem {...route} hideNavbar={hideNavbar} />;
           })}
         </LinkList>
       </NavBarContentContainer>
@@ -24,13 +31,52 @@ const NavBar = styled.nav`
   background: var(--gray);
 
   @media (max-width: 928px) {
-    display: none;
+    background: transparent;
+    position: fixed;
+    left: -100%;
+    bottom: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: 0.3s ease;
+
+    &.show {
+      display: block;
+      left: 0;
+    }
+
+    .underlay {
+      display: block;
+    }
+
+    ul {
+      flex-direction: column;
+
+      .sub-routes {
+        position: relative;
+        background: gray;
+      }
+    }
+
+    a {
+      text-align: left;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--white);
+    }
   }
 `;
 
 const NavBarContentContainer = styled.div`
   width: 90%;
   margin: auto;
+
+  @media (max-width: 928px) {
+    width: 90%;
+    max-width: 400px;
+    background: var(--gray);
+    margin: initial;
+    height: 100%;
+  }
 `;
 
 const LinkList = styled.ul`
@@ -93,18 +139,30 @@ const ComposedLinkItem = styled(MainLinkItem)`
   }
 `;
 
-const NormalNavItem = ({ name, path }) => (
+const Underlay = styled.div`
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  z-index: -1;
+  cursor: pointer;
+  display: none;
+`;
+
+const NormalNavItem = ({ name, path, hideNavbar }) => (
   <MainListItem>
-    <MainLinkItem to={path}>{name}</MainLinkItem>
+    <MainLinkItem to={path} onClick={hideNavbar}>
+      {name}
+    </MainLinkItem>
   </MainListItem>
 );
 
-const ComposedNavItem = ({ name, routePath, subRoutes }) => (
+const ComposedNavItem = ({ name, routePath, subRoutes, hideNavbar }) => (
   <ComposedListItem>
     <MainLinkItem to={routePath}>{name}</MainLinkItem>
     <ComposedList className="sub-routes">
       {subRoutes.map((route) => (
-        <ComposedLinkItem to={`${routePath}${route.path}`}>
+        <ComposedLinkItem to={`${routePath}${route.path}`} onClick={hideNavbar}>
           {route.name}
         </ComposedLinkItem>
       ))}

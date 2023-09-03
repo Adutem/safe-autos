@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 import routes from "../data/nav-data";
 
 const SmallScreenNav = () => {
+  const toggleNav = () => {
+    document.querySelector("#nav-bar")?.classList.toggle("show");
+  };
+
   return (
     <NavContainer>
       <NavContentContainer>
-        <ToggleNavButton>
+        <ToggleNavButton onClick={toggleNav}>
           <i className="fi fi-br-menu-burger"></i>
         </ToggleNavButton>
         <Aside>
