@@ -12,6 +12,9 @@ import CarCareTips from "../pages/CarCareTips";
 import TireCareTips from "../pages/TireCareTips";
 import TermsOfUse from "../pages/TermsOfUse";
 import Privacy from "../pages/Privacy";
+import ScheduleService from "../pages/ScheduleService";
+import Tires from "../pages/Tires";
+import NotFound from "../pages/404";
 
 const RoutesComponent = () => {
   return (
@@ -30,12 +33,15 @@ const RoutesComponent = () => {
       <Route path="/coupons" element={<Coupons />} />
       <Route path="services">
         <Route path="car-care-tips" element={<CarCareTips />} />
+        <Route path="schedule-service" element={<ScheduleService />} />
       </Route>
       <Route path="tires">
+        <Route index element={<Tires />} />
         <Route path="tire-care-tips" element={<TireCareTips />} />
       </Route>
       <Route path="/terms-of-use" element={<TermsOfUse />} />
       <Route path="/privacy" element={<Privacy />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

@@ -5,26 +5,13 @@ import {
   RedBackgroundHeading,
 } from "../components/reusables/Styles";
 import styled from "styled-components";
-import hoursOfOperation from "../data/hours-of-operation";
-
-let today = new Date().getDay();
-const dates = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-let dayOfWeek = dates[today].toLowerCase();
+import { DaysOfOperationComponent } from "../components/reusables/Components";
 
 const About = () => {
   return (
     <AboutContainer>
       <RedBackgroundHeading>Hours of operation</RedBackgroundHeading>
-      <HoursOfOperationContainer>
-        {hoursOfOperation.map(({ date, hours }) => (
-          <HoursOfOperaton isToday={dayOfWeek === date.toLowerCase()}>
-            <Dates>{date}</Dates>
-            {hours.map((hour) => (
-              <Hour>{hour}</Hour>
-            ))}
-          </HoursOfOperaton>
-        ))}
-      </HoursOfOperationContainer>
+      <DaysOfOperationComponent />
       <RedBackgroundHeading>
         About Acorn Tire & Auto in Lake Orion
       </RedBackgroundHeading>
@@ -114,46 +101,6 @@ const About = () => {
 };
 
 const AboutContainer = styled.section``;
-
-const HoursOfOperationContainer = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  width: 90%;
-  margin: 2rem auto;
-  border: 1px solid lightgray;
-`;
-
-const HoursOfOperaton = styled.li`
-  border: 1px solid lightgray;
-  text-align: center;
-  padding: 1rem;
-  min-width: max-content;
-  background: ${(props) =>
-    props.isToday ? "var(--primary-color)" : "transparent"};
-
-  h3 {
-    color: ${(props) => (props.isToday ? "var(--white)" : "gray")};
-  }
-
-  p {
-    color: ${(props) => (props.isToday ? "var(--white)" : "lightgray")};
-  }
-
-  //   &:last-child {
-  //     border: none;
-  //   }
-`;
-
-const Dates = styled.h3`
-  font-family: var(--mont);
-  font-weight: 600;
-  text-transform: uppercase;
-`;
-
-const Hour = styled.p`
-  font-family: var(--mont);
-  font-weight: 300;
-`;
 
 const Para = styled.p`
   font-family: var(--mont);

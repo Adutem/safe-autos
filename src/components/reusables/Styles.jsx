@@ -182,3 +182,9 @@ export const OptimizedButtonLink = styled(ButtonLink)`
     }
   }
 `;
+
+export const RowFlex = styled.div`
+  display: flex;
+  justify-content: ${(props) => props.jus || "flex-start"};
+  align-items: ${(props) => props.align || "stretch"};
+`;

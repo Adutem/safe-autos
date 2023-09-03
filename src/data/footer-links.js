@@ -27,7 +27,7 @@ const footerLinks = [
   },
   {
     header: "Services",
-    routePath: "/services/cat",
+    routePath: "/services",
     links: [
       {
         path: "/oil-changes",
@@ -51,7 +51,7 @@ const footerLinks = [
       },
       {
         type: "root",
-        path: "/services",
+        path: "/",
         name: "All Services",
       },
     ],
@@ -76,10 +76,10 @@ const footerLinks = [
         path: "coupons",
         name: "Coupons",
       },
-      {
-        path: "financing",
-        name: "Financing",
-      },
+      // {
+      //   path: "financing",
+      //   name: "Financing",
+      // },
       {
         path: "about",
         name: "About",

@@ -29,7 +29,7 @@ const routes = [
         name: "Our Services",
       },
       {
-        path: "/schedul-service",
+        path: "/schedule-service",
         name: "Schedule My Service",
       },
       {
