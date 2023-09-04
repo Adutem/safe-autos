@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   Container,
@@ -15,6 +15,7 @@ import { FormGroupComponent } from "../components/reusables/Components";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import hoursOfOperation from "../data/hours-of-operation";
 import GoogleMapComp from "../components/reusables/GoogleMapComp";
+import { useLocation } from "react-router-dom";
 
 const waitOptions = [
   {
@@ -44,11 +45,24 @@ const contactOptions = [
 
 const ScheduleService = () => {
   const [serviceData, setServiceData] = useState({});
-  const { models, makes, modelYears, states } = useGlobalContext();
+  const { models, makes, modelYears, states, services } = useGlobalContext();
+  const { state } = useLocation();
 
   const handleInputChange = (e) => {
     setServiceData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, []);
+
+  useEffect(() => {
+    if (state && state?.serviceName) {
+      handleInputChange({
+        target: { name: "serviceType", value: state.serviceName },
+      });
+    }
+  }, []);
 
   return (
     <SchedulePageContainer>
@@ -65,7 +79,7 @@ const ScheduleService = () => {
         <OptimizedGridLayout>
           <FormGroupComponent
             type={"select"}
-            options={["I'm not sure", "A/C Repair", "Air Filters", "Batteries"]}
+            options={services}
             label={"Select a service:"}
             name={"serviceType"}
             placeholder={"I'm not sure"}

@@ -15,6 +15,7 @@ export const FormGroupComponent = ({
   shouldResize,
   generalName,
   keyValueSelect,
+  labelStyle,
   ...rest
 }) => {
   if (type === "textarea") {
@@ -34,7 +35,7 @@ export const FormGroupComponent = ({
   if (type === "select") {
     return (
       <FormGroup {...rest}>
-        <Label>{label}</Label>
+        <Label style={labelStyle || {}}>{label}</Label>
         <Select
           name={name}
           placeholder={placeholder}

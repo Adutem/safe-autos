@@ -15,6 +15,8 @@ import Privacy from "../pages/Privacy";
 import ScheduleService from "../pages/ScheduleService";
 import Tires from "../pages/Tires";
 import NotFound from "../pages/404";
+import Services from "../pages/Services";
+import ServiceCat from "../pages/ServiceCat";
 
 const RoutesComponent = () => {
   return (
@@ -32,6 +34,8 @@ const RoutesComponent = () => {
       </Route>
       <Route path="/coupons" element={<Coupons />} />
       <Route path="services">
+        <Route index element={<Services />} />
+        <Route path=":serviceName" element={<ServiceCat />} />
         <Route path="car-care-tips" element={<CarCareTips />} />
         <Route path="schedule-service" element={<ScheduleService />} />
       </Route>
