@@ -52,7 +52,7 @@ const Container = styled(RelativeGradientContainer)`
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: lightgray;
+  background-color: #f1f1f1;
   padding: 1rem;
 `;
 

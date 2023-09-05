@@ -109,7 +109,7 @@ const CouponImage = styled.img`
 
 const AdditionalOffer = () => {
   return (
-    <SectionContainer style={{ background: "lightgray" }}>
+    <SectionContainer style={{ background: "#f1f1f1" }}>
       <Container>
         <LayoutContainter>
           <SectionHeading>

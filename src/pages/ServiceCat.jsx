@@ -6,16 +6,24 @@ import {
   Container,
   SectionPara,
   RowFlex,
+  ButtonLink,
 } from "../components/reusables/Styles";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { FormGroupComponent } from "../components/reusables/Components";
 
 const ServiceCat = () => {
-  const { parseName, services } = useGlobalContext();
+  const { parseName, services, reverseParse } = useGlobalContext();
   const { serviceName } = useParams();
   const containerRef = useRef(null);
   const navigate = useNavigate();
+
+  const navigateSchedule = (e) => {
+    e.preventDefault();
+    navigate("/services/schedule-service", {
+      state: { serviceName: reverseParse(serviceName) },
+    });
+  };
 
   const handleServiceSelect = (e) => {
     const filterId = parseName(e.target.value);
@@ -57,15 +65,30 @@ const ServiceCat = () => {
             labelStyle={{ minWidth: "max-content" }}
           />
         </OptimizedRowFlex>
+        <OptimizedRowFlex>
+          <OptimizedButtonLink>Request Quote</OptimizedButtonLink>
+          <OptimizedButtonLink onClick={navigateSchedule}>
+            Schedule Service
+          </OptimizedButtonLink>
+        </OptimizedRowFlex>
       </Container>
       <OptimizedContainer ref={containerRef}></OptimizedContainer>
+      <Container>
+        {" "}
+        <OptimizedRowFlex>
+          <OptimizedButtonLink>Request Quote</OptimizedButtonLink>
+          <OptimizedButtonLink onClick={navigateSchedule}>
+            Schedule Service
+          </OptimizedButtonLink>
+        </OptimizedRowFlex>
+      </Container>
     </ServiceCatContainer>
   );
 };
 
 const ServiceCatContainer = styled.div``;
 
-const OptimizedContainer = styled(Container)`
+export const OptimizedContainer = styled(Container)`
   margin: 2rem auto;
 
   & > * {
@@ -82,7 +105,8 @@ const OptimizedContainer = styled(Container)`
   }
 
   p,
-  li {
+  li,
+  div {
     line-height: 1.4;
     font-size: 0.9rem;
     text-align: justify;
@@ -95,7 +119,7 @@ const OptimizedContainer = styled(Container)`
   ul,
   li {
     list-style-type: initial;
-    margin-left: 0.4rem;
+    margin-left: 0.55rem;
   }
 `;
 
@@ -114,8 +138,12 @@ const OptimizedRowFlex = styled(RowFlex)`
   & > div {
     @media (max-width: 700px) {
       flex-wrap: wrap;
+      width: 100%;
     }
   }
 `;
 
+const OptimizedButtonLink = styled(ButtonLink)`
+  max-width: initial;
+`;
 export default ServiceCat;

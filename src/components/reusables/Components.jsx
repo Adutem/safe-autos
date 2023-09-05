@@ -16,6 +16,8 @@ export const FormGroupComponent = ({
   generalName,
   keyValueSelect,
   labelStyle,
+  radioSelections,
+  inputStyle,
   ...rest
 }) => {
   if (type === "textarea") {
@@ -27,7 +29,7 @@ export const FormGroupComponent = ({
           name={name}
           onChange={onChange}
           value={value}
-          style={{ resize: shouldResize || "none" }}
+          style={{ resize: shouldResize || "none", ...inputStyle }}
         />
       </FormGroup>
     );
@@ -97,6 +99,33 @@ export const FormGroupComponent = ({
       </FormGroup>
     );
   }
+
+  if (type === "checkbox") {
+    return (
+      // <FormGroup {...rest}>
+      options.map((option) => (
+        <FormGroup
+          style={{
+            flexDirection: "row",
+            marginBottom: "0",
+            justifyContent: "flex-start",
+          }}
+        >
+          <Input
+            type={type}
+            onChange={onChange}
+            name={name}
+            value={option}
+            id={option}
+            style={{ width: "initial" }}
+            checked={radioSelections.includes(option)}
+          />
+          <Label htmlFor={option}>{option}</Label>
+        </FormGroup>
+      ))
+      // </FormGroup>
+    );
+  }
   return (
     <FormGroup {...rest}>
       <Label>{label}</Label>
@@ -111,25 +140,25 @@ export const FormGroupComponent = ({
   );
 };
 
-const FormGroup = styled.div`
+export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1.5rem;
 `;
 
-const Label = styled.label`
+export const Label = styled.label`
   font-family: var(--mont);
   display: block;
   font-weight: 600;
   cursor: pointer;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   font-family: var(--mont);
   border: none;
   outline: none;
-  background: lightgray;
+  background: #f1f1f1;
   padding: 1rem;
   width: 100%;
   display: block;
@@ -140,7 +169,7 @@ const TextArea = styled.textarea`
   font-family: var(--mont);
   border: none;
   outline: none;
-  background: lightgray;
+  background: #f1f1f1;
   padding: 1rem;
   width: 100%;
   display: block;
@@ -153,7 +182,7 @@ const Select = styled.select`
   font-family: var(--mont);
   border: none;
   outline: none;
-  background: lightgray;
+  background: #f1f1f1;
   padding: 1rem;
   width: 100%;
   display: block;
@@ -191,11 +220,11 @@ const HoursOfOperationContainer = styled.ul`
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   width: 90%;
   margin: 2rem auto;
-  border: 1px solid lightgray;
+  border: 1px solid #f1f1f1;
 `;
 
 const HoursOfOperaton = styled.li`
-  border: 1px solid lightgray;
+  border: 1px solid #f1f1f1;
   text-align: center;
   padding: 1rem;
   min-width: max-content;
@@ -207,7 +236,7 @@ const HoursOfOperaton = styled.li`
   }
 
   p {
-    color: ${(props) => (props.isToday ? "var(--white)" : "lightgray")};
+    color: ${(props) => (props.isToday ? "var(--white)" : "#f1f1f1")};
   }
 
   //   &:last-child {

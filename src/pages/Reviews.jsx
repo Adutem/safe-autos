@@ -140,7 +140,7 @@ const RightContainer = styled.div`
 `;
 
 const Card = styled.div`
-  background: lightgray;
+  background: #f1f1f1;
   padding: 1.5rem 1rem;
   margin-bottom: 1rem;
   display: flex;

@@ -28,7 +28,7 @@ const waitOptions = [
   },
 ];
 
-const contactOptions = [
+export const contactOptions = [
   {
     label: "Telephone",
     value: "telephone",

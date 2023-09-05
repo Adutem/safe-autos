@@ -13,9 +13,21 @@ const GlobalContextProvider = ({ children }) => {
       .join("-")
       .toLowerCase();
 
+  const reverseParse = (serviceName) => {
+    return services.find((serv) => parseName(serv) === serviceName);
+  };
+
   return (
     <GlobalContext.Provider
-      value={{ models, makes, modelYears, states, services, parseName }}
+      value={{
+        models,
+        makes,
+        modelYears,
+        states,
+        services,
+        parseName,
+        reverseParse,
+      }}
     >
       {children}
     </GlobalContext.Provider>

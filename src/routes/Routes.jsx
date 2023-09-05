@@ -17,6 +17,7 @@ import Tires from "../pages/Tires";
 import NotFound from "../pages/404";
 import Services from "../pages/Services";
 import ServiceCat from "../pages/ServiceCat";
+import RequestQuote from "../pages/RequestQuote";
 
 const RoutesComponent = () => {
   return (
@@ -41,6 +42,7 @@ const RoutesComponent = () => {
       </Route>
       <Route path="tires">
         <Route index element={<Tires />} />
+        <Route path="quoting" element={<RequestQuote />} />
         <Route path="tire-care-tips" element={<TireCareTips />} />
       </Route>
       <Route path="/terms-of-use" element={<TermsOfUse />} />

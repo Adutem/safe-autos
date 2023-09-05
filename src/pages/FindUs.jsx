@@ -118,7 +118,7 @@ const ReviewContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: lightgray;
+  background: #f1f1f1;
   padding: 1rem;
   margin: 2rem 0;
   gap: 4rem;
