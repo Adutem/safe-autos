@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import {
   RedBackgroundHeading,
@@ -10,8 +10,13 @@ import {
   RightContainer,
 } from "../components/reusables/Styles";
 import { FormGroupComponent } from "../components/reusables/Components";
+import { FILE_FORMATS, useGlobalContext } from "../contexts/GlobalContext";
+import { toast } from "react-toastify";
+
+const customId = "job-toast";
 
 const states = [
+  "--Select--",
   "Alabama",
   "Alaska",
   "Arizona",
@@ -25,22 +30,91 @@ const states = [
 ];
 
 // const leftGroup = [{label: "First Name", placeholder: "Enter First Name", name: "firstName", v}];
+const requiredFields = [
+  "firstName",
+  "lastName",
+  "email",
+  "address",
+  "city",
+  "state",
+  "zipCode",
+  "tel",
+  "positionApplyingFor",
+  "resume",
+];
 
 const Jobs = () => {
   const [jobData, setJobData] = useState(() => new FormData());
+  const [disableAll, setDisableAll] = useState(false);
+  const jobForm = useRef(null);
+  const {
+    allFieldsPresent,
+    emailValidator,
+    telephoneValidator,
+    formatTelephone,
+    submitEmail,
+  } = useGlobalContext();
 
-  const handleInputChange = (e) => {
-    let name = e.target.name;
-    let value = e.target.type === "file" ? e.target.files : e.target.value;
-    // setJobData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const stateUpdater = (name, value) => {
     setJobData((prev) => {
       let copyData = new FormData();
       for (const [key, value] of prev) {
         copyData.append(key, value);
       }
-      copyData.append(name, value);
+      if (name === "resume" && value.length === 0) {
+        value = "";
+      }
+      // let formatedValue = (typeof value) === "string" ? value.trim() : value;
+      if (copyData.has(name)) {
+        copyData.set(name, value);
+      } else {
+        copyData.append(name, value);
+      }
       return copyData;
     });
+  };
+
+  const handleInputChange = (e) => {
+    if (e.target.name === "tel") return telephoneValidator(stateUpdater, e);
+    if (e.target.name === "zipCode") return telephoneValidator(stateUpdater, e);
+    let name = e.target.name;
+    let value = e.target.type === "file" ? e.target.files : e.target.value;
+    if (name === "state" && value.startsWith("--") && value.endsWith("--"))
+      return stateUpdater(name, "");
+    stateUpdater(name, value);
+  };
+
+  const validateForm = (e) => {
+    e.preventDefault();
+    if (!allFieldsPresent(requiredFields, jobData)) {
+      return toast.error("Please fill all field", { toadId: customId });
+    }
+    if (!emailValidator(jobData.get("email"))) {
+      return toast.error("Please provide a valid email...", {
+        toastId: customId,
+      });
+    }
+    if (jobData.get("tel").length < 13) {
+      return toast.error("Please provide a valid telephone.", {
+        toastId: customId,
+      });
+    }
+    setDisableAll(true);
+    const formData = new FormData(jobForm.current);
+    formData.append("heading", "New email for Acorn Tire & Auto");
+    formData.append("template", "job");
+    submitEmail(
+      formData,
+      () => {
+        setDisableAll(false);
+      },
+      () => {
+        for (let key of jobData.keys()) {
+          console.log(key);
+          stateUpdater(key, "");
+        }
+      }
+    );
   };
   return (
     <JobPageContainer>
@@ -60,14 +134,14 @@ const Jobs = () => {
         <RedBackgroundHeading>
           Please fill out the information below
         </RedBackgroundHeading>
-        <Form>
+        <Form ref={jobForm}>
           <GridLayoutContainer>
             <LeftContainer>
               <FormGroupComponent
                 label={"First Name*"}
                 placeholder={"Enter First Name"}
                 name={"firstName"}
-                value={jobData?.firstName}
+                value={jobData.get("firstName")}
                 onChange={handleInputChange}
                 type={"text"}
               />
@@ -75,7 +149,7 @@ const Jobs = () => {
                 label={"Last Name*"}
                 placeholder={"Enter Last Name"}
                 name={"lastName"}
-                value={jobData?.lastName}
+                value={jobData.get("lastName")}
                 onChange={handleInputChange}
                 type={"text"}
               />
@@ -83,7 +157,7 @@ const Jobs = () => {
                 label={"Email Address*"}
                 placeholder={"Enter Email Address"}
                 name={"email"}
-                value={jobData?.email}
+                value={jobData.get("email")}
                 onChange={handleInputChange}
                 type={"email"}
               />
@@ -91,7 +165,7 @@ const Jobs = () => {
                 label={"Address"}
                 placeholder={"Enter Address"}
                 name={"address"}
-                value={jobData?.address}
+                value={jobData.get("address")}
                 onChange={handleInputChange}
                 type={"text"}
               />
@@ -99,7 +173,7 @@ const Jobs = () => {
                 label={"City"}
                 placeholder={"Enter City"}
                 name={"city"}
-                value={jobData?.city}
+                value={jobData.get("city")}
                 onChange={handleInputChange}
                 type={"text"}
               />
@@ -107,7 +181,7 @@ const Jobs = () => {
             <RightContainer>
               <FormGroupComponent
                 label={"State"}
-                value={jobData?.state}
+                value={jobData.get("state")}
                 onChange={handleInputChange}
                 placeholder={"Choose a state"}
                 name={"state"}
@@ -116,25 +190,27 @@ const Jobs = () => {
               />
               <FormGroupComponent
                 label={"Zip Code"}
-                value={jobData?.state}
+                value={jobData.get("zipCode")}
                 onChange={handleInputChange}
                 placeholder={"Enter Zip Code"}
                 name={"zipCode"}
                 type={"text"}
+                maxLength={8}
               />
               <FormGroupComponent
                 label={"Telephone"}
                 placeholder={"Enter tel"}
                 name={"tel"}
-                value={jobData?.tel}
+                value={formatTelephone(jobData.get("tel"))}
                 onChange={handleInputChange}
                 type={"text"}
+                maxLength={13}
               />
               <FormGroupComponent
                 label={"Position Applying for"}
                 placeholder={"Enter position"}
                 name={"positionApplyingFor"}
-                value={jobData?.positionApplyingFor}
+                value={jobData.get("positionApplyingFor")}
                 onChange={handleInputChange}
                 type={"text"}
               />
@@ -145,10 +221,17 @@ const Jobs = () => {
                 value={jobData?.resume}
                 onChange={handleInputChange}
                 type={"file"}
+                accept={FILE_FORMATS}
               />
             </RightContainer>
           </GridLayoutContainer>
-          <FormButton>Submit</FormButton>
+          <FormButton
+            onClick={validateForm}
+            aria-disabled={disableAll}
+            disabled={disableAll}
+          >
+            Submit
+          </FormButton>
         </Form>
       </Container>
     </JobPageContainer>

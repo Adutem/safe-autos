@@ -1,5 +1,9 @@
 const states = [
   {
+    ph: "-- Select State --",
+    value: "",
+  },
+  {
     ph: "Alabama",
     value: "US-AL",
   },

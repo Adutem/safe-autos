@@ -23,7 +23,7 @@ const Advert = () => {
               today!
             </ParaText>
           </Div>
-          <ButtonLink>View Repair</ButtonLink>
+          <ButtonLink to={"/services"}>View Repair</ButtonLink>
         </RightContainer>
       </AdvertContentContainer>
     </AdvertContainer>

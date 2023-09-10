@@ -1,5 +1,5 @@
 let services = [
-  "-- select --",
+  "-- Select Service --",
   "A/C Repair",
   "Air Filters",
   "Batteries",

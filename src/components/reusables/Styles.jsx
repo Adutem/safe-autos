@@ -123,6 +123,10 @@ export const FormButton = styled(ButtonLink)`
   width: 100%;
   max-width: initial;
   padding: 0.8rem;
+
+  &:active {
+    background: lightgray;
+  }
 `;
 
 export const Form = styled.form`

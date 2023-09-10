@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import {
   RedBackgroundHeading,
@@ -7,12 +7,69 @@ import {
 } from "../components/reusables/Styles";
 import { Link } from "react-router-dom";
 import { FormGroupComponent } from "../components/reusables/Components";
+import { toast } from "react-toastify";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
+const requiredFields = ["firstName", "lastName", "email", "tel", "message"];
+let customId = "contact-toast";
 const Contact = () => {
   const [contactData, setContactData] = useState({});
+  const [disableAll, setDisableAll] = useState(false);
+  const contactForm = useRef(null);
+  const {
+    allFieldsPresent,
+    emailValidator,
+    telephoneValidator,
+    formatTelephone,
+    submitEmail,
+  } = useGlobalContext();
+
+  const stateUpdater = (name, value) => {
+    setContactData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleInputChange = (e) => {
-    setContactData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (e.target.name === "tel") return telephoneValidator(stateUpdater, e);
+    let name = e.target.name;
+    let value = e.target.value;
+    stateUpdater(name, value);
+  };
+
+  const validateForm = (e) => {
+    e.preventDefault();
+    if (!allFieldsPresent(requiredFields, contactData)) {
+      return toast.error("Please fill all fields...", { toastId: customId });
+    }
+    if (!emailValidator(contactData.email)) {
+      return toast.error("Please provide a valid email...", {
+        toastId: customId,
+      });
+    }
+    if (contactData.tel.length < 13) {
+      return toast.error("Please provide a valid telephone.", {
+        toastId: customId,
+      });
+    }
+    if (contactData.message.length < 12) {
+      return toast.error("Comment cannot be less than 12 characters", {
+        toastId: customId,
+      });
+    }
+    setDisableAll(true);
+    const formData = new FormData(contactForm.current);
+    formData.append("heading", "New email for Acorn Tire & Auto");
+    formData.append("template", "contact");
+    submitEmail(
+      formData,
+      () => {
+        setDisableAll(false);
+      },
+      () => {
+        Object.keys(contactData).forEach((key) =>
+          setContactData((prev) => ({ ...prev, [key]: "" }))
+        );
+      }
+    );
   };
 
   return (
@@ -30,7 +87,7 @@ const Contact = () => {
       </Container>{" "}
       <RedBackgroundHeading>Contact Form</RedBackgroundHeading>
       <Container>
-        <ContactForm>
+        <ContactForm ref={contactForm}>
           <GridLayoutContainer>
             <LeftContainer>
               <FormGroupComponent
@@ -60,12 +117,13 @@ const Contact = () => {
             </LeftContainer>
             <RightContainer>
               <FormGroupComponent
-                label={"Telephone"}
+                label={"Telephone(xxx)-xxx-xxx"}
                 placeholder={"Enter tel"}
                 name={"tel"}
-                value={contactData?.tel}
+                value={formatTelephone(contactData?.tel)}
                 onChange={handleInputChange}
                 type={"text"}
+                maxLength={13}
               />
               <FormGroupComponent
                 label={"Questions/Comments (Required):"}
@@ -77,7 +135,13 @@ const Contact = () => {
               />
             </RightContainer>
           </GridLayoutContainer>
-          <FormButton>Submit</FormButton>
+          <FormButton
+            onClick={validateForm}
+            aria-disabled={disableAll}
+            disabled={disableAll}
+          >
+            Submit
+          </FormButton>
         </ContactForm>
       </Container>
     </ContactPageContainer>

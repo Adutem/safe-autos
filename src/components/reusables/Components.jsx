@@ -18,6 +18,9 @@ export const FormGroupComponent = ({
   labelStyle,
   radioSelections,
   inputStyle,
+  maxLength,
+  pattern,
+  accept,
   ...rest
 }) => {
   if (type === "textarea") {
@@ -60,12 +63,14 @@ export const FormGroupComponent = ({
       <FormGroup {...rest}>
         <Label>{label}</Label>
         <DateTimePicker
-          onChange={(value) =>
-            onChange({
-              target: { name, value },
-            })
-          }
+          onChange={(value) => {
+            // let newValue = new Date(value).toUTCString();
+            return onChange({
+              target: { name, value: value },
+            });
+          }}
           value={value}
+          views={["year", "month", "day", "hours", "minutes", "seconds"]}
         />
       </FormGroup>
     );
@@ -135,6 +140,8 @@ export const FormGroupComponent = ({
         name={name}
         onChange={onChange}
         value={value}
+        maxLength={maxLength}
+        accept={accept || ""}
       />
     </FormGroup>
   );

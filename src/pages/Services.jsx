@@ -75,7 +75,13 @@ const Services = () => {
         <SectionHeading style={{ marginTop: "1.5rem" }}>
           Services
         </SectionHeading>
-        <GridLayoutContainer style={{ gap: "2rem", margin: "3rem auto" }}>
+        <GridLayoutContainer
+          style={{
+            gap: "2rem",
+            margin: "3rem auto",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          }}
+        >
           {services.slice(1).map((service) => (
             <ServiceCard service={service} />
           ))}
