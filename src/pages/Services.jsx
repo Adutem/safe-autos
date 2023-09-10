@@ -12,6 +12,7 @@ import { FormGroupComponent } from "../components/reusables/Components";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import ServiceCard from "../components/ServiceCard";
+import servicePageIcon from "../assets/service-page-icon.png";
 
 const Services = () => {
   const { services, parseName } = useGlobalContext();
@@ -26,6 +27,9 @@ const Services = () => {
 
   return (
     <ServicePageContainer>
+      <IconDivContainer>
+        <IconImage src={servicePageIcon} />
+      </IconDivContainer>
       <Container>
         <OptimizedRowFlex
           jus={"space-between"}
@@ -92,6 +96,21 @@ const Services = () => {
 };
 
 const ServicePageContainer = styled.div``;
+
+const IconDivContainer = styled.div`
+  width: 100%;
+  height: 400px;
+  // overflow: hidden;
+  background: #1a1a1a;
+  display: flex;
+  justify-content: center;
+`;
+
+const IconImage = styled.img`
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+`;
 
 const OptimizedRowFlex = styled(RowFlex)`
   justify-content: space-between;
