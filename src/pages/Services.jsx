@@ -51,13 +51,13 @@ const Services = () => {
         <NormalPara>
           We are one of the leading auto repair shops serving customers in, 591
           S Lapeer Road, Lake Orion, MI and surrounding areas. All automotive
-          repair and mechanic services at Fred's Brake and Alignment are
-          performed by highly qualified mechanics. Our mechanic shop works on
-          numerous vehicles with the use of quality truck and car repair
-          equipment. Whether you drive a passenger car, medium sized truck,
-          mini-van, or SUV, our mechanics strive to ensure that your vehicle
-          will be performing at its best before leaving one of our service bays.
-          Our auto repair shop is capable of servicing a variety of makes and
+          repair and mechanic services at Acorn Tire & Auto are performed by
+          highly qualified mechanics. Our mechanic shop works on numerous
+          vehicles with the use of quality truck and car repair equipment.
+          Whether you drive a passenger car, medium sized truck, mini-van, or
+          SUV, our mechanics strive to ensure that your vehicle will be
+          performing at its best before leaving one of our service bays. Our
+          auto repair shop is capable of servicing a variety of makes and
           models. Our superior standards show that our mechanics always have the
           best interests of our customers in mind. Looking for a one-stop
           automotive repair shop? Look no further than us, and allow our
