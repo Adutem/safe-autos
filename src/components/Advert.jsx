@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import rightBackground from "../assets/tire-2.jpg";
+import newRightBackground from "../assets/image-3.jpg";
 import leftBackground from "../assets/tire-3.jpg";
 import { ButtonLink, RelativeGradientContainer } from "./reusables/Styles";
 
@@ -59,8 +60,10 @@ const Container = styled(RelativeGradientContainer)`
 const LeftContainer = styled(Container)``;
 const RightContainer = styled(Container)`
   justify-content: space-around;
-  background: url(${rightBackground});
+  background: url(${newRightBackground});
   background-repeat: no-repeat;
+  background-position: right;
+  background-size: cover;
 `;
 
 const Heading = styled.h2`
