@@ -27,7 +27,7 @@ const Footer = () => {
             <Address>
               <strong>Phone: </strong> 248-693-7979 <br />
               <br />
-              <strong>Address: </strong> 591 S Lapeer Road
+              <strong>Headquarters: </strong> 591 S Lapeer Road
               <br />
               <br />
               Lake Orion, MI 48362
