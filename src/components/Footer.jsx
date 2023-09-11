@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import footerLinks from "../data/footer-links";
 import { ColumnFlexContainer } from "./reusables/Styles";
-import tireOne from "../assets/tire-one.png";
+import tireOne from "../assets/acorn-logo.png";
 
 const Footer = () => {
   return (
