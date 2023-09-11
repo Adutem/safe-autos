@@ -8,7 +8,7 @@ import {
   SectionPara,
 } from "./reusables/Styles";
 import { Link } from "react-router-dom";
-import repairBackground from "../assets/repair-1.jpg";
+import repairBackground from "../assets/image-3.jpg";
 import couponImage from "../assets/coupon.png";
 
 const GetYourTire = () => {
