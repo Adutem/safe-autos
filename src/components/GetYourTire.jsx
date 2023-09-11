@@ -116,9 +116,9 @@ const AdditionalOffer = () => {
             Save money <span className="colored">Today</span>
           </SectionHeading>
           <SectionPara>
-            Our shop has the best deal around so that you can be sure that
-            you're getting your money's worth! <br /> Visit us today for quality
-            service for a price you can afford
+            Acorn Tires & Auto has the best deal around so that you can be sure
+            that you're getting your money's worth! <br /> Visit us today for
+            quality service for a price you can afford
           </SectionPara>
           <ImageContainer>
             <Link to={"/coupons"} style={{ display: "block", width: "100%" }}>
