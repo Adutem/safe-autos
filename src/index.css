@@ -5,6 +5,8 @@
   --black: #000;
   --mont: "Montserrat", sans-serif;
   --teko: "Teko", sans-serif;
+  --white-rgb: 255, 255, 255;
+  --primary-rgb: 240, 44, 51;
 }
 
 * {

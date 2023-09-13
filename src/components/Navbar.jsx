@@ -61,7 +61,11 @@ const NavBar = styled.nav`
     a {
       text-align: left;
       padding: 1rem 2rem;
-      border-bottom: 1px solid var(--white);
+      border-bottom: 1px solid rgba(var(--white-rgb), 0.2);
+
+      @media (max-width: 400px) {
+        padding: 1rem;
+      }
     }
   }
 `;
@@ -93,6 +97,8 @@ const MainListItem = styled.li`
 const MainLinkItem = styled(Link)`
   padding: 1rem;
   display: inline-block;
+  gap: 1rem;
+  align-items: center;
   width: 100%;
   color: #fff;
   font-weight: 600;
@@ -103,6 +109,27 @@ const MainLinkItem = styled(Link)`
 
   &:hover {
     background: var(--primary-color);
+  }
+
+  i {
+    height: 25px;
+    display: none;
+  }
+
+  @media (max-width: 928px) {
+    display: flex;
+    i {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 792px) {
+    font-family: var(--mont);
+    font-size: 0.85rem;
+
+    i {
+      height: initial;
+    }
   }
 `;
 
@@ -137,6 +164,10 @@ const ComposedLinkItem = styled(MainLinkItem)`
     background: transparent;
     color: var(--primary-color);
   }
+
+  // @media (max-width: 928px) {
+  //   background: rgba(var(--primary-rgb), 0.7);
+  // }
 `;
 
 const Underlay = styled.div`
@@ -149,20 +180,25 @@ const Underlay = styled.div`
   display: none;
 `;
 
-const NormalNavItem = ({ name, path, hideNavbar }) => (
+const NormalNavItem = ({ name, path, hideNavbar, icon }) => (
   <MainListItem>
     <MainLinkItem to={path} onClick={hideNavbar}>
+      {icon}
       {name}
     </MainLinkItem>
   </MainListItem>
 );
 
-const ComposedNavItem = ({ name, routePath, subRoutes, hideNavbar }) => (
+const ComposedNavItem = ({ name, routePath, subRoutes, hideNavbar, icon }) => (
   <ComposedListItem>
-    <MainLinkItem to={routePath}>{name}</MainLinkItem>
+    <MainLinkItem to={routePath}>
+      {icon}
+      {name}
+    </MainLinkItem>
     <ComposedList className="sub-routes">
       {subRoutes.map((route) => (
         <ComposedLinkItem to={`${routePath}${route.path}`} onClick={hideNavbar}>
+          {route.icon}
           {route.name}
         </ComposedLinkItem>
       ))}
