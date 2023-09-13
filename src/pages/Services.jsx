@@ -110,6 +110,11 @@ const IconImage = styled.img`
   height: 100%;
   width: auto;
   object-fit: contain;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    object-fit: cover;
+  }
 `;
 
 const OptimizedRowFlex = styled(RowFlex)`
