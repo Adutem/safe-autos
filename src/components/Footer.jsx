@@ -91,7 +91,7 @@ const GridContainer = styled.div`
 `;
 
 const Sections = styled.section`
-  border-top: 1px solid var(--white);
+  border-bottom: 1px solid rgba(var(--white-rgb), 0.3);
   background: transparent;
   padding: 2rem;
 `;
