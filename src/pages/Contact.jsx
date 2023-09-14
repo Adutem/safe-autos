@@ -45,7 +45,7 @@ const Contact = () => {
         toastId: customId,
       });
     }
-    if (contactData.tel.length < 13) {
+    if (contactData.tel.length < 14) {
       return toast.error("Please provide a valid telephone.", {
         toastId: customId,
       });
@@ -123,7 +123,7 @@ const Contact = () => {
                 value={formatTelephone(contactData?.tel)}
                 onChange={handleInputChange}
                 type={"text"}
-                maxLength={13}
+                maxLength={14}
               />
               <FormGroupComponent
                 label={"Questions/Comments (Required):"}

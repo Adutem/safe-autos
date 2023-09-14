@@ -140,7 +140,7 @@ const ScheduleService = () => {
         toastId: customId,
       });
     }
-    if (serviceData.tel.length < 13) {
+    if (serviceData.tel.length < 14) {
       return toast.error("Please provide a valid telephone.", {
         toastId: customId,
       });
@@ -369,7 +369,7 @@ const ScheduleService = () => {
               onChange={handleInputChange}
               label={"Phone(xxx)xxx-xxxx: *"}
               placeholder={"Enter your phone number"}
-              maxLength={13}
+              maxLength={14}
             />
             <FormGroupComponent
               type={"text"}
