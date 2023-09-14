@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import {
+  Button,
   Container,
   Form,
   FormButton,
   GridLayoutContainer,
   LeftContainer,
   NormalPara,
+  PortalModalContainer,
   RedBackgroundHeading,
   RightContainer,
   RowFlex,
@@ -18,6 +20,7 @@ import hoursOfOperation from "../data/hours-of-operation";
 import GoogleMapComp from "../components/reusables/GoogleMapComp";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import serviceLocations from "../data/service-location-data";
 
 const waitOptions = [
   {
@@ -69,7 +72,9 @@ const customId = "schedule-service-toast";
 const selects = ["serviceType", "year", "model", "make", "option", "state"];
 
 const ScheduleService = () => {
-  const [serviceData, setServiceData] = useState({});
+  const [serviceData, setServiceData] = useState({
+    serviceLocation: serviceLocations[0],
+  });
   const { models, makes, modelYears, states, services } = useGlobalContext();
   const { state } = useLocation();
   const [disableAll, setDisableAll] = useState(false);
@@ -81,7 +86,19 @@ const ScheduleService = () => {
     formatTelephone,
     submitEmail,
   } = useGlobalContext();
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const portalRef = useRef(null);
 
+  const hideShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(false);
+    document.body.style.overflow = "initial";
+  };
+  const showShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(true);
+    document.body.style.overflow = "hidden";
+  };
   const stateUpdater = (name, value) => {
     setServiceData((prev) => ({ ...prev, [name]: value }));
   };
@@ -235,8 +252,27 @@ const ScheduleService = () => {
             style={{ margin: "1rem auto" }}
             waitTillMobile={true}
           >
-            <LeftContainer>
-              <OptimizedSectionPara>Appointment Details</OptimizedSectionPara>
+            <OptimizedSectionPara style={fullColumn}>
+              Appointment Details
+            </OptimizedSectionPara>
+            <OptimizedFormButton
+              style={{ ...fullColumn, background: "#f1f1f1", color: "#000" }}
+              onClick={showShowModal}
+            >
+              click to Select a service location
+              <i className="fi fi-sr-caret-down"></i>
+            </OptimizedFormButton>
+            <OptimizedSectionPara style={fullColumn}>
+              Appointment Location
+            </OptimizedSectionPara>
+            <div style={{ ...fullColumn }}>
+              <LocationCard
+                {...serviceData.serviceLocation}
+                style={{ background: "transparent", padding: 0 }}
+              />
+            </div>
+            {/* <LeftContainer> */}
+            {/* <OptimizedSectionPara>Appointment Details</OptimizedSectionPara>
               <Address>
                 <NormalPara style={{ margin: "0", marginBottom: "1rem" }}>
                   Acorn Tire & Auto <br />
@@ -244,22 +280,22 @@ const ScheduleService = () => {
                   Lake Orion, MI 48362
                 </NormalPara>
               </Address>
-            </LeftContainer>
-            <RightContainer>
-              {" "}
-              <OptimizedSectionPara style={{ fontSize: "1.3rem" }}>
-                Hours
-              </OptimizedSectionPara>
-              <div style={{ margin: "1rem 0 1.5rem" }}>
-                {hoursOfOperation.map((hop) => (
-                  <NormalPara style={{ margin: "0.5rem 0" }}>
-                    {hop.date}: {hop.hours.join(" - ")}
-                  </NormalPara>
-                ))}
-              </div>
-            </RightContainer>
+            </LeftContainer> */}
+            {/* <RightContainer>
+                {" "}
+                <OptimizedSectionPara style={{ fontSize: "1.3rem" }}>
+                  Hours
+                </OptimizedSectionPara>
+                <div style={{ margin: "1rem 0 1.5rem" }}>
+                  {hoursOfOperation.map((hop) => (
+                    <NormalPara style={{ margin: "0.5rem 0" }}>
+                      {hop.date}: {hop.hours.join(" - ")}
+                    </NormalPara>
+                  ))}
+                </div>
+              </RightContainer> */}
           </OptimizedGridLayout>
-          <OptimizedGridLayout>
+          <OptimizedGridLayout waitTillTab={true}>
             <LeftContainer>
               <FormGroupComponent
                 type={"date-time"}
@@ -285,7 +321,17 @@ const ScheduleService = () => {
               />
             </LeftContainer>
             <RightContainer>
-              <GoogleMapComp style={{ marginTop: "0" }} />
+              {/* <GoogleMapComp style={{ marginTop: "0" }} /> */}
+              <OptimizedSectionPara style={{ fontSize: "1.3rem" }}>
+                Hours
+              </OptimizedSectionPara>
+              <div style={{ margin: "1rem 0 1.5rem" }}>
+                {hoursOfOperation.map((hop) => (
+                  <NormalPara style={{ margin: "0.5rem 0" }}>
+                    {hop.date}: {hop.hours.join(" - ")}
+                  </NormalPara>
+                ))}
+              </div>
             </RightContainer>
           </OptimizedGridLayout>
           <OptimizedSectionPara>Personal Information</OptimizedSectionPara>
@@ -381,6 +427,36 @@ const ScheduleService = () => {
           DATA. YOU ASSUME ALL RISK RELATED TO THE DATA AND ITS USE.
         </OptimizedSectionPara>
       </Container>
+      {showLocationModal && (
+        <PortalModalContainer
+          onClick={(e) => {
+            e.preventDefault();
+            if (e.target !== portalRef.current) return;
+            hideShowModal();
+          }}
+          ref={portalRef}
+        >
+          <LocationsContainer>
+            <HideButtonContainer>
+              <OptimizedFormButton
+                onClick={hideShowModal}
+                style={{ width: "initial", minWidth: "initial" }}
+              >
+                <i className="fi fi-sr-circle-xmark"></i>
+              </OptimizedFormButton>
+            </HideButtonContainer>
+            <LocationCardContainer>
+              {serviceLocations.map((location) => (
+                <LocationCard
+                  {...location}
+                  handleInputChange={handleInputChange}
+                  hideShowModal={hideShowModal}
+                />
+              ))}
+            </LocationCardContainer>
+          </LocationsContainer>
+        </PortalModalContainer>
+      )}
     </SchedulePageContainer>
   );
 };
@@ -398,12 +474,52 @@ const OptimizedGridLayout = styled(GridLayoutContainer)`
 
   @media (max-width: 720px) {
     grid-template-columns: ${(props) =>
-      props.waitTillMobile ? "repeat(2, 1fr)" : "1fr"};
+      props.waitTillMobile || props.waitTillTab ? "repeat(2, 1fr)" : "1fr"};
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: ${(props) => (props.waitTillTab ? "1fr" : "1fr")};
   }
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
+`;
+
+const OptimizedFormButton = styled(Button)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  i {
+    display: flex;
+  }
+`;
+
+const LocationsContainer = styled.div`
+  width: 90%;
+  max-width: 800px;
+  height: min(75%, 600px);
+  background: var(--white);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2), 0px 8px 25px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
+const HideButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const LocationCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  // background: red;
+  flex: 1;
+  overflow: auto;
+  margin: 1rem;
 `;
 
 const ScheduleServiceForm = styled.form``;
@@ -412,3 +528,59 @@ const fullColumn = { gridColumn: "1 / -1" };
 
 const Address = styled.address``;
 export default ScheduleService;
+
+const LocationCardCont = styled.div`
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: #f3f3f3;
+  transition: 0.3s ease;
+
+  &:hover {
+    background: lightgray;
+  }
+`;
+
+const LocationCard = ({
+  shopLocation,
+  phoneNumber,
+  email,
+  handleInputChange,
+  hideShowModal,
+  ...rest
+}) => {
+  const handleSelect = (e) => {
+    e.preventDefault();
+
+    handleInputChange &&
+      handleInputChange({
+        target: {
+          name: "serviceLocation",
+          value: { shopLocation, phoneNumber, email },
+        },
+      });
+    hideShowModal && hideShowModal();
+  };
+  return (
+    <LocationCardCont onClick={handleSelect} {...rest}>
+      <NormalPara
+        style={{
+          margin: 0,
+          fontSize: "1rem",
+          color: "#000",
+          fontWeight: "bold",
+        }}
+      >
+        {shopLocation}
+      </NormalPara>
+      <NormalPara style={{ fontSize: "0.85rem", margin: 0 }}>
+        Phone Number:{" "}
+        <a href={`tel:+${phoneNumber.replace(/\-/g, "")}`}>{phoneNumber}</a>
+      </NormalPara>
+      <NormalPara style={{ fontSize: "0.75rem", margin: 0 }}>
+        Email: <a href={`mailto:${email}`}>{email}</a>
+      </NormalPara>
+    </LocationCardCont>
+  );
+};
