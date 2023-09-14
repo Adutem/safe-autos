@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import categories from "../data/service-cat";
 import styled from "styled-components";
 import {
@@ -7,16 +7,25 @@ import {
   SectionPara,
   RowFlex,
   ButtonLink,
+  ColumnFlexContainer,
 } from "../components/reusables/Styles";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { FormGroupComponent } from "../components/reusables/Components";
+import serviceData from "../data/services-with-image";
+import { ServiceIcon, ServiceIconContainer } from "../components/ServiceCard";
 
 const ServiceCat = () => {
   const { parseName, services, reverseParse } = useGlobalContext();
   const { serviceName } = useParams();
   const containerRef = useRef(null);
   const navigate = useNavigate();
+  const imgUrl = useMemo(
+    () =>
+      serviceData.find((data) => data.name === reverseParse(serviceName))
+        .imgUrl,
+    [serviceName]
+  );
 
   const navigateSchedule = (e) => {
     e.preventDefault();
@@ -49,7 +58,12 @@ const ServiceCat = () => {
           align="center"
           style={{ gap: "2rem", padding: "1.5rem 0 0" }}
         >
-          <SectionPara>{serviceName.toUpperCase()}</SectionPara>{" "}
+          <OptimizedColumnContainer>
+            <ServiceIconContainer style={{ margin: "initial" }}>
+              <ServiceIcon src={imgUrl} />
+            </ServiceIconContainer>
+            <SectionPara> {serviceName.toUpperCase()}</SectionPara>{" "}
+          </OptimizedColumnContainer>
           <FormGroupComponent
             type={"select"}
             name={"serviceName"}
@@ -145,5 +159,21 @@ const OptimizedRowFlex = styled(RowFlex)`
 
 const OptimizedButtonLink = styled(ButtonLink)`
   max-width: initial;
+`;
+
+const OptimizedColumnContainer = styled(ColumnFlexContainer)`
+  align-items: flex-start;
+
+  p {
+    text-align: left;
+  }
+
+  @media (max-width: 700px) {
+    align-items: center;
+
+    p {
+      text-align: center;
+    }
+  }
 `;
 export default ServiceCat;
