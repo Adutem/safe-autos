@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 import categories from "../data/service-cat";
 import { OptimizedContainer } from "../pages/ServiceCat";
 
-const ServiceCard = ({ service: serviceName }) => {
-  const { parseName } = useGlobalContext();
+const ServiceCard = ({ name: serviceName, imgUrl }) => {
+  const { parseName, handleInViewPort } = useGlobalContext();
   const filterId = parseName(serviceName);
   const navigate = useNavigate();
   const containerRef = useRef(null);
+  const cardContainerRef = useRef(null);
 
   const navigateQuoting = (e) => {
     e.preventDefault();
@@ -37,17 +38,37 @@ const ServiceCard = ({ service: serviceName }) => {
     }
   }, []);
 
+  useEffect(() => {
+    // const serviceContainer = document.querySelectorAll(
+    //   ".project_card_container"
+    // );
+    window.addEventListener("scroll", (e) => {
+      // serviceContainer.forEach((image) => {
+      //   let inViewPort = handleInViewPort(image);
+      //   inViewPort
+      //     ? image.classList.add("opacityToggler")
+      //     : image.classList.remove("opacityToggler");
+      // });
+      let inViewPort = handleInViewPort(cardContainerRef.current);
+      inViewPort && cardContainerRef.current.classList.add("bringToDisplay");
+    });
+  }, []);
+
   return (
-    <ServiceCardContainer>
+    <ServiceCardContainer ref={cardContainerRef}>
       <SectionPara style={{ lineHeight: "1.1" }}>{serviceName}</SectionPara>
+      <ServiceIconContainer>
+        <ServiceIcon src={imgUrl} />
+      </ServiceIconContainer>
       <OptimizedContainer
         ref={containerRef}
         style={{
           fontFamily: "var(--mont)",
           lineHeight: "1.6",
           fontSize: "0.9rem",
-          margin: 0,
+          margin: "0 auto",
           //   textAlign: "justify",
+          textAlign: "center",
         }}
       ></OptimizedContainer>
       <OptimizedButtonLink onClick={navigateQuoting}>
@@ -68,11 +89,32 @@ const ServiceCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
+  border-top: 2px solid var(--primary-color);
+  opacity: 0;
+  transform: scale(0.9) translate(30px, 30px);
+  transition: transform 1s, opacity 1.5s ease;
+
+  &.bringToDisplay {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
 `;
 
 const OptimizedButtonLink = styled(ButtonLink)`
   max-width: initial;
 `;
 
+const ServiceIconContainer = styled.div`
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  margin: auto;
+`;
+
+const ServiceIcon = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+`;
 export default ServiceCard;

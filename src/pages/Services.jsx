@@ -13,6 +13,7 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import ServiceCard from "../components/ServiceCard";
 import servicePageIcon from "../assets/service-page-icon.png";
+import serviceData from "../data/services-with-image";
 
 const Services = () => {
   const { services, parseName } = useGlobalContext();
@@ -86,8 +87,8 @@ const Services = () => {
             gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           }}
         >
-          {services.slice(1).map((service) => (
-            <ServiceCard service={service} />
+          {serviceData.map((service) => (
+            <ServiceCard {...service} />
           ))}
         </GridLayoutContainer>
       </Container>

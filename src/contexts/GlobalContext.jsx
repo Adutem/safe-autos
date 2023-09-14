@@ -5,6 +5,15 @@ import axios from "axios";
 
 const GlobalContext = createContext(null);
 
+function handleInViewPort(el) {
+  let elPos = el.getBoundingClientRect();
+  return (
+    (elPos.top <= 0 && elPos.bottom >= -16500) ||
+    (elPos.top >= 0 && elPos.bottom <= window.innerHeight) ||
+    (elPos.bottom >= window.innerHeight && elPos.top <= window.innerHeight - 60)
+  );
+}
+
 export const PROMISE_RESPONSE_TOAST_OBJ = {
   SUCCESS: { type: "success", isLoading: false, autoClose: true },
   ERROR: { type: "error", isLoading: false, autoClose: true },
@@ -142,6 +151,7 @@ const GlobalContextProvider = ({ children }) => {
         formatTelephone,
         httpErrorHandler,
         submitEmail,
+        handleInViewPort,
       }}
     >
       {children}
