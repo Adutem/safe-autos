@@ -38,20 +38,14 @@ const ServiceCard = ({ name: serviceName, imgUrl }) => {
     }
   }, []);
 
+  const bringCardToView = (e) => {
+    let inViewPort = handleInViewPort(cardContainerRef.current);
+    inViewPort && cardContainerRef.current.classList.add("bringToDisplay");
+  };
+
   useEffect(() => {
-    // const serviceContainer = document.querySelectorAll(
-    //   ".project_card_container"
-    // );
-    window.addEventListener("scroll", (e) => {
-      // serviceContainer.forEach((image) => {
-      //   let inViewPort = handleInViewPort(image);
-      //   inViewPort
-      //     ? image.classList.add("opacityToggler")
-      //     : image.classList.remove("opacityToggler");
-      // });
-      let inViewPort = handleInViewPort(cardContainerRef.current);
-      inViewPort && cardContainerRef.current.classList.add("bringToDisplay");
-    });
+    window.addEventListener("scroll", bringCardToView);
+    return () => window.removeEventListener("scroll", bringCardToView);
   }, []);
 
   return (
@@ -105,14 +99,14 @@ const OptimizedButtonLink = styled(ButtonLink)`
   max-width: initial;
 `;
 
-const ServiceIconContainer = styled.div`
+export const ServiceIconContainer = styled.div`
   width: 100px;
   height: 100px;
   overflow: hidden;
   margin: auto;
 `;
 
-const ServiceIcon = styled.img`
+export const ServiceIcon = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
