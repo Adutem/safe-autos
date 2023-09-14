@@ -129,6 +129,35 @@ export const FormButton = styled(ButtonLink)`
   }
 `;
 
+export const Button = styled.button`
+  border: none;
+  outline: none;
+  width: 100%;
+  max-width: initial;
+  padding: 0.8rem;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--gray);
+  font-size: 1.5rem;
+  min-width: 150px;
+  display: inline-block;
+  text-align: center;
+  transition: 0.4s ease;
+  font-family: var(--teko);
+
+  &:hover {
+    background: var(--primary-color);
+  }
+
+  @media (max-width: 400px) {
+    font-size: 1.2rem;
+  }
+
+  &:active {
+    background: lightgray;
+  }
+`;
+
 export const Form = styled.form`
   margin: 3rem 0;
 `;
