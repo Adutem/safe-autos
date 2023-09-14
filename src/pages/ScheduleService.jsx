@@ -160,15 +160,24 @@ const ScheduleService = () => {
       "secondAppointmentDate",
       serviceData?.secondAppointmentDate
     );
+    formData.append(
+      "serviceLocation",
+      serviceData?.serviceLocation.shopLocation
+    );
     submitEmail(
       formData,
       () => {
         setDisableAll(false);
       },
       () => {
-        Object.keys(serviceData).forEach((key) =>
-          setServiceData((prev) => ({ ...prev, [key]: "" }))
-        );
+        Object.keys(serviceData).forEach((key) => {
+          if (key === "serviceLocation")
+            return setServiceData((prev) => ({
+              ...prev,
+              [key]: serviceLocations[0],
+            }));
+          setServiceData((prev) => ({ ...prev, [key]: "" }));
+        });
       }
     );
   };
