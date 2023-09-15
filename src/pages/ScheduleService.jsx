@@ -69,7 +69,8 @@ const requiredFields = [
 
 const customId = "schedule-service-toast";
 
-const selects = ["serviceType", "year", "model", "make", "option", "state"];
+// const selects = ["serviceType", "year", "model", "make", "option", "state"];
+const selects = ["serviceType", "state"];
 
 const ScheduleService = () => {
   const [serviceData, setServiceData] = useState({
@@ -104,9 +105,9 @@ const ScheduleService = () => {
   };
 
   const handleInputChange = (e) => {
-    if (e.target.name === "tel" || e.target.name === "zipCode")
-      return telephoneValidator(stateUpdater, e);
     let name = e.target.name;
+    if (["tel", "zipCode", "year"].includes(name))
+      return telephoneValidator(stateUpdater, e);
     let value = e.target.value;
     if (
       selects.includes(name) &&
@@ -150,6 +151,11 @@ const ScheduleService = () => {
         toastId: customId,
       });
     }
+    if (serviceData.year.length < 4) {
+      return toast.error("Please provide a valid vehicle year.", {
+        toastId: customId,
+      });
+    }
 
     setDisableAll(true);
     const formData = new FormData(scheduleForm.current);
@@ -176,7 +182,8 @@ const ScheduleService = () => {
               ...prev,
               [key]: serviceLocations[0],
             }));
-          setServiceData((prev) => ({ ...prev, [key]: "" }));
+          return stateUpdater(key, "");
+          // setServiceData((prev) => ({ ...prev, [key]: "" }));
         });
       }
     );
@@ -219,39 +226,81 @@ const ScheduleService = () => {
             <OptimizedSectionPara style={fullColumn}>
               Please enter your vehicle information:
             </OptimizedSectionPara>
+            <OptimizedFormLink
+              to={
+                "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/tires?shopnum=6112&v=lookup#tire-shop-modes"
+              }
+              target="_blank"
+            >
+              Browse your vehicle data here{" "}
+              <i className="fi fi-sr-arrow-up-right-from-square"></i>
+            </OptimizedFormLink>
             <LeftContainer>
-              <FormGroupComponent
+              {/* <FormGroupComponent
                 type={"select"}
                 options={["--Select Year--", ...modelYears.reverse()]}
                 name={"year"}
                 value={serviceData?.year}
                 placeholder={"Select Year"}
                 onChange={handleInputChange}
-              />
+              /> */}
               <FormGroupComponent
+                type={"text"}
+                name={"year"}
+                maxLength={4}
+                value={serviceData?.year}
+                label={""}
+                placeholder={"Enter Vehicle year"}
+                onChange={handleInputChange}
+              />
+              {/* <FormGroupComponent
                 type={"select"}
                 options={["--Select Model--", ...models]}
                 name={"model"}
                 value={serviceData?.model}
                 placeholder={"Select Model"}
                 onChange={handleInputChange}
+              /> */}
+              <FormGroupComponent
+                type={"text"}
+                name={"make"}
+                value={serviceData?.make}
+                label={""}
+                placeholder={"Enter Vehicle Make"}
+                onChange={handleInputChange}
               />
             </LeftContainer>
             <RightContainer>
-              <FormGroupComponent
+              {/* <FormGroupComponent
                 type={"select"}
                 options={["--Select Make--", ...makes]}
                 name={"make"}
                 value={serviceData?.make}
                 placeholder={"Select Make"}
                 onChange={handleInputChange}
-              />
+              /> */}
               <FormGroupComponent
+                type={"text"}
+                name={"model"}
+                value={serviceData?.model}
+                label={""}
+                placeholder={"Enter Vehicle Model"}
+                onChange={handleInputChange}
+              />
+              {/* <FormGroupComponent
                 type={"select"}
                 options={[]}
                 name={"option"}
                 value={serviceData?.option}
                 placeholder={"Select Option"}
+                onChange={handleInputChange}
+              /> */}
+              <FormGroupComponent
+                type={"text"}
+                name={"subModel"}
+                value={serviceData?.subModel}
+                label={""}
+                placeholder={"Enter Vehicle Sub Model"}
                 onChange={handleInputChange}
               />
             </RightContainer>
@@ -423,7 +472,7 @@ const ScheduleService = () => {
               }}
             />
           </OptimizedGridLayout>
-          <FormButton onClick={validateForm}>Submit Request</FormButton>
+          <Button onClick={validateForm}>Submit Request</Button>
         </ScheduleServiceForm>
         <NormalPara>
           The use of the tire and other automotive data and information
@@ -502,6 +551,20 @@ const OptimizedFormButton = styled(Button)`
 
   i {
     display: flex;
+  }
+`;
+
+const OptimizedFormLink = styled(FormButton)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  i {
+    display: flex;
+
+    @media (max-width: 270px) {
+      display: none;
+    }
   }
 `;
 

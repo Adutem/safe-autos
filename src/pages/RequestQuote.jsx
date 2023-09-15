@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import {
+  Button,
   Container,
   FormButton,
   GridLayoutContainer,
@@ -20,25 +21,68 @@ import {
 } from "../components/reusables/Components";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { contactOptions } from "./ScheduleService";
+import { toast } from "react-toastify";
+
+const customId = "kl239wesdjof";
+
+// const selects = ["year", "model", "make", "state", "option"];
+const selects = ["state"];
+
+const requiredFields = [
+  "serviceType",
+  "year",
+  "model",
+  "make",
+  "firstName",
+  "lastName",
+  "email",
+  "phoneNumber",
+  // "address",
+  // "city",
+  // "state",
+  // "zipCode",
+  // "comment",
+  "sendEmailsAndPromo",
+];
 
 const RequestQuote = () => {
   const [quotingData, setQuotingData] = useState({ sendEmailsAndPromo: "No" });
-  const { models, makes, modelYears, states, services } = useGlobalContext();
+  const {
+    models,
+    makes,
+    modelYears,
+    states,
+    services,
+    allFieldsPresent,
+    emailValidator,
+    telephoneValidator,
+    formatTelephone,
+    submitEmail,
+    displaySearchModal,
+  } = useGlobalContext();
   const { state } = useLocation();
+  const quotingForm = useRef(null);
+  const [disableBtn, setDisableBtn] = useState(false);
+
+  const stateUpdater = (name, value) => {
+    setQuotingData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleInputChange = (e) => {
-    if (e.target.name === "sendEmailsAndPromo") {
+    let name = e.target.name;
+    if (["phoneNumber", "zipCode", "year"].includes(name))
+      return telephoneValidator(stateUpdater, e);
+    if (name === "sendEmailsAndPromo") {
       if (e.target.checked) {
         return setQuotingData((prev) => ({
           ...prev,
-          [e.target.name]: e.target.value,
+          [name]: e.target.value,
         }));
       }
-      return setQuotingData((prev) => ({ ...prev, [e.target.name]: "No" }));
+      return setQuotingData((prev) => ({ ...prev, [name]: "No" }));
     }
-    if (e.target.name === "serviceType") {
-      let name = e.target.name;
-      let value = e.target.value;
+    let value = e.target.value;
+    if (name === "serviceType") {
       return setQuotingData((prev) => {
         if (!prev.serviceType || prev.serviceType.length === 0) {
           return { ...prev, [name]: [value] };
@@ -49,7 +93,13 @@ const RequestQuote = () => {
         return { ...prev, [name]: newServiceTypes };
       });
     }
-    setQuotingData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (
+      selects.includes(name) &&
+      value.startsWith("--") &&
+      value.endsWith("--")
+    )
+      return stateUpdater(name, "");
+    stateUpdater(name, value);
   };
 
   useEffect(() => {
@@ -64,182 +114,297 @@ const RequestQuote = () => {
     }
   }, []);
 
+  const validateForm = (e) => {
+    e.preventDefault();
+    if (quotingData?.serviceType?.length === 0 || !quotingData.serviceType)
+      return toast.error("Must select at least one service", {
+        toastId: customId,
+      });
+
+    if (!allFieldsPresent(requiredFields, quotingData)) {
+      return toast.error("Please fill all field", { toastId: customId });
+    }
+
+    if (!emailValidator(quotingData.email)) {
+      return toast.error("Please provide a valid email...", {
+        toastId: customId,
+      });
+    }
+    if (quotingData.phoneNumber.length < 14) {
+      return toast.error("Please provide a valid telephone.", {
+        toastId: customId,
+      });
+    }
+    if (quotingData.year.length < 4) {
+      return toast.error("Please provide a valid vehicle year.", {
+        toastId: customId,
+      });
+    }
+
+    setDisableBtn(true);
+    const formData = new FormData(quotingForm.current);
+    formData.append("heading", "New Quoting request for Acorn Tire & Auto");
+    formData.append("template", "quote");
+    formData.set("sendEmailsAndPromo", quotingData.sendEmailsAndPromo);
+    // console.log(formData);
+    // window.formati = formData;
+    submitEmail(
+      formData,
+      () => {
+        setDisableBtn(false);
+      },
+      () => {
+        Object.keys(quotingData).forEach((key) => {
+          if (key === "sendEmailsAndPromo") return stateUpdater(key, "No");
+          if (key === "serviceType") return stateUpdater(key, []);
+          return stateUpdater(key, "");
+        });
+      }
+    );
+  };
+
   return (
     <QuotingPageContainer>
       <RedBackgroundHeading>Your Quote Cart</RedBackgroundHeading>
-      <Container style={{ margin: "2rem auto" }}>
-        <OptimizedSectionPara>
-          We will send you a quote of the following:
-        </OptimizedSectionPara>
-        <SelectedQuotingContainer>
-          {console.log(quotingData)}
-          {quotingData?.serviceType?.map((type) => (
-            <QuotingPara>{type}</QuotingPara>
-          ))}
-        </SelectedQuotingContainer>
-        <OptimizedSectionPara>
-          Select an additional service you need:
-        </OptimizedSectionPara>
-        <OptimizedGridLayout style={{ margin: "1rem" }}>
-          <FormGroupComponent
-            type={"checkbox"}
-            name={"serviceType"}
-            options={services.slice(1)}
-            onChange={handleInputChange}
-            radioSelections={quotingData?.serviceType || []}
-          />
-        </OptimizedGridLayout>
-        <OptimizedSectionPara>
-          Please provide your vehicle information:
-        </OptimizedSectionPara>
-        <OptimizedGridLayout style={{ margin: "0 1rem 1rem" }}>
-          <LeftContainer>
+      <QuotingForm ref={quotingForm}>
+        <Container style={{ margin: "2rem auto" }}>
+          <OptimizedSectionPara>
+            We will send you a quote of the following:
+          </OptimizedSectionPara>
+          <SelectedQuotingContainer>
+            {console.log(quotingData)}
+            {quotingData?.serviceType?.map((type) => (
+              <QuotingPara>{type}</QuotingPara>
+            ))}
+          </SelectedQuotingContainer>
+          <OptimizedSectionPara>
+            Select an additional service you need:
+          </OptimizedSectionPara>
+          <OptimizedGridLayout style={{ margin: "1rem" }}>
             <FormGroupComponent
-              type={"select"}
-              options={["Select Year", ...modelYears.reverse()]}
-              name={"year"}
-              value={quotingData?.year}
-              placeholder={"Select Year"}
+              type={"checkbox"}
+              name={"serviceType"}
+              options={services.slice(1)}
               onChange={handleInputChange}
+              radioSelections={quotingData?.serviceType || []}
             />
-            <FormGroupComponent
-              type={"select"}
-              options={["Select Model", ...models]}
-              name={"model"}
-              value={quotingData?.model}
-              placeholder={"Select Model"}
-              onChange={handleInputChange}
-            />
-          </LeftContainer>
-          <RightContainer>
-            <FormGroupComponent
-              type={"select"}
-              options={["Select Make", ...makes]}
-              name={"make"}
-              value={quotingData?.make}
-              placeholder={"Select Make"}
-              onChange={handleInputChange}
-            />
-            <FormGroupComponent
-              type={"select"}
-              options={[]}
-              name={"option"}
-              value={quotingData?.option}
-              placeholder={"Select Option"}
-              onChange={handleInputChange}
-            />
-          </RightContainer>
-        </OptimizedGridLayout>
-        <OptimizedSectionPara>
-          Tell us a little about yourself:
-        </OptimizedSectionPara>
-        <OptimizedGridLayout>
-          <FormGroupComponent
-            type={"text"}
-            name={"firstName"}
-            value={quotingData?.firstName}
-            label={"First Name: *"}
-            onChange={handleInputChange}
-            placeholder={"Enter your last name"}
-          />
-          <FormGroupComponent
-            type={"text"}
-            name={"lastName"}
-            value={quotingData?.lastName}
-            label={"Last Name: *"}
-            onChange={handleInputChange}
-            placeholder={"Enter your last name"}
-          />
-          <FormGroupComponent
-            type={"email"}
-            name={"email"}
-            value={quotingData?.email}
-            onChange={handleInputChange}
-            label={"Email: *"}
-            placeholder={"Enter your email"}
-          />
-          <FormGroupComponent
-            type={"text"}
-            name={"phoneNumber"}
-            value={quotingData?.phoneNumber}
-            onChange={handleInputChange}
-            label={"Phone(xxx)xxx-xxxx:"}
-            placeholder={"Enter your phone number"}
-          />
-          <FormGroupComponent
-            type={"text"}
-            name={"address"}
-            value={quotingData?.address}
-            onChange={handleInputChange}
-            label={"Address: "}
-            placeholder={"Enter your address"}
-            style={fullColumn}
-          />
-          <FormGroupComponent
-            type={"text"}
-            name={"city"}
-            value={quotingData?.city}
-            onChange={handleInputChange}
-            label={"City: "}
-            placeholder={"Enter your city"}
-          />
-          <FormGroupComponent
-            type={"select"}
-            keyValueSelect={true}
-            name={"state"}
-            value={quotingData?.state}
-            onChange={handleInputChange}
-            label={"State: "}
-            placeholder={"Choose State"}
-            options={states}
-          />
-          <FormGroupComponent
-            type={"text"}
-            name={"zip"}
-            value={quotingData?.zip}
-            onChange={handleInputChange}
-            label={"Zip: "}
-            placeholder={"Enter zip code"}
-          />
-          <FormGroupComponent
-            type={"textarea"}
-            shouldResize={"vertical"}
-            name={"comment"}
-            value={quotingData?.comment}
-            onChange={handleInputChange}
-            label={"Comments: "}
-            placeholder={"Enter your comment"}
-            inputStyle={{ minHeight: "150px" }}
-          />
-          <FormGroup
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: "0.5rem",
-              ...fullColumn,
-            }}
+          </OptimizedGridLayout>
+          <OptimizedSectionPara>
+            Please provide your vehicle information:
+          </OptimizedSectionPara>
+          <OptimizedFormButton
+            to={
+              "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/tires?shopnum=6112&v=lookup#tire-shop-modes"
+            }
+            target="_blank"
           >
-            <Input
-              type="checkbox"
-              name="sendEmailsAndPromo"
-              value={"Yes"}
+            Browse your vehicle data here{" "}
+            <i className="fi fi-sr-arrow-up-right-from-square"></i>
+          </OptimizedFormButton>
+          {/* <OptimizedFormButton onClick={displaySearchModal}>
+            Browse your vehicle data here{" "}
+            <i className="fi fi-sr-arrow-up-right-from-square"></i>
+          </OptimizedFormButton> */}
+          <OptimizedGridLayout style={{ margin: "0 1rem 1rem" }}>
+            <LeftContainer>
+              {/* <FormGroupComponent
+                type={"select"}
+                options={["--Select Year--", ...modelYears.reverse()]}
+                name={"year"}
+                value={quotingData?.year}
+                placeholder={"Select Year"}
+                onChange={handleInputChange}
+              /> */}
+              <FormGroupComponent
+                type={"text"}
+                name={"year"}
+                maxLength={4}
+                value={quotingData?.year}
+                label={""}
+                placeholder={"Enter Vehicle year"}
+                onChange={handleInputChange}
+              />
+              {/* <FormGroupComponent
+                type={"select"}
+                options={["--Select Model--", ...models]}
+                name={"model"}
+                value={quotingData?.model}
+                placeholder={"Select Model"}
+                onChange={handleInputChange}
+              /> */}
+              <FormGroupComponent
+                type={"text"}
+                name={"make"}
+                value={quotingData?.make}
+                label={""}
+                placeholder={"Enter Vehicle Make"}
+                onChange={handleInputChange}
+              />
+            </LeftContainer>
+            <RightContainer>
+              {/* <FormGroupComponent
+                type={"select"}
+                options={["--Select Make--", ...makes]}
+                name={"make"}
+                value={quotingData?.make}
+                placeholder={"Select Make"}
+                onChange={handleInputChange}
+              /> */}
+              <FormGroupComponent
+                type={"text"}
+                name={"model"}
+                value={quotingData?.model}
+                label={""}
+                placeholder={"Enter Vehicle Model"}
+                onChange={handleInputChange}
+              />
+              <FormGroupComponent
+                type={"text"}
+                name={"subModel"}
+                value={quotingData?.subModel}
+                label={""}
+                placeholder={"Enter Vehicle Sub Model"}
+                onChange={handleInputChange}
+              />
+              {/* <FormGroupComponent
+                type={"select"}
+                options={[]}
+                name={"option"}
+                value={quotingData?.option}
+                placeholder={"Select Option"}
+                onChange={handleInputChange}
+              /> */}
+            </RightContainer>
+          </OptimizedGridLayout>
+          <OptimizedSectionPara>
+            Tell us a little about yourself:
+          </OptimizedSectionPara>
+          <OptimizedGridLayout>
+            <FormGroupComponent
+              type={"text"}
+              name={"firstName"}
+              value={quotingData?.firstName}
+              label={"First Name: *"}
               onChange={handleInputChange}
-              style={{ minWidth: "initial", width: "initial" }}
-              id={"sendEmailsAndPromo"}
+              placeholder={"Enter your last name"}
             />
-            <Label htmlFor={"sendEmailsAndPromo"}>
-              I would like to receive periodic emails regarding special offers
-              and/or promotions.
-            </Label>
-          </FormGroup>
-        </OptimizedGridLayout>
-        <FormButton>Submit Request</FormButton>
-      </Container>
+            <FormGroupComponent
+              type={"text"}
+              name={"lastName"}
+              value={quotingData?.lastName}
+              label={"Last Name: *"}
+              onChange={handleInputChange}
+              placeholder={"Enter your last name"}
+            />
+            <FormGroupComponent
+              type={"email"}
+              name={"email"}
+              value={quotingData?.email}
+              onChange={handleInputChange}
+              label={"Email: *"}
+              placeholder={"Enter your email"}
+            />
+            <FormGroupComponent
+              type={"text"}
+              name={"phoneNumber"}
+              value={formatTelephone(quotingData?.phoneNumber)}
+              onChange={handleInputChange}
+              label={"Phone(xxx)xxx-xxxx: *"}
+              placeholder={"Enter your phone number"}
+              maxLength={14}
+            />
+            <FormGroupComponent
+              type={"text"}
+              name={"address"}
+              value={quotingData?.address}
+              onChange={handleInputChange}
+              label={"Address: "}
+              placeholder={"Enter your address"}
+              style={fullColumn}
+            />
+            <FormGroupComponent
+              type={"text"}
+              name={"city"}
+              value={quotingData?.city}
+              onChange={handleInputChange}
+              label={"City: "}
+              placeholder={"Enter your city"}
+            />
+            <FormGroupComponent
+              type={"select"}
+              keyValueSelect={true}
+              name={"state"}
+              value={quotingData?.state}
+              onChange={handleInputChange}
+              label={"State: "}
+              placeholder={"Choose State"}
+              options={states}
+            />
+            <FormGroupComponent
+              type={"text"}
+              name={"zipCode"}
+              value={quotingData?.zipCode}
+              onChange={handleInputChange}
+              label={"Zip Code: "}
+              placeholder={"Enter zip code"}
+              maxLength={8}
+            />
+            <FormGroupComponent
+              type={"textarea"}
+              shouldResize={"vertical"}
+              name={"comment"}
+              value={quotingData?.comment}
+              onChange={handleInputChange}
+              label={"Comment: "}
+              placeholder={"Enter your comment"}
+              inputStyle={{ minHeight: "150px" }}
+            />
+            <FormGroup
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: "0.5rem",
+                ...fullColumn,
+              }}
+            >
+              <Input
+                type="checkbox"
+                name="sendEmailsAndPromo"
+                value={"Yes"}
+                onChange={handleInputChange}
+                style={{ minWidth: "initial", width: "initial" }}
+                id={"sendEmailsAndPromo"}
+              />
+              <Label htmlFor={"sendEmailsAndPromo"}>
+                I would like to receive periodic emails regarding special offers
+                and/or promotions.
+              </Label>
+            </FormGroup>
+          </OptimizedGridLayout>
+          <Button onClick={validateForm} disabled={disableBtn}>
+            Submit Request
+          </Button>
+        </Container>
+      </QuotingForm>
     </QuotingPageContainer>
   );
 };
 
 const QuotingPageContainer = styled.div``;
+
+const OptimizedFormButton = styled(FormButton)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  i {
+    display: flex;
+
+    @media (max-width: 270px) {
+      display: none;
+    }
+  }
+`;
 
 const OptimizedSectionPara = styled(SectionPara)`
   text-align: left;
@@ -258,6 +423,7 @@ const OptimizedGridLayout = styled(GridLayoutContainer)`
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
+    margin: 0 !important;
   }
 `;
 
@@ -278,5 +444,7 @@ const QuotingPara = styled.p`
   font-size: 1.1rem;
   font-family: var(--teko);
 `;
+
+const QuotingForm = styled.form``;
 
 export default RequestQuote;

@@ -1,7 +1,8 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { models, makes, modelYears, states, services } from "../data";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const GlobalContext = createContext(null);
 
@@ -59,6 +60,23 @@ export const httpErrorHandler = (error, toastId, shouldToastErrorMessage) => {
 const BASE_URL = import.meta.env.VITE_BASE_URL || "http://192.168.137.1:5000";
 
 const GlobalContextProvider = ({ children }) => {
+  const location = useLocation();
+  const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
+  const [showSearch, setShowSearch] = useState(false);
+
+  const displaySearchModal = (e) => {
+    e && e.preventDefault();
+    setShowSearch(true);
+  };
+  const hideSearchModal = (e) => {
+    e && e.preventDefault();
+    setShowSearch(false);
+  };
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+  }, [window.innerWidth]);
+
   const parseName = (str) =>
     str
       .replace("&", "")
@@ -95,7 +113,7 @@ const GlobalContextProvider = ({ children }) => {
 
   const telephoneValidator = (stateUpdater, event) => {
     let name = event.target.name;
-    let telephone = event.target.value;
+    let telephone = event.target.value.trim();
     telephone = telephone.replace(/[a-zA-Z]+/g, "");
     stateUpdater(name, telephone);
   };
@@ -152,6 +170,10 @@ const GlobalContextProvider = ({ children }) => {
         httpErrorHandler,
         submitEmail,
         handleInViewPort,
+        showSearch,
+        windowWidth,
+        displaySearchModal,
+        hideSearchModal,
       }}
     >
       {children}

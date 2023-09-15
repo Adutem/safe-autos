@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Alert from "./components/Alert";
 import styled from "styled-components";
@@ -9,8 +9,12 @@ import Footer from "./components/Footer";
 import HomeHero from "./components/HomeHero";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useGlobalContext } from "./contexts/GlobalContext";
+import SearchTireIframe from "./components/SearchTireIframe";
 
 const App = () => {
+  const { showSearch, windowWidth } = useGlobalContext();
+
   return (
     <AppContainer>
       <ToastContainer
@@ -32,6 +36,7 @@ const App = () => {
       <HomeHero />
       <RoutesComponent />
       <Footer />
+      {/* {showSearch && windowWidth >= 792 && <SearchTireIframe />} */}
     </AppContainer>
   );
 };
