@@ -28,5 +28,35 @@ const hoursOfOperation = [
     hours: ["closed"],
   },
 ];
+export const fullHoursOfOperation = [
+  {
+    date: "Sunday",
+    hours: ["closed"],
+  },
+  {
+    date: "Monday",
+    hours: ["8:00AM", "5:00PM"],
+  },
+  {
+    date: "Tuesday",
+    hours: ["8:00AM", "5:00PM"],
+  },
+  {
+    date: "Wednesday",
+    hours: ["8:00AM", "5:00PM"],
+  },
+  {
+    date: "Thursday",
+    hours: ["8:00AM", "5:00PM"],
+  },
+  {
+    date: "Friday",
+    hours: ["8:00AM", "5:00PM"],
+  },
+  {
+    date: "Saturday",
+    hours: ["closed"],
+  },
+];
 
 export default hoursOfOperation;

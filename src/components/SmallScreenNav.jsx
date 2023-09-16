@@ -8,6 +8,10 @@ const SmallScreenNav = () => {
     document.querySelector("#nav-bar")?.classList.toggle("show");
   };
 
+  const toggleLocationComponent = () => {
+    document.querySelector("#location-comp")?.classList.toggle("show");
+  };
+
   return (
     <NavContainer>
       <NavContentContainer>
@@ -15,7 +19,7 @@ const SmallScreenNav = () => {
           <i className="fi fi-br-menu-burger"></i>
         </ToggleNavButton>
         <Aside>
-          <ToggleLocationButton>
+          <ToggleLocationButton onClick={toggleLocationComponent}>
             <i className="fi fi-ss-marker"></i>
           </ToggleLocationButton>
           <TelLink href="tel:+248-693-7979">
