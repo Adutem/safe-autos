@@ -18,7 +18,7 @@ const SmallScreenNav = () => {
           <ToggleLocationButton>
             <i className="fi fi-ss-marker"></i>
           </ToggleLocationButton>
-          <TelLink href="tel:+234493054">
+          <TelLink href="tel:+248-693-7979">
             <i className="fi fi-sr-phone-flip"></i>
           </TelLink>
         </Aside>
