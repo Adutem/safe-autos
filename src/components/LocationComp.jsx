@@ -8,6 +8,7 @@ import hoursOfOperation, {
 const LocationComp = () => {
   const hideLocationComponent = () => {
     document.querySelector("#location-comp")?.classList.remove("show");
+    document.body.style.overflow = "initial";
   };
 
   return (

@@ -8,6 +8,7 @@ const Navbar = () => {
 
   const hideNavbar = () => {
     navbarRef?.current.classList.remove("show");
+    document.body.style.overflow = "initial";
   };
 
   return (
