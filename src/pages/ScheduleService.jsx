@@ -21,6 +21,7 @@ import GoogleMapComp from "../components/reusables/GoogleMapComp";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import serviceLocations from "../data/service-location-data";
+import { SearchComponent } from "../components/Advert";
 
 const waitOptions = [
   {
@@ -223,19 +224,33 @@ const ScheduleService = () => {
               value={serviceData?.message}
               shouldResize="vertical"
             />
-            <OptimizedSectionPara style={fullColumn}>
-              Please enter your vehicle information:
-            </OptimizedSectionPara>
-            <OptimizedFormLink
-              to={
-                "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/tires?shopnum=6112&v=lookup#tire-shop-modes"
-              }
-              target="_blank"
-              style={fullColumn}
+          </OptimizedGridLayout>
+          <OptimizedSectionPara style={fullColumn}>
+            Please enter your vehicle information:
+          </OptimizedSectionPara>
+
+          {/* <OptimizedFormButton
+              style={{ ...fullColumn, background: "#f1f1f1", color: "#000" }}
+              onClick={showShowModal}
             >
-              Browse your vehicle data here{" "}
-              <i className="fi fi-sr-arrow-up-right-from-square"></i>
-            </OptimizedFormLink>
+              click to Select a service location
+              <i className="fi fi-sr-caret-down"></i>
+            </OptimizedFormButton>
+            <OptimizedSectionPara style={fullColumn}>
+              Appointment Location
+            </OptimizedSectionPara>
+            <div style={{ ...fullColumn }}>
+              <LocationCard
+                {...serviceData.serviceLocation}
+                style={{ background: "transparent", padding: 0 }}
+              />
+            </div> */}
+          <SearchComponent
+            showShowModal={showShowModal}
+            currentLocation={serviceData?.serviceLocation}
+            style={{ marginTop: "1.5rem" }}
+          />
+          <OptimizedGridLayout>
             <LeftContainer>
               {/* <FormGroupComponent
                 type={"select"}
@@ -307,54 +322,10 @@ const ScheduleService = () => {
             </RightContainer>
           </OptimizedGridLayout>
 
-          <OptimizedGridLayout
-            style={{ margin: "1rem auto" }}
-            waitTillMobile={true}
-          >
+          <OptimizedGridLayout waitTillTab={true}>
             <OptimizedSectionPara style={fullColumn}>
               Appointment Details
             </OptimizedSectionPara>
-            <OptimizedFormButton
-              style={{ ...fullColumn, background: "#f1f1f1", color: "#000" }}
-              onClick={showShowModal}
-            >
-              click to Select a service location
-              <i className="fi fi-sr-caret-down"></i>
-            </OptimizedFormButton>
-            <OptimizedSectionPara style={fullColumn}>
-              Appointment Location
-            </OptimizedSectionPara>
-            <div style={{ ...fullColumn }}>
-              <LocationCard
-                {...serviceData.serviceLocation}
-                style={{ background: "transparent", padding: 0 }}
-              />
-            </div>
-            {/* <LeftContainer> */}
-            {/* <OptimizedSectionPara>Appointment Details</OptimizedSectionPara>
-              <Address>
-                <NormalPara style={{ margin: "0", marginBottom: "1rem" }}>
-                  Acorn Tire & Auto <br />
-                  591 S Lapeer Road <br />
-                  Lake Orion, MI 48362
-                </NormalPara>
-              </Address>
-            </LeftContainer> */}
-            {/* <RightContainer>
-                {" "}
-                <OptimizedSectionPara style={{ fontSize: "1.3rem" }}>
-                  Hours
-                </OptimizedSectionPara>
-                <div style={{ margin: "1rem 0 1.5rem" }}>
-                  {hoursOfOperation.map((hop) => (
-                    <NormalPara style={{ margin: "0.5rem 0" }}>
-                      {hop.date}: {hop.hours.join(" - ")}
-                    </NormalPara>
-                  ))}
-                </div>
-              </RightContainer> */}
-          </OptimizedGridLayout>
-          <OptimizedGridLayout waitTillTab={true}>
             <LeftContainer>
               <FormGroupComponent
                 type={"date-time"}

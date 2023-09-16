@@ -169,13 +169,15 @@ const OptimizedFormButton = styled(Button)`
 const fullColumn = { gridColumn: "1 / -1" };
 export default Advert;
 
-export function SearchComponent({ showShowModal, currentLocation }) {
+export function SearchComponent({ showShowModal, currentLocation, ...rest }) {
   return (
     <ContainerX
       style={{
         background: "rgba(var(--white-rgb), 0.4)",
         backdropFilter: "blur(4px)",
+        ...rest?.style,
       }}
+      // {...rest}
     >
       <OptimizedFormButton
         style={{ ...fullColumn, background: "#f1f1f1", color: "#000" }}

@@ -22,6 +22,9 @@ import {
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { contactOptions } from "./ScheduleService";
 import { toast } from "react-toastify";
+import serviceLocations from "../data/service-location-data";
+import { SearchComponent } from "../components/Advert";
+import { LocationModal } from "./ScheduleService";
 
 const customId = "kl239wesdjof";
 
@@ -46,7 +49,10 @@ const requiredFields = [
 ];
 
 const RequestQuote = () => {
-  const [quotingData, setQuotingData] = useState({ sendEmailsAndPromo: "No" });
+  const [quotingData, setQuotingData] = useState({
+    sendEmailsAndPromo: "No",
+    serviceLocation: serviceLocations[0],
+  });
   const {
     models,
     makes,
@@ -63,6 +69,19 @@ const RequestQuote = () => {
   const { state } = useLocation();
   const quotingForm = useRef(null);
   const [disableBtn, setDisableBtn] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const portalRef = useRef(null);
+
+  const hideShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(false);
+    document.body.style.overflow = "initial";
+  };
+  const showShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(true);
+    document.body.style.overflow = "hidden";
+  };
 
   const stateUpdater = (name, value) => {
     setQuotingData((prev) => ({ ...prev, [name]: value }));
@@ -172,7 +191,6 @@ const RequestQuote = () => {
             We will send you a quote of the following:
           </OptimizedSectionPara>
           <SelectedQuotingContainer>
-            {console.log(quotingData)}
             {quotingData?.serviceType?.map((type) => (
               <QuotingPara>{type}</QuotingPara>
             ))}
@@ -192,15 +210,11 @@ const RequestQuote = () => {
           <OptimizedSectionPara>
             Please provide your vehicle information:
           </OptimizedSectionPara>
-          <OptimizedFormButton
-            to={
-              "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/tires?shopnum=6112&v=lookup#tire-shop-modes"
-            }
-            target="_blank"
-          >
-            Browse your vehicle data here{" "}
-            <i className="fi fi-sr-arrow-up-right-from-square"></i>
-          </OptimizedFormButton>
+          <SearchComponent
+            showShowModal={showShowModal}
+            currentLocation={quotingData?.serviceLocation}
+            style={{ marginTop: "1.5rem" }}
+          />
           {/* <OptimizedFormButton onClick={displaySearchModal}>
             Browse your vehicle data here{" "}
             <i className="fi fi-sr-arrow-up-right-from-square"></i>
@@ -386,6 +400,13 @@ const RequestQuote = () => {
           </Button>
         </Container>
       </QuotingForm>
+      {showLocationModal && (
+        <LocationModal
+          portalRef={portalRef}
+          hideShowModal={hideShowModal}
+          handleInputChange={handleInputChange}
+        />
+      )}
     </QuotingPageContainer>
   );
 };
