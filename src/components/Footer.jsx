@@ -45,9 +45,9 @@ const Footer = () => {
               >
                 <i className="fi fi-brands-google"></i>
               </a>
-              <a href="#">
+              {/* <a href="#">
                 <i className="fi fi-brands-twitter"></i>
-              </a>
+              </a> */}
             </Social>
           </ColumnFlexContainer>
         </Sections>
