@@ -396,6 +396,7 @@ const OptimizedFormButton = styled(FormButton)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: max-content;
 
   i {
     display: flex;

@@ -3,8 +3,14 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import rightBackground from "../assets/tire-2.jpg";
 import newRightBackground from "../assets/image-3.jpg";
+import newLeftBackground from "../assets/image-5.jpg";
 import leftBackground from "../assets/tire-3.jpg";
-import { ButtonLink, RelativeGradientContainer } from "./reusables/Styles";
+import {
+  Button,
+  ButtonLink,
+  RelativeGradientContainer,
+  FormButton,
+} from "./reusables/Styles";
 
 const Advert = () => {
   return (
@@ -12,6 +18,22 @@ const Advert = () => {
       <AdvertContentContainer>
         <LeftContainer>
           <Heading>Browse Our Tires</Heading>
+          <ContainerX
+            style={{
+              background: "rgba(var(--white-rgb), 0.4)",
+              backdropFilter: "blur(4px)",
+            }}
+          >
+            <OptimizedFormButton
+              to={
+                "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/tires?shopnum=6112&v=lookup#tire-shop-modes"
+              }
+              target="_blank"
+            >
+              Browse your vehicle data here{" "}
+              <i className="fi fi-sr-arrow-up-right-from-square"></i>
+            </OptimizedFormButton>
+          </ContainerX>
         </LeftContainer>
         <RightContainer>
           <Div>
@@ -57,7 +79,13 @@ const Container = styled(RelativeGradientContainer)`
   padding: 1rem;
 `;
 
-const LeftContainer = styled(Container)``;
+const LeftContainer = styled(Container)`
+  justify-content: space-around;
+  background: url(${newLeftBackground});
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: cover;
+`;
 const RightContainer = styled(Container)`
   justify-content: space-around;
   background: url(${newRightBackground});
@@ -85,4 +113,26 @@ const ParaText = styled.p`
 
 const Div = styled.div``;
 
+const ContainerX = styled.div`
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const OptimizedFormButton = styled(FormButton)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  i {
+    display: flex;
+
+    @media (max-width: 270px) {
+      display: none;
+    }
+  }
+`;
 export default Advert;

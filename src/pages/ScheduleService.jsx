@@ -231,6 +231,7 @@ const ScheduleService = () => {
                 "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/tires?shopnum=6112&v=lookup#tire-shop-modes"
               }
               target="_blank"
+              style={fullColumn}
             >
               Browse your vehicle data here{" "}
               <i className="fi fi-sr-arrow-up-right-from-square"></i>
@@ -558,6 +559,7 @@ const OptimizedFormLink = styled(FormButton)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  // height: max-content;
 
   i {
     display: flex;
