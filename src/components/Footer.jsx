@@ -52,13 +52,13 @@ const Footer = () => {
           </ColumnFlexContainer>
         </Sections>
       </GridContainer>
-      <Sections>
+      {/* <Sections>
         <ColumnFlexContainer>
           <ImageContainer>
             <TireOneImage src={tireOne} />
           </ImageContainer>
         </ColumnFlexContainer>
-      </Sections>
+      </Sections> */}
       <Sections>
         <Para>
           Copyright &copy; 2018-2023{" "}
