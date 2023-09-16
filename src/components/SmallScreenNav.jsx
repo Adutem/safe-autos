@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import routes from "../data/nav-data";
 
 const SmallScreenNav = () => {
-  const handleWindowScroll = () => {
-    if (document.querySelector("#nav-bar").classList.contains("show")) {
+  const handleWindowScroll = (id) => {
+    if (document.querySelector(id).classList.contains("show")) {
       document.body.style.overflow = "initial";
     } else {
       document.body.style.overflow = "hidden";
@@ -13,12 +13,12 @@ const SmallScreenNav = () => {
   };
 
   const toggleNav = () => {
-    handleWindowScroll();
+    handleWindowScroll("#nav-bar");
     document.querySelector("#nav-bar")?.classList.toggle("show");
   };
 
   const toggleLocationComponent = () => {
-    handleWindowScroll();
+    handleWindowScroll("#location-comp");
     document.querySelector("#location-comp")?.classList.toggle("show");
   };
 
