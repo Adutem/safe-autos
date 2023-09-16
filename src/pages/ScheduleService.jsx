@@ -487,34 +487,11 @@ const ScheduleService = () => {
         </OptimizedSectionPara>
       </Container>
       {showLocationModal && (
-        <PortalModalContainer
-          onClick={(e) => {
-            e.preventDefault();
-            if (e.target !== portalRef.current) return;
-            hideShowModal();
-          }}
-          ref={portalRef}
-        >
-          <LocationsContainer>
-            <HideButtonContainer>
-              <OptimizedFormButton
-                onClick={hideShowModal}
-                style={{ width: "initial", minWidth: "initial" }}
-              >
-                <i className="fi fi-sr-circle-xmark"></i>
-              </OptimizedFormButton>
-            </HideButtonContainer>
-            <LocationCardContainer>
-              {serviceLocations.map((location) => (
-                <LocationCard
-                  {...location}
-                  handleInputChange={handleInputChange}
-                  hideShowModal={hideShowModal}
-                />
-              ))}
-            </LocationCardContainer>
-          </LocationsContainer>
-        </PortalModalContainer>
+        <LocationModal
+          portalRef={portalRef}
+          hideShowModal={hideShowModal}
+          handleInputChange={handleInputChange}
+        />
       )}
     </SchedulePageContainer>
   );
@@ -620,6 +597,7 @@ const LocationCard = ({
   shopLocation,
   phoneNumber,
   email,
+  link,
   handleInputChange,
   hideShowModal,
   ...rest
@@ -631,7 +609,7 @@ const LocationCard = ({
       handleInputChange({
         target: {
           name: "serviceLocation",
-          value: { shopLocation, phoneNumber, email },
+          value: { shopLocation, phoneNumber, email, link },
         },
       });
     hideShowModal && hideShowModal();
@@ -658,3 +636,36 @@ const LocationCard = ({
     </LocationCardCont>
   );
 };
+
+export function LocationModal({ portalRef, hideShowModal, handleInputChange }) {
+  return (
+    <PortalModalContainer
+      onClick={(e) => {
+        e.preventDefault();
+        if (e.target !== portalRef.current) return;
+        hideShowModal();
+      }}
+      ref={portalRef}
+    >
+      <LocationsContainer>
+        <HideButtonContainer>
+          <OptimizedFormButton
+            onClick={hideShowModal}
+            style={{ width: "initial", minWidth: "initial" }}
+          >
+            <i className="fi fi-sr-circle-xmark"></i>
+          </OptimizedFormButton>
+        </HideButtonContainer>
+        <LocationCardContainer>
+          {serviceLocations.map((location) => (
+            <LocationCard
+              {...location}
+              handleInputChange={handleInputChange}
+              hideShowModal={hideShowModal}
+            />
+          ))}
+        </LocationCardContainer>
+      </LocationsContainer>
+    </PortalModalContainer>
+  );
+}

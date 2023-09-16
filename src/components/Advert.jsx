@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import rightBackground from "../assets/tire-2.jpg";
@@ -10,30 +10,42 @@ import {
   ButtonLink,
   RelativeGradientContainer,
   FormButton,
+  NormalPara,
 } from "./reusables/Styles";
+import { LocationModal } from "../pages/ScheduleService";
+import serviceLocations from "../data/service-location-data";
 
 const Advert = () => {
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState(
+    () => serviceLocations[0]
+  );
+  const portalRef = useRef(null);
+
+  const hideShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(false);
+    document.body.style.overflow = "initial";
+  };
+  const showShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleInputChange = (e) => {
+    setCurrentLocation(e.target.value);
+  };
+
   return (
     <AdvertContainer>
       <AdvertContentContainer>
         <LeftContainer>
           <Heading>Browse Our Tires</Heading>
-          <ContainerX
-            style={{
-              background: "rgba(var(--white-rgb), 0.4)",
-              backdropFilter: "blur(4px)",
-            }}
-          >
-            <OptimizedFormButton
-              to={
-                "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/tires?shopnum=6112&v=lookup#tire-shop-modes"
-              }
-              target="_blank"
-            >
-              Browse your vehicle data here{" "}
-              <i className="fi fi-sr-arrow-up-right-from-square"></i>
-            </OptimizedFormButton>
-          </ContainerX>
+          <SearchComponent
+            showShowModal={showShowModal}
+            currentLocation={currentLocation}
+          />
         </LeftContainer>
         <RightContainer>
           <Div>
@@ -49,6 +61,13 @@ const Advert = () => {
           <ButtonLink to={"/services"}>View Repair</ButtonLink>
         </RightContainer>
       </AdvertContentContainer>
+      {showLocationModal && (
+        <LocationModal
+          portalRef={portalRef}
+          hideShowModal={hideShowModal}
+          handleInputChange={handleInputChange}
+        />
+      )}
     </AdvertContainer>
   );
 };
@@ -114,15 +133,16 @@ const ParaText = styled.p`
 const Div = styled.div``;
 
 const ContainerX = styled.div`
-  flex: 1;
+  // flex: 1;
   width: 100%;
-  height: 100%;
+  // height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
 `;
 
-const OptimizedFormButton = styled(FormButton)`
+const OptimizedFormLink = styled(FormButton)`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -135,4 +155,70 @@ const OptimizedFormButton = styled(FormButton)`
     }
   }
 `;
+
+const OptimizedFormButton = styled(Button)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  i {
+    display: flex;
+  }
+`;
+
+const fullColumn = { gridColumn: "1 / -1" };
 export default Advert;
+
+export function SearchComponent({ showShowModal, currentLocation }) {
+  return (
+    <ContainerX
+      style={{
+        background: "rgba(var(--white-rgb), 0.4)",
+        backdropFilter: "blur(4px)",
+      }}
+    >
+      <OptimizedFormButton
+        style={{ ...fullColumn, background: "#f1f1f1", color: "#000" }}
+        onClick={showShowModal}
+      >
+        click to change vehicle location
+        <i className="fi fi-sr-caret-down"></i>
+      </OptimizedFormButton>
+      <div style={{ background: "transparent", padding: "1rem" }}>
+        <NormalPara
+          style={{
+            margin: 0,
+            fontSize: "1rem",
+            color: "#000",
+            fontWeight: "bold",
+          }}
+        >
+          {currentLocation.shopLocation}
+        </NormalPara>
+        <NormalPara style={{ fontSize: "0.85rem", margin: "0.4rem 0" }}>
+          Phone Number:{" "}
+          <a href={`tel:+${currentLocation.phoneNumber.replace(/\-/g, "")}`}>
+            {currentLocation.phoneNumber}
+          </a>
+        </NormalPara>
+        <NormalPara style={{ fontSize: "0.75rem", margin: 0 }}>
+          Email:{" "}
+          <a href={`mailto:${currentLocation.email}`}>
+            {currentLocation.email}
+          </a>
+        </NormalPara>
+      </div>
+      <OptimizedFormLink
+        to={
+          currentLocation.link
+            ? `${currentLocation.link}&v=lookup#tire-shop-modes`
+            : "#"
+        }
+        target="_blank"
+      >
+        Browse your vehicle data here{" "}
+        <i className="fi fi-sr-arrow-up-right-from-square"></i>
+      </OptimizedFormLink>
+    </ContainerX>
+  );
+}
