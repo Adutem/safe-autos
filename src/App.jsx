@@ -33,7 +33,7 @@ const App = () => {
       />
       <SmallScreenNav />
       <LocationComp />
-      <Alert />
+      {/* <Alert /> */}
       <Navbar />
       <HomeHero />
       <RoutesComponent />
