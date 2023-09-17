@@ -120,10 +120,6 @@ const ScheduleService = () => {
   };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-  }, []);
-
-  useEffect(() => {
     if (state && state?.serviceName) {
       handleInputChange({
         target: { name: "serviceType", value: state.serviceName },
@@ -570,6 +566,7 @@ const LocationCard = ({
   phoneNumber,
   email,
   link,
+  couponLink,
   handleInputChange,
   hideShowModal,
   ...rest
@@ -581,7 +578,7 @@ const LocationCard = ({
       handleInputChange({
         target: {
           name: "serviceLocation",
-          value: { shopLocation, phoneNumber, email, link },
+          value: { shopLocation, phoneNumber, email, link, couponLink },
         },
       });
     hideShowModal && hideShowModal();

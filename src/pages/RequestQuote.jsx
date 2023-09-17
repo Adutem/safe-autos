@@ -122,10 +122,6 @@ const RequestQuote = () => {
   };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-  }, []);
-
-  useEffect(() => {
     if (state && state?.serviceName) {
       handleInputChange({
         target: { name: "serviceType", value: state.serviceName },

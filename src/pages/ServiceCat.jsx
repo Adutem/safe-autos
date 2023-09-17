@@ -40,10 +40,6 @@ const ServiceCat = () => {
   };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-  }, []);
-
-  useEffect(() => {
     const match = categories.find((cat) => cat.name === serviceName);
     const parser = new DOMParser();
     const content = parser.parseFromString(match.innerHTML, "text/html");
