@@ -34,6 +34,13 @@ const ServiceCat = () => {
     });
   };
 
+  const navigateQuote = (e) => {
+    e.preventDefault();
+    navigate("/tires/quoting", {
+      state: { serviceName: reverseParse(serviceName) },
+    });
+  };
+
   const handleServiceSelect = (e) => {
     const filterId = parseName(e.target.value);
     navigate(`/services/${filterId}`);
@@ -76,7 +83,9 @@ const ServiceCat = () => {
           />
         </OptimizedRowFlex>
         <OptimizedRowFlex>
-          <OptimizedButtonLink>Request Quote</OptimizedButtonLink>
+          <OptimizedButtonLink onClick={navigateQuote}>
+            Request Quote
+          </OptimizedButtonLink>
           <OptimizedButtonLink onClick={navigateSchedule}>
             Schedule Service
           </OptimizedButtonLink>
