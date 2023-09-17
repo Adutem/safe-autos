@@ -59,32 +59,3 @@ const TiresPageContainer = styled.div`
   padding: 1rem;
   margin: 1rem 0;
 `;
-
-const Heading = styled.h2`
-  font-family: var(--teko);
-  text-align: center;
-`;
-
-const ContainerX = styled.div`
-  flex: 1;
-  width: 100%;
-  // height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-`;
-
-const OptimizedFormButton = styled(FormButton)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  i {
-    display: flex;
-
-    @media (max-width: 270px) {
-      display: none;
-    }
-  }
-`;

@@ -219,11 +219,7 @@ export function SearchComponent({
         </NormalPara>
       </div>
       <OptimizedFormLink
-        to={
-          currentLocation[linkType]
-            ? `${currentLocation[linkType]}&v=lookup#tire-shop-modes`
-            : "#"
-        }
+        to={currentLocation[linkType] ? currentLocation[linkType] : "#"}
         target="_blank"
       >
         {linkText || "Browse your vehicle data here"}
