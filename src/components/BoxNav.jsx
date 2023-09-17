@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ROUTES = [
   {
-    path: "/tire",
+    path: "/tires",
     name: "Shop for Tires",
     Icon: <i className="fi fi-rr-tire"></i>,
   },
