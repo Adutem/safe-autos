@@ -22,7 +22,7 @@ const Footer = () => {
           </Sections>
         ))}
         <Sections>
-          <ColumnFlexContainer>
+          <ColumnFlexContainer style={{ alignItems: "flex-start" }}>
             <Header>Vist Our Shop</Header>
             <Address>
               <strong>Phone: </strong> 248-693-7979 <br />
@@ -80,13 +80,20 @@ const FooterContainer = styled.div`
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  max-width: 928px;
+  margin: auto;
+  // justify-items: center;
 
   @media (max-width: 928px) {
     grid-template-columns: repeat(2, 1fr);
+    // justify-items: center;
+    width: 80%;
   }
 
   @media (max-width: 540px) {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 `;
 
@@ -99,15 +106,15 @@ const Sections = styled.section`
 const Address = styled.address`
   color: var(--white);
   font-family: var(--mont);
-  text-align: center;
-  font-size: 0.9rem;
+  text-align: left;
+  font-size: 0.8rem;
   font-weight: 300;
 `;
 
 const Social = styled.div`
   display: flex;
   gap: 1rem;
-  align-items: center;
+  // align-items: center;
 
   i {
     font-size: 1.5rem;
@@ -123,10 +130,10 @@ const Social = styled.div`
 
 const LinkList = styled.ul`
   display: flex;
-  align-items: center;
+  // align-items: center;
   flex-direction: column;
   background: transparent;
-  gap: 1rem;
+  gap: 0.8rem;
 `;
 
 const Header = styled.h3`
@@ -141,6 +148,7 @@ const LinkItem = styled(Link)`
   font-family: var(--mont);
   color: var(--white);
   transition: 0.4s ease;
+  font-size: 0.8rem;
 
   &:hover {
     color: var(--primary-color);
