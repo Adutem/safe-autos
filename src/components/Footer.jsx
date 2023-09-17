@@ -78,9 +78,9 @@ const Footer = () => {
       <Sections>
         <Para>
           Developed by{" "}
-          <a target="_blank" href="https://aduteminnovationmarketing.com/">
+          <LinkItem target="_blank" to="https://aduteminnovationmarketing.com/">
             Adutem Innovation
-          </a>
+          </LinkItem>
         </Para>
       </Sections>
     </FooterContainer>
