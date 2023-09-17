@@ -45,6 +45,12 @@ const Footer = () => {
               >
                 <i className="fi fi-brands-google"></i>
               </a>
+              <a
+                href="https://www.linkedin.com/in/acorn-tire-and-auto-a91730245/"
+                target="_blank"
+              >
+                <i className="fi fi-brands-linkedin"></i>
+              </a>
               {/* <a href="#">
                 <i className="fi fi-brands-twitter"></i>
               </a> */}
