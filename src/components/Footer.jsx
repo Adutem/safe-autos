@@ -69,6 +69,14 @@ const Footer = () => {
           <LinkItem to={"/sitemap"}>Sitemap</LinkItem> */}
         </Para>
       </Sections>
+      <Sections>
+        <Para>
+          Developed by{" "}
+          <a target="_blank" href="https://aduteminnovationmarketing.com/">
+            Adutem Innovation
+          </a>
+        </Para>
+      </Sections>
     </FooterContainer>
   );
 };
@@ -173,10 +181,16 @@ const Para = styled.p`
 
   a {
     text-decoration: underline;
+    white-space: nowrap;
 
     &:hover {
       text-decoration: none;
     }
+  }
+
+  @media (max-width: 540px) {
+    text-align: left;
+    font-size: 0.85rem;
   }
 `;
 export default Footer;
