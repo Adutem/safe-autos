@@ -8,6 +8,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/warren/32601-van-dyke-48093/offers?shopnum=6550",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6550",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089258956485",
   },
   {
     shopLocation:
@@ -19,6 +20,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/madison-heights/385-w-12-mile-road-48071/offers?shopnum=6627",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6627",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089785682170",
   },
   {
     shopLocation:
@@ -30,6 +32,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/offers?shopnum=6112",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6112",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089653862100",
   },
   {
     shopLocation: "Midas of Novi,\n43421 W 12 Mile Road,\nNovi, MI 48377",
@@ -40,6 +43,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/novi/43421-west-twelve-mile-road-48377/offers?shopnum=6952",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6952",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089672856242",
   },
   {
     shopLocation:
@@ -51,6 +55,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/lake-orion/591-south-lapeer-road-48362/offers?shopnum=6861",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6861",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089322674584",
   },
   {
     shopLocation:
@@ -62,6 +67,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/grand-rapids/3424-plainfield-ave-ne-49525/offers?shopnum=6516",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6516",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089127297569",
   },
   {
     shopLocation: "Midas of Kalamazoo,\n6009 Gull Road,\nKalamazoo, MI 49048",
@@ -72,6 +78,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/kalamazoo/6009-gull-road-49004/offers?shopnum=6271",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6271",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089121621007",
   },
   {
     shopLocation: "Midas of Portage,\n5112 S Westnedge Ave,\nPortage, MI 49002",
@@ -82,6 +89,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/portage/5112-s-westnedge-49002/offers?shopnum=6265",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6265",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089105241992",
   },
   {
     shopLocation: "Midas of Jackson,\n1503 Clinton Ave,\nJackson, MI 49202",
@@ -92,6 +100,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/jackson/1503-clinton-road-49202/offers?shopnum=6264",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6264",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089572383461",
   },
   {
     shopLocation:
@@ -103,6 +112,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/grand-rapids/2710-28th-street-se-49512/offers?shopnum=6514",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6514",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089482303692",
   },
   {
     shopLocation: "Midas Roseville,\n25525 Gratiot Ave,\nRoseville, MI 48066",
@@ -113,6 +123,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/ann-arbor/2395-jackson-48103/offers?shopnum=6142",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6142",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089191818027",
   },
   {
     shopLocation: "Midas Alpine,\n2360 Alpine Ave NW,\nGrand Rapids, MI 49544",
@@ -123,6 +134,7 @@ const serviceLocations = [
       "https://www.midas.com/store/mi/grand-rapids/2360-alpine-avenue-northwest-49544/offers?shopnum=6885",
     financingLink:
       "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6885",
+    facebookLink: "",
   },
 ];
 

@@ -5,6 +5,7 @@ import {
   Container,
   NormalPara,
   RedBackgroundHeading,
+  SectionHeading,
   SectionPara,
 } from "../components/reusables/Styles";
 import { DaysOfOperationComponent } from "../components/reusables/Components";
@@ -15,6 +16,7 @@ import cashImage from "../assets/cash.svg";
 import discoverImage from "../assets/discover.svg";
 import mastercardImage from "../assets/mastercard.svg";
 import visaImage from "../assets/visa.svg";
+import serviceLocations from "../data/service-location-data";
 
 const methods = [
   {
@@ -77,6 +79,13 @@ const FindUs = () => {
             </ButtonLink>
           </Actions>
         </ReviewContainer> */}
+        <SectionHeading>Conenct with us</SectionHeading>
+        <br />
+        <SocialCompCardCont>
+          {serviceLocations.map((location) => (
+            <SocialComponent {...location} />
+          ))}
+        </SocialCompCardCont>
         <PaymentSection>
           <PaymentSectionHeader>
             <CreditCardImageContaier>
@@ -157,5 +166,53 @@ const PaymentMethodContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.4rem;
+`;
+
+const SocialCompCardCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const SocialComponent = ({
+  shopLocation,
+  phoneNumber,
+  email,
+  facebookLink,
+}) => {
+  return (
+    <SocialComponentCont>
+      <ShopLocationText>{shopLocation}</ShopLocationText>
+      <OptimizedNormalPara>
+        <strong>Email: </strong> <a href={`mailto:${email}`}>{email}</a>
+      </OptimizedNormalPara>
+      <OptimizedNormalPara>
+        <strong>Tel: </strong> <a href={`tel:+${phoneNumber}`}>{phoneNumber}</a>
+      </OptimizedNormalPara>
+      <OptimizedNormalPara>
+        <strong>Facebook: </strong>
+        <a href={`${facebookLink}`} target="_blank">
+          {facebookLink}
+        </a>
+      </OptimizedNormalPara>
+    </SocialComponentCont>
+  );
+};
+
+const SocialComponentCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background: #f1f1f1;
+  gap: 0.3rem;
+`;
+
+const ShopLocationText = styled.h3`
+  font-family: var(--teko);
+`;
+
+const OptimizedNormalPara = styled(NormalPara)`
+  font-size: 0.85rem;
+  margin: 0;
 `;
 export default FindUs;
