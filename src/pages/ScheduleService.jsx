@@ -249,6 +249,7 @@ const ScheduleService = () => {
             showShowModal={showShowModal}
             currentLocation={serviceData?.serviceLocation}
             style={{ marginTop: "1.5rem" }}
+            linkType={"link"}
           />
           <OptimizedGridLayout>
             <LeftContainer>

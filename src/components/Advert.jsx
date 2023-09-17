@@ -45,6 +45,7 @@ const Advert = () => {
           <SearchComponent
             showShowModal={showShowModal}
             currentLocation={currentLocation}
+            linkType={"link"}
           />
         </LeftContainer>
         <RightContainer>
@@ -169,7 +170,14 @@ const OptimizedFormButton = styled(Button)`
 const fullColumn = { gridColumn: "1 / -1" };
 export default Advert;
 
-export function SearchComponent({ showShowModal, currentLocation, ...rest }) {
+export function SearchComponent({
+  showShowModal,
+  currentLocation,
+  dropdownText,
+  linkText,
+  linkType,
+  ...rest
+}) {
   return (
     <ContainerX
       style={{
@@ -183,7 +191,7 @@ export function SearchComponent({ showShowModal, currentLocation, ...rest }) {
         style={{ ...fullColumn, background: "#f1f1f1", color: "#000" }}
         onClick={showShowModal}
       >
-        click to change vehicle location
+        {dropdownText || "click to change vehicle location"}
         <i className="fi fi-sr-caret-down"></i>
       </OptimizedFormButton>
       <div style={{ background: "transparent", padding: "1rem" }}>
@@ -212,13 +220,13 @@ export function SearchComponent({ showShowModal, currentLocation, ...rest }) {
       </div>
       <OptimizedFormLink
         to={
-          currentLocation.link
-            ? `${currentLocation.link}&v=lookup#tire-shop-modes`
+          currentLocation[linkType]
+            ? `${currentLocation[linkType]}&v=lookup#tire-shop-modes`
             : "#"
         }
         target="_blank"
       >
-        Browse your vehicle data here{" "}
+        {linkText || "Browse your vehicle data here"}
         <i className="fi fi-sr-arrow-up-right-from-square"></i>
       </OptimizedFormLink>
     </ContainerX>

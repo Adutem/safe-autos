@@ -214,6 +214,7 @@ const RequestQuote = () => {
             showShowModal={showShowModal}
             currentLocation={quotingData?.serviceLocation}
             style={{ marginTop: "1.5rem" }}
+            linkType={"link"}
           />
           {/* <OptimizedFormButton onClick={displaySearchModal}>
             Browse your vehicle data here{" "}

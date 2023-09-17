@@ -33,6 +33,7 @@ export default function Tires() {
       <SearchComponent
         showShowModal={showShowModal}
         currentLocation={currentLocation}
+        linkType={"link"}
       />
       {showLocationModal && (
         <LocationModal
