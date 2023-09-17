@@ -63,7 +63,7 @@ const FindUs = () => {
             (248-693-7979) Call Us
           </ButtonLink>
         </Actions>
-        <ReviewContainer>
+        {/* <ReviewContainer>
           <SectionPara>Average Rating: ⭐⭐⭐⭐⭐</SectionPara>
           <Actions style={{ flex: 1, margin: 0 }}>
             <ButtonLink to={"/about/reviews"} style={{ maxWidth: "initial" }}>
@@ -76,7 +76,7 @@ const FindUs = () => {
               Leave Review
             </ButtonLink>
           </Actions>
-        </ReviewContainer>
+        </ReviewContainer> */}
         <PaymentSection>
           <PaymentSectionHeader>
             <CreditCardImageContaier>
