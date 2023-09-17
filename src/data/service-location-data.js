@@ -6,6 +6,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/warren/32601-van-dyke-48093/tires?shopnum=6550&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/warren/32601-van-dyke-48093/offers?shopnum=6550",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6550",
   },
   {
     shopLocation:
@@ -15,6 +17,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/madison-heights/385-w-12-mile-road-48071/tires?shopnum=6627&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/madison-heights/385-w-12-mile-road-48071/offers?shopnum=6627",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6627",
   },
   {
     shopLocation:
@@ -24,6 +28,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/tires?shopnum=6112&v=lookup#tire-shop-modes&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/rochester/746-south-rochester-48307/offers?shopnum=6112",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6112",
   },
   {
     shopLocation: "Midas of Novi,\n43421 W 12 Mile Road,\nNovi, MI 48377",
@@ -32,6 +38,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/novi/43421-west-twelve-mile-road-48377/tires?shopnum=6952&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/novi/43421-west-twelve-mile-road-48377/offers?shopnum=6952",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6952",
   },
   {
     shopLocation:
@@ -41,6 +49,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/lake-orion/591-south-lapeer-road-48362/tires?shopnum=6861&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/lake-orion/591-south-lapeer-road-48362/offers?shopnum=6861",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6861",
   },
   {
     shopLocation:
@@ -50,6 +60,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/grand-rapids/3424-plainfield-ave-ne-49525/tires?shopnum=6516&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/grand-rapids/3424-plainfield-ave-ne-49525/offers?shopnum=6516",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6516",
   },
   {
     shopLocation: "Midas of Kalamazoo,\n6009 Gull Road,\nKalamazoo, MI 49048",
@@ -58,6 +70,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/kalamazoo/6009-gull-road-49004/tires?shopnum=6271&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/kalamazoo/6009-gull-road-49004/offers?shopnum=6271",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6271",
   },
   {
     shopLocation: "Midas of Portage,\n5112 S Westnedge Ave,\nPortage, MI 49002",
@@ -66,6 +80,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/portage/5112-s-westnedge-49002/tires?shopnum=6265&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/portage/5112-s-westnedge-49002/offers?shopnum=6265",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6265",
   },
   {
     shopLocation: "Midas of Jackson,\n1503 Clinton Ave,\nJackson, MI 49202",
@@ -74,6 +90,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/jackson/1503-clinton-road-49202/tires?shopnum=6264&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/jackson/1503-clinton-road-49202/offers?shopnum=6264",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6264",
   },
   {
     shopLocation:
@@ -83,6 +101,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/grand-rapids/2710-28th-street-se-49512/tires?shopnum=6514&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/grand-rapids/2710-28th-street-se-49512/offers?shopnum=6514",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6514",
   },
   {
     shopLocation: "Midas Roseville,\n25525 Gratiot Ave,\nRoseville, MI 48066",
@@ -91,6 +111,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/ann-arbor/2395-jackson-48103/tires?shopnum=6142&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/ann-arbor/2395-jackson-48103/offers?shopnum=6142",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6142",
   },
   {
     shopLocation: "Midas Alpine,\n2360 Alpine Ave NW,\nGrand Rapids, MI 49544",
@@ -99,6 +121,8 @@ const serviceLocations = [
     link: "https://www.midas.com/store/mi/grand-rapids/2360-alpine-avenue-northwest-49544/tires?shopnum=6885&v=lookup#tire-shop-modes",
     couponLink:
       "https://www.midas.com/store/mi/grand-rapids/2360-alpine-avenue-northwest-49544/offers?shopnum=6885",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6885",
   },
 ];
 

@@ -52,11 +52,12 @@ const routes = [
     name: "Coupons",
     icon: <i className="fi fi-sr-ticket"></i>,
   },
-  // {
-  //   type: "normal",
-  //   path: "/financing",
-  //   name: "Financing",
-  // },
+  {
+    type: "normal",
+    path: "/financing",
+    name: "Financing",
+    icon: <i className="fi fi-rr-credit-card"></i>,
+  },
   {
     type: "composed",
     routePath: "/about",

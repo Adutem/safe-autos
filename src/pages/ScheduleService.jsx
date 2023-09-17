@@ -567,6 +567,7 @@ const LocationCard = ({
   email,
   link,
   couponLink,
+  financingLink,
   handleInputChange,
   hideShowModal,
   ...rest
@@ -578,7 +579,14 @@ const LocationCard = ({
       handleInputChange({
         target: {
           name: "serviceLocation",
-          value: { shopLocation, phoneNumber, email, link, couponLink },
+          value: {
+            shopLocation,
+            phoneNumber,
+            email,
+            link,
+            couponLink,
+            financingLink,
+          },
         },
       });
     hideShowModal && hideShowModal();

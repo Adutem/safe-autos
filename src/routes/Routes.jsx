@@ -18,6 +18,7 @@ import NotFound from "../pages/404";
 import Services from "../pages/Services";
 import ServiceCat from "../pages/ServiceCat";
 import RequestQuote from "../pages/RequestQuote";
+import Financing from "../pages/Financing";
 
 const RoutesComponent = () => {
   return (
@@ -34,6 +35,7 @@ const RoutesComponent = () => {
         <Route path="jobs" element={<Jobs />} />
       </Route>
       <Route path="/coupons" element={<Coupons />} />
+      <Route path="/financing" element={<Financing />} />
       <Route path="services">
         <Route index element={<Services />} />
         <Route path=":serviceName" element={<ServiceCat />} />
