@@ -243,7 +243,7 @@ const HoursOfOperaton = styled.li`
   }
 
   p {
-    color: ${(props) => (props.isToday ? "var(--white)" : "#f1f1f1")};
+    color: ${(props) => (props.isToday ? "var(--white)" : "#000")};
   }
 
   //   &:last-child {
