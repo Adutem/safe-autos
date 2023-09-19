@@ -49,7 +49,7 @@ const FindUs = () => {
         <DaysOfOperationComponent />
         <GoogleMapComp />
         <RedBackgroundHeading>
-          Acorn Tire & Auto LLC. 591 S Lapeer Rd. Lake Orion, MI 48362
+          Acorn Tire & Auto . 591 S Lapeer Rd. Lake Orion, MI 48362
         </RedBackgroundHeading>
         <Actions>
           <ButtonLink

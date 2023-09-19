@@ -15,14 +15,14 @@ const TermsOfUse = () => {
 
         <OptimizedPara>1. INTRODUCTION AND AGREEMENT</OptimizedPara>
         <NormalPara>
-          Thank you for visiting Acorn Tire & Auto, LLC (the
-          "Site")("AcornAuto.com" "Us" or "We"). The Site also includes any
-          version of this Site that is optimized or configured for use by mobile
-          computing devices such as smartphones and tablets, as well as mobile
-          applications and any other websites owned or operated by Us. These
-          Terms and Conditions of Use ("Terms and Conditions") govern access to
-          and use of the Site and services or products provided by AcornAuto.com
-          as made available on the Site or otherwise ("Services").
+          Thank you for visiting Acorn Tire & Auto, (the "Site")("AcornAuto.com"
+          "Us" or "We"). The Site also includes any version of this Site that is
+          optimized or configured for use by mobile computing devices such as
+          smartphones and tablets, as well as mobile applications and any other
+          websites owned or operated by Us. These Terms and Conditions of Use
+          ("Terms and Conditions") govern access to and use of the Site and
+          services or products provided by AcornAuto.com as made available on
+          the Site or otherwise ("Services").
         </NormalPara>
         <NormalPara>
           By accessing and using this Site, you acknowledge you have read,

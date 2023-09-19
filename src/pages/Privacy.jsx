@@ -16,7 +16,7 @@ const Privacy = () => {
       <Container style={{ margin: "2rem auto 3rem" }}>
         <SectionHeading>Privacy & Policy</SectionHeading>
         <NormalPara>
-          Acorn Tire & Auto, LLC (“us”, “we”, or “our”) operates the{" "}
+          Acorn Tire & Auto, (“us”, “we”, or “our”) operates the{" "}
           <Links to={"/"}>https://acornauto.com/ </Links> website (the
           “Service”).
         </NormalPara>
@@ -85,7 +85,7 @@ const Privacy = () => {
         </NormalPara>
         <OptimizedPara>Behavioral Remarketing</OptimizedPara>
         <NormalPara>
-          Acorn Tire & Auto, LLC uses remarketing services to advertise on third
+          Acorn Tire & Auto, uses remarketing services to advertise on third
           party web sites to you after you visited our Service. We, and our
           third party vendors, use cookies to inform, optimize and serve ads
           based on your past visits to our Service.
@@ -237,8 +237,8 @@ const Privacy = () => {
         </NormalPara>
         <OptimizedPara>Business Transaction</OptimizedPara>
         <NormalPara>
-          If Acorn Tire & Auto, LLC is involved in a merger, acquisition or
-          asset sale, your Personal Information may be transferred as a business
+          If Acorn Tire & Auto, is involved in a merger, acquisition or asset
+          sale, your Personal Information may be transferred as a business
           asset. In such cases, we will provide notice before your Personal
           Information is transferred and/or becomes subject to a different
           Privacy Policy.
