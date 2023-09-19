@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import heroImage from "../assets/acorn-logo.png";
-import tireImage from "../assets/image-4.jpg";
+import tireImage from "../assets/image-3.jpg";
 
 const HomeHero = () => {
   return (
