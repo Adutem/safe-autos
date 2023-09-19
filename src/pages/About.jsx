@@ -12,9 +12,7 @@ const About = () => {
     <AboutContainer>
       <RedBackgroundHeading>Hours of operation</RedBackgroundHeading>
       <DaysOfOperationComponent />
-      <RedBackgroundHeading>
-        About Acorn Tire & Auto in Lake Orion
-      </RedBackgroundHeading>
+      <RedBackgroundHeading>About Acorn Tire & Auto</RedBackgroundHeading>
       <Container style={{ padding: "2rem 0" }}>
         <Para>
           Welcome to Acorn Tire & Auto, your premier choice for comprehensive
