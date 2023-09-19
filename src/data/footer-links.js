@@ -1,6 +1,6 @@
 const footerLinks = [
   {
-    header: "Tires & Wheels",
+    header: "Tires",
     routePath: "/tires/brands",
     links: [
       {
@@ -8,20 +8,20 @@ const footerLinks = [
         path: "/Michelin",
       },
       {
-        name: "BFGoodrich®",
-        path: "/BFGoodrich",
+        name: "Cooper®",
+        path: "/Cooper",
       },
       {
-        name: "Uniroyal®",
-        path: "/Uniroyal",
+        name: "Goodyear®",
+        path: "/Goodyear",
       },
       {
-        name: "Bridgestone",
-        path: "/Bridgestone",
-      },
-      {
-        name: "Firestone",
+        name: "Firestone®",
         path: "/Firestone",
+      },
+      {
+        name: "Hankook®",
+        path: "/Hankook",
       },
     ],
   },
