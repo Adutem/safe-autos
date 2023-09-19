@@ -46,6 +46,7 @@ const requiredFields = [
   // "zipCode",
   // "comment",
   "sendEmailsAndPromo",
+  "serviceLocation",
 ];
 
 const RequestQuote = () => {

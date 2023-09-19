@@ -66,6 +66,7 @@ const requiredFields = [
   "state",
   "zipCode",
   "contactThrough",
+  "serviceLocation",
 ];
 
 const customId = "schedule-service-toast";
