@@ -5,27 +5,27 @@ const hoursOfOperation = [
   },
   {
     date: "Mon",
-    hours: ["8:00AM", "5:00PM"],
+    hours: ["8:00AM", "6:00PM"],
   },
   {
     date: "Tue",
-    hours: ["8:00AM", "5:00PM"],
+    hours: ["8:00AM", "6:00PM"],
   },
   {
     date: "Wed",
-    hours: ["8:00AM", "5:00PM"],
+    hours: ["8:00AM", "6:00PM"],
   },
   {
     date: "Thu",
-    hours: ["8:00AM", "5:00PM"],
+    hours: ["8:00AM", "6:00PM"],
   },
   {
     date: "Fri",
-    hours: ["8:00AM", "5:00PM"],
+    hours: ["8:00AM", "6:00PM"],
   },
   {
     date: "Sat",
-    hours: ["closed"],
+    hours: ["8:00AM", "2:00PM"],
   },
 ];
 export const fullHoursOfOperation = [
