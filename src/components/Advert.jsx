@@ -17,9 +17,7 @@ import serviceLocations from "../data/service-location-data";
 
 const Advert = () => {
   const [showLocationModal, setShowLocationModal] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState(
-    () => serviceLocations[0]
-  );
+  const [currentLocation, setCurrentLocation] = useState(null);
   const portalRef = useRef(null);
 
   const hideShowModal = (e) => {
@@ -195,32 +193,48 @@ export function SearchComponent({
         <i className="fi fi-sr-caret-down"></i>
       </OptimizedFormButton>
       <div style={{ background: "transparent", padding: "1rem" }}>
-        <NormalPara
-          style={{
-            margin: 0,
-            fontSize: "1rem",
-            color: "#000",
-            fontWeight: "bold",
-          }}
-        >
-          {currentLocation.shopLocation}
-        </NormalPara>
-        <NormalPara style={{ fontSize: "0.85rem", margin: "0.4rem 0" }}>
-          Phone Number:{" "}
-          <a href={`tel:+${currentLocation.phoneNumber.replace(/\-/g, "")}`}>
-            {currentLocation.phoneNumber}
-          </a>
-        </NormalPara>
-        <NormalPara style={{ fontSize: "0.75rem", margin: 0 }}>
-          Email:{" "}
-          <a href={`mailto:${currentLocation.email}`}>
-            {currentLocation.email}
-          </a>
-        </NormalPara>
+        {currentLocation ? (
+          <>
+            <NormalPara
+              style={{
+                margin: 0,
+                fontSize: "1rem",
+                color: "#000",
+                fontWeight: "bold",
+              }}
+            >
+              {currentLocation.shopLocation}
+            </NormalPara>
+            <NormalPara style={{ fontSize: "0.85rem", margin: "0.4rem 0" }}>
+              Phone Number:{" "}
+              <a
+                href={`tel:+${currentLocation.phoneNumber.replace(/\-/g, "")}`}
+              >
+                {currentLocation.phoneNumber}
+              </a>
+            </NormalPara>
+            <NormalPara style={{ fontSize: "0.75rem", margin: 0 }}>
+              Email:{" "}
+              <a href={`mailto:${currentLocation.email}`}>
+                {currentLocation.email}
+              </a>
+            </NormalPara>
+          </>
+        ) : (
+          <>
+            <NormalPara>Please choose a location.</NormalPara>
+          </>
+        )}
       </div>
       <OptimizedFormLink
-        to={currentLocation[linkType] ? currentLocation[linkType] : "#"}
-        target="_blank"
+        to={
+          currentLocation && currentLocation[linkType]
+            ? currentLocation[linkType]
+            : "#"
+        }
+        target={
+          currentLocation && currentLocation[linkType] ? "_blank" : "_self"
+        }
       >
         {linkText || "Browse your vehicle data here"}
         <i className="fi fi-sr-arrow-up-right-from-square"></i>

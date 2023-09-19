@@ -9,9 +9,7 @@ import serviceLocations from "../data/service-location-data";
 
 export default function Tires() {
   const [showLocationModal, setShowLocationModal] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState(
-    () => serviceLocations[0]
-  );
+  const [currentLocation, setCurrentLocation] = useState(null);
   const portalRef = useRef(null);
 
   const hideShowModal = (e) => {

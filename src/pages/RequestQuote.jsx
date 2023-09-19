@@ -51,7 +51,7 @@ const requiredFields = [
 const RequestQuote = () => {
   const [quotingData, setQuotingData] = useState({
     sendEmailsAndPromo: "No",
-    serviceLocation: serviceLocations[0],
+    serviceLocation: null,
   });
   const {
     models,

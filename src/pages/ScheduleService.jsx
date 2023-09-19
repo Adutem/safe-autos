@@ -75,7 +75,7 @@ const selects = ["serviceType", "state"];
 
 const ScheduleService = () => {
   const [serviceData, setServiceData] = useState({
-    serviceLocation: serviceLocations[0],
+    serviceLocation: null,
   });
   const { models, makes, modelYears, states, services } = useGlobalContext();
   const { state } = useLocation();
