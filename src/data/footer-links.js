@@ -42,8 +42,8 @@ const footerLinks = [
         name: "Wheel Alignments",
       },
       {
-        path: "/differential-repair",
-        name: "Differential Repair",
+        path: "/suspension-repair",
+        name: "Suspension Repair",
       },
       {
         path: "/tune-up",
