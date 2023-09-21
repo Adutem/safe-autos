@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import routes from "../data/nav-data";
+import { MyStoreButton } from "./Navbar";
+
 export const handleWindowScroll = (id, others) => {
   if (document.querySelector(id).classList.contains("show")) {
     document.body.style.overflow = "initial";
@@ -25,12 +27,29 @@ const SmallScreenNav = () => {
     document.querySelector("#location-comp")?.classList.toggle("show");
   };
 
+  const toggleStoreComponent = () => {
+    handleWindowScroll("#store-container", ["#nav-bar", "#location-comp"]);
+    document.querySelector("#store-container")?.classList.toggle("show");
+  };
+
   return (
     <NavContainer>
       <NavContentContainer>
         <ToggleNavButton onClick={toggleNav}>
           <i className="fi fi-br-menu-burger"></i>
         </ToggleNavButton>
+        <MyStoreButton
+          onClick={toggleStoreComponent}
+          style={{ color: "#000" }}
+          noHoverEffect
+        >
+          {" "}
+          <i
+            className="fi fi-ss-marker"
+            style={{ color: "var(--primary-color)" }}
+          ></i>
+          My Store
+        </MyStoreButton>
         <Aside>
           <ToggleLocationButton onClick={toggleLocationComponent}>
             <i className="fi fi-ss-marker"></i>
