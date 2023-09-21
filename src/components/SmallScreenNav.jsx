@@ -2,20 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import routes from "../data/nav-data";
+export const handleWindowScroll = (id, others) => {
+  if (document.querySelector(id).classList.contains("show")) {
+    document.body.style.overflow = "initial";
+  } else {
+    document.body.style.overflow = "hidden";
+    others.forEach((other) => {
+      let el = document.querySelector(other);
+      if (el.classList.contains("show")) el.classList.remove("show");
+    });
+  }
+};
 
 const SmallScreenNav = () => {
-  const handleWindowScroll = (id, others) => {
-    if (document.querySelector(id).classList.contains("show")) {
-      document.body.style.overflow = "initial";
-    } else {
-      document.body.style.overflow = "hidden";
-      others.forEach((other) => {
-        let el = document.querySelector(other);
-        if (el.classList.contains("show")) el.classList.remove("show");
-      });
-    }
-  };
-
   const toggleNav = () => {
     handleWindowScroll("#nav-bar", ["#location-comp"]);
     document.querySelector("#nav-bar")?.classList.toggle("show");
