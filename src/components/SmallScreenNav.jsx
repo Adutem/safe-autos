@@ -18,7 +18,7 @@ export const handleWindowScroll = (id, others) => {
 
 const SmallScreenNav = () => {
   const toggleNav = () => {
-    handleWindowScroll("#nav-bar", ["#location-comp"]);
+    handleWindowScroll("#nav-bar", ["#location-comp", "#store-container"]);
     document.querySelector("#nav-bar")?.classList.toggle("show");
   };
 
