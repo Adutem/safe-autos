@@ -3,6 +3,7 @@ import { models, makes, modelYears, states, services } from "../data";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import serviceLocations from "../data/service-location-data";
 
 const GlobalContext = createContext(null);
 
@@ -63,6 +64,9 @@ const GlobalContextProvider = ({ children }) => {
   const location = useLocation();
   const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
   const [showSearch, setShowSearch] = useState(false);
+  const [currentStoreLocation, setCurrentStoreLocation] = useState(
+    () => serviceLocations[0]
+  );
 
   const displaySearchModal = (e) => {
     e && e.preventDefault();
@@ -178,6 +182,8 @@ const GlobalContextProvider = ({ children }) => {
         windowWidth,
         displaySearchModal,
         hideSearchModal,
+        currentStoreLocation,
+        setCurrentStoreLocation,
       }}
     >
       {children}
