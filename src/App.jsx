@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useGlobalContext } from "./contexts/GlobalContext";
 import SearchTireIframe from "./components/SearchTireIframe";
 import LocationComp from "./components/LocationComp";
+import MyStore from "./components/MyStore";
 
 const App = () => {
   const { showSearch, windowWidth } = useGlobalContext();
@@ -33,6 +34,7 @@ const App = () => {
       />
       <SmallScreenNav />
       <LocationComp />
+      <MyStore />
       {/* <Alert /> */}
       <Navbar />
       <HomeHero />
