@@ -191,7 +191,7 @@ const Underlay = styled.div`
   display: none;
 `;
 
-const MyStoreButton = styled.button`
+export const MyStoreButton = styled.button`
   border: none;
   outline: none;
   background: none;
@@ -211,9 +211,8 @@ const MyStoreButton = styled.button`
     font-size: 1rem;
   }
 
-  &:hover {
-    background: var(--primary-color);
-  }
+  ${(props) =>
+    props.noHoverEffect || "&:hover { background: var(--primary-color);}"}
 `;
 
 const NormalNavItem = ({ name, path, hideNavbar, icon }) => (
