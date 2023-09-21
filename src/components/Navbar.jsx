@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import routes from "../data/nav-data";
+import { handleWindowScroll } from "./SmallScreenNav";
 
 const Navbar = () => {
   const navbarRef = useRef(null);
@@ -9,6 +10,11 @@ const Navbar = () => {
   const hideNavbar = () => {
     navbarRef?.current.classList.remove("show");
     document.body.style.overflow = "initial";
+  };
+
+  const toggleStoreComponent = () => {
+    handleWindowScroll("#store-container", ["#nav-bar", "#location-comp"]);
+    document.querySelector("#store-container")?.classList.toggle("show");
   };
 
   return (
@@ -22,6 +28,10 @@ const Navbar = () => {
             }
             return <ComposedNavItem {...route} hideNavbar={hideNavbar} />;
           })}
+          <MyStoreButton onClick={toggleStoreComponent}>
+            {" "}
+            <i className="fi fi-ss-marker"></i>My Store
+          </MyStoreButton>
         </LinkList>
       </NavBarContentContainer>
     </NavBar>
@@ -179,6 +189,31 @@ const Underlay = styled.div`
   z-index: -1;
   cursor: pointer;
   display: none;
+`;
+
+const MyStoreButton = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  color: #fff;
+  font-weight: 600;
+  font-family: var(--teko);
+  font-size: 1.2rem;
+  transition: 0.4s ease;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 1rem;
+
+  i {
+    color: yellow;
+    display: inline-block;
+    margin-right: 0.3rem;
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background: var(--primary-color);
+  }
 `;
 
 const NormalNavItem = ({ name, path, hideNavbar, icon }) => (
