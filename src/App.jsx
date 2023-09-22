@@ -7,15 +7,26 @@ import SmallScreenNav from "./components/SmallScreenNav";
 import RoutesComponent from "./routes/Routes.jsx";
 import Footer from "./components/Footer";
 import HomeHero from "./components/HomeHero";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGlobalContext } from "./contexts/GlobalContext";
-import SearchTireIframe from "./components/SearchTireIframe";
 import LocationComp from "./components/LocationComp";
 import MyStore from "./components/MyStore";
 
 const App = () => {
-  const { showSearch, windowWidth } = useGlobalContext();
+  const { windowWidth } = useGlobalContext();
+  useEffect(() => {
+    toast.info(
+      windowWidth < 770
+        ? "NOTE: Choose the store neareast to you using the MY STORE Button Above"
+        : "NOTE: Choose the store neareast to you using the MY STORE Button in the top right color",
+      {
+        toastId: "asdkflaf",
+        autoClose: 3000,
+        position: windowWidth < 770 ? "bottom-right" : "top-left",
+      }
+    );
+  }, []);
 
   return (
     <AppContainer>
@@ -29,7 +40,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="dark"
         limit={2}
       />
       <SmallScreenNav />
