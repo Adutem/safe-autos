@@ -32,6 +32,7 @@ const MyStore = () => {
 
   const handleServiceLocationChange = (e) => {
     setCurrentStoreLocation(e.target.value);
+    hideMyStore();
   };
 
   return (
