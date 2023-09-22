@@ -12,20 +12,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { useGlobalContext } from "./contexts/GlobalContext";
 import LocationComp from "./components/LocationComp";
 import MyStore from "./components/MyStore";
+import { useLocation } from "react-router-dom";
 
 const App = () => {
   const { windowWidth } = useGlobalContext();
+  const location = useLocation();
   useEffect(() => {
-    toast.info(
-      windowWidth < 770
-        ? "NOTE: Choose the store neareast to you using the MY STORE Button Above"
-        : "NOTE: Choose the store neareast to you using the MY STORE Button in the top right color",
-      {
-        toastId: "asdkflaf",
-        autoClose: 3000,
-        position: windowWidth < 770 ? "bottom-right" : "top-left",
-      }
-    );
+    location.pathname.startsWith("/admin") ||
+      toast.info(
+        windowWidth < 770
+          ? "NOTE: Choose the store neareast to you using the MY STORE Button Above"
+          : "NOTE: Choose the store neareast to you using the MY STORE Button in the top right color",
+        {
+          toastId: "asdkflaf",
+          autoClose: 3000,
+          position: windowWidth < 770 ? "bottom-right" : "top-left",
+        }
+      );
   }, []);
 
   return (
@@ -48,7 +51,7 @@ const App = () => {
       <MyStore />
       {/* <Alert /> */}
       <Navbar />
-      <HomeHero />
+      {location.pathname.startsWith("/admin") || <HomeHero />}
       <RoutesComponent />
       <Footer />
       {/* {showSearch && windowWidth >= 792 && <SearchTireIframe />} */}

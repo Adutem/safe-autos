@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import serviceLocations from "../data/service-location-data";
+import localforage from "localforage";
 
 const GlobalContext = createContext(null);
 
@@ -58,7 +59,57 @@ export const httpErrorHandler = (error, toastId, shouldToastErrorMessage) => {
   }
 };
 
-const BASE_URL = import.meta.env.VITE_BASE_URL || "http://192.168.137.1:5000";
+export const BASE_URL =
+  import.meta.env.VITE_BASE_URL || "http://192.168.137.1:5000";
+
+export const saveToLocalForage = async (key, value) => {
+  return await localforage.setItem(key, value);
+};
+
+export const getFromLocalForage = async (key) => {
+  try {
+    return await localforage.getItem(key);
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+export const removeFromLocalForage = async (key) => {
+  try {
+    return await localforage.removeItem(key);
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+export const toastError = (message, toastId, shouldUpdate) => {
+  return shouldUpdate
+    ? toast.update(toastId, {
+        render: message,
+        ...toaster("error"),
+      })
+    : toast.error(message, { toastId });
+};
+
+export const toastSuccess = (message, toastId, shouldUpdate) => {
+  return shouldUpdate
+    ? toast.update(toastId, {
+        render: message,
+        ...toaster("success"),
+      })
+    : toast.success(message, { toastId });
+};
+
+export const toastInfo = (message, toastId, shouldUpdate) => {
+  return shouldUpdate
+    ? toast.update(toastId, {
+        render: message,
+        ...toaster("info"),
+      })
+    : toast.info(message, { toastId });
+};
+
+const toaster = (type) => ({ isLoading: false, autoClose: true, type });
 
 const GlobalContextProvider = ({ children }) => {
   const location = useLocation();
