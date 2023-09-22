@@ -1,11 +1,13 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import routes from "../data/nav-data";
 import { handleWindowScroll } from "./SmallScreenNav";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 const Navbar = () => {
   const navbarRef = useRef(null);
+  const { windowWidth } = useGlobalContext();
 
   const hideNavbar = () => {
     navbarRef?.current.classList.remove("show");
@@ -28,10 +30,12 @@ const Navbar = () => {
             }
             return <ComposedNavItem {...route} hideNavbar={hideNavbar} />;
           })}
-          <MyStoreButton onClick={toggleStoreComponent}>
-            {" "}
-            <i className="fi fi-ss-marker"></i>My Store
-          </MyStoreButton>
+          {windowWidth > 928 && (
+            <MyStoreButton onClick={toggleStoreComponent}>
+              {" "}
+              <i className="fi fi-ss-marker"></i>My Store
+            </MyStoreButton>
+          )}
         </LinkList>
       </NavBarContentContainer>
     </NavBar>
