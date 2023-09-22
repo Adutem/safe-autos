@@ -5,7 +5,7 @@ import heroImage from "../assets/Autos-lastest-logo.png";
 import tireImage from "../assets/image-3.jpg";
 import heroVideo from "../assets/acorn-video.mp4";
 
-const HomeHero = () => {
+const HomeHero = ({ isHomepage }) => {
   return (
     <>
       <HeroContainer>
@@ -13,7 +13,9 @@ const HomeHero = () => {
           <HeroImage src={heroImage} />
         </HeroImageContainer>
       </HeroContainer>
-      <HeroVideoContainer src={heroVideo} autoPlay={true} loop muted />
+      {isHomepage && (
+        <HeroVideoContainer src={heroVideo} autoPlay={true} loop muted />
+      )}
       {/* <HeroContainer style={{ background: "red" }} /> */}
     </>
   );
