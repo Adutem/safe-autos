@@ -68,6 +68,16 @@ const GlobalContextProvider = ({ children }) => {
     () => serviceLocations[0]
   );
 
+  const handleWindowResize = (e) => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
+
   const displaySearchModal = (e) => {
     e && e.preventDefault();
     setShowSearch(true);
