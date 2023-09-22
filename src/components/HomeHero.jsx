@@ -62,7 +62,7 @@ const HeroContainer = styled.div`
 
 const HeroImageContainer = styled.div`
   max-height: 400px;
-  width: 90%;
+  // width: 90%;
   max-width: 450px;
   position: absolute;
   left: 50%;
