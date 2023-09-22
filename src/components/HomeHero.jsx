@@ -12,24 +12,24 @@ const HomeHero = () => {
         <HeroImageContainer>
           <HeroImage src={heroImage} />
         </HeroImageContainer>
-        <HeroVideoContainer src={heroVideo} autoPlay={true} loop muted />
       </HeroContainer>
+      <HeroVideoContainer src={heroVideo} autoPlay={true} loop muted />
       {/* <HeroContainer style={{ background: "red" }} /> */}
     </>
   );
 };
 
 const HeroContainer = styled.div`
-  // min-height: 400px;
-  max-height: 700px;
+  min-height: 400px;
+  max-height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
-  // // background: url(${tireImage});
-  // background-size: cover;
-  // background-repeat: no-repeat;
-  // background-position: center;
-  // background-attachment: fixed;
+  background: url(${tireImage});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
   position: relative;
 
   & > * {
@@ -46,28 +46,28 @@ const HeroContainer = styled.div`
     bottom: 0;
     width: 100%;
     height: 100%;
-    // background: linear-gradient(
-    //   to right,
-    //   rgba(255, 255, 255, 0.3),
-    //   rgba(0, 0, 0, 0.4)
-    // );
     background: linear-gradient(
       to right,
-      rgb(51 51 51 / 32%),
-      rgb(18 13 13 / 79%)
+      rgba(255, 255, 255, 0.3),
+      rgba(0, 0, 0, 0.4)
     );
-    z-index: 20;
+    // background: linear-gradient(
+    //   to right,
+    //   rgb(51 51 51 / 32%),
+    //   rgb(18 13 13 / 79%)
+    // );
+    z-index: 0;
   }
 `;
 
 const HeroImageContainer = styled.div`
   max-height: 400px;
-  // width: 90%;
+  width: 90%;
   max-width: 450px;
-  position: absolute;
-  left: 50%;
-  z-index: 25;
-  transform: translateX(-50%);
+  // position: absolute;
+  // left: 50%;
+  // z-index: 25;
+  // transform: translateX(-50%);
 `;
 const HeroImage = styled.img`
   height: 100%;
@@ -79,7 +79,8 @@ const HeroVideoContainer = styled.video`
   // height: 100%;
   width: 100%;
   object-fit: cover;
-  max-height: 700px;
+  min-height: 100px;
+  max-height: 600px;
 `;
 
 export default HomeHero;
