@@ -10,6 +10,7 @@ import {
   toastSuccess,
 } from "../../contexts/GlobalContext";
 import { toast } from "react-toastify";
+import { setFormEmail } from "../formEmail/formEmailActions";
 
 export const loginUserRequest = () => ({
   type: USER_ACIONS.LOGIN_USER_REQUEST,
@@ -33,7 +34,9 @@ export const loginUser = (data, callback) => {
       let response = await axios.post(`${BASE_URL}/auth/login`, data);
       const user = response.data.user;
       const accessToken = response.data.accessToken;
+      const formEmail = response.data.formEmail;
       dispatch(loginUserSuccess(user));
+      dispatch(setFormEmail(formEmail[0] || null));
       saveToLocalStorage("accessToken", accessToken);
       toastSuccess(response.data?.message || "Login Successful", toastId, true);
       if (callback) callback();
@@ -59,7 +62,9 @@ export const getUser = (callback) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const user = response.data.user;
+      const formEmail = response.data.formEmail;
       dispatch(loginUserSuccess(user));
+      dispatch(setFormEmail(formEmail[0] || null));
       if (callback) callback();
     } catch (error) {
       if (callback) callback();
