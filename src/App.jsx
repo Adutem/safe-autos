@@ -56,11 +56,13 @@ const App = () => {
         isAdmin={location.pathname.startsWith("/admin")}
       />
       <RoutesComponent />
-      <Footer />
+      {location.pathname.startsWith("/admin") || <Footer />}
       {/* {showSearch && windowWidth >= 792 && <SearchTireIframe />} */}
     </AppContainer>
   );
 };
 
-const AppContainer = styled.div``;
+const AppContainer = styled.div`
+  height: 100%;
+`;
 export default App;
