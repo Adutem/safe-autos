@@ -21,6 +21,7 @@ export const FormGroupComponent = ({
   maxLength,
   pattern,
   accept,
+  disabled,
   ...rest
 }) => {
   if (type === "textarea") {
@@ -142,6 +143,7 @@ export const FormGroupComponent = ({
         value={value}
         maxLength={maxLength}
         accept={accept || ""}
+        disabled={disabled ? disabled : false}
       />
     </FormGroup>
   );
