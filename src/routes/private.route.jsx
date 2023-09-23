@@ -50,7 +50,7 @@ const SideNav = styled.nav`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 2rem 1rem;
+  padding: 2rem 0.6rem;
   background: #f2f2f2;
 `;
 
@@ -77,7 +77,7 @@ const LinkItem = styled(Link)`
   transition: 0.4s ease;
 
   span {
-    font-weight: 500;
+    font-weight: 600;
     font-family: var(--mont);
     font-size: 0.7rem;
     color: var(--primary-color);
