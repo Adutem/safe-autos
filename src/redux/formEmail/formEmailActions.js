@@ -4,7 +4,9 @@ import {
   BASE_URL,
   httpErrorHandler,
   getFromLocalStorage,
+  toastSuccess,
 } from "../../contexts/GlobalContext";
+import { toast } from "react-toastify";
 
 export const setFormEmail = (email) => ({
   type: FORM_EMAIL_ACTIONS.SET_FORM_EMAIL,
@@ -16,7 +18,7 @@ export const updateFormEmailRequest = () => ({
 });
 
 export const updateFormEmailSuccess = (email) => ({
-  type: FORM_EMAIL_ACTIONS.UPDATE_FORM_EMAIL_REQUEST,
+  type: FORM_EMAIL_ACTIONS.UPDATE_FORM_EMAIL_SUCCESS,
   payload: email,
 });
 
@@ -27,23 +29,30 @@ export const updateFormEmailFailure = (error) => ({
 
 export const updateFormEmail = (data, successCallback, errorCallback) => {
   return async (dispatch) => {
+    if (!data) return;
+    let accessToken = getFromLocalStorage("accessToken");
+    if (!accessToken) return;
+    let toastId = toast.loading("Updating...");
     try {
-      if (!data) return;
-      let accessToken = getFromLocalStorage("accessToken");
-      if (!accessToken) return;
       dispatch(updateFormEmailRequest());
-      let response = await axios.post(`${BASE_URL}/update-email`, data, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+
+      let response = await axios.post(
+        `${BASE_URL}/update-email/${data.emailId}`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
       const formEmail = response.data.formEmail;
-      dispatch(updateFormEmailSuccess(formEmail[0] || null));
+      dispatch(updateFormEmailSuccess(formEmail || null));
+      toastSuccess(response?.data?.message || "Success...", toastId, true);
       successCallback && successCallback();
     } catch (error) {
+      errorCallback && errorCallback();
       dispatch(
         updateFormEmailFailure(error?.response?.data?.message || error?.message)
       );
-      errorCallback && errorCallback();
-      httpErrorHandler(error, null, true);
+      httpErrorHandler(error, toastId);
     }
   };
 };
