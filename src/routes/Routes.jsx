@@ -22,6 +22,7 @@ import Financing from "../pages/Financing";
 import Authenticate from "../pages/admin/Authenticate";
 import Dashboard from "../pages/admin/Dashboard";
 import Career from "../pages/admin/Career";
+import PrivateRoute from "./private.route";
 
 const RoutesComponent = () => {
   return (
@@ -52,8 +53,9 @@ const RoutesComponent = () => {
       </Route>
       <Route path="/terms-of-use" element={<TermsOfUse />} />
       <Route path="/privacy" element={<Privacy />} />
-      <Route path="admin">
-        <Route index element={<Authenticate />} />
+      <Route path="/login" element={<Authenticate />} />
+      <Route path="admin" element={<PrivateRoute />}>
+        <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="career" element={<Career />} />
       </Route>

@@ -1,17 +1,25 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { toastInfo, removeFromLocalForage } from "../contexts/GlobalContext";
+import React, { useState, useEffect } from "react";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  toastInfo,
+  removeFromLocalForage,
+  removeFromLocalStorage,
+} from "../contexts/GlobalContext";
+import { getUser } from "../redux";
 
 const PrivateRoute = () => {
-  const { userData, error } = useSelector((state) => state.user);
+  const { userData, error, loading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [loader, setLoader] = useState(true);
 
-  if (error && error === "jwt expired") {
-    toastInfo("Session Expired! Please login again.", { toastId: "adfkasdf" });
-    removeFromLocalForage("accessToken");
-  }
+  useEffect(() => {
+    dispatch(getUser(() => setLoader(false)));
+  }, [location]);
 
-  return userData ? <Outlet /> : <Navigate to={"/admin"} />;
+  if (loader) return <h2>Loading...</h2>;
+
+  return userData ? <Outlet /> : <Navigate to={"/login"} />;
 };
 
 export default PrivateRoute;

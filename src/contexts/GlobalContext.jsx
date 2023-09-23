@@ -63,11 +63,28 @@ export const BASE_URL =
   import.meta.env.VITE_BASE_URL || "http://192.168.137.1:5000";
 
 export const saveToLocalForage = async (key, value) => {
-  return await localforage.setItem(key, value);
+  try {
+    return await localforage.setItem(key, value);
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+export const saveToLocalStorage = (key, value) => {
+  return localStorage.setItem(key, value);
+};
+
+export const getFromLocalStorage = (key) => {
+  return localStorage.getItem(key);
+};
+
+export const removeFromLocalStorage = (key) => {
+  return localStorage.removeItem(key);
 };
 
 export const getFromLocalForage = async (key) => {
   try {
+    console.log(key);
     return await localforage.getItem(key);
   } catch (error) {
     return console.log(error);
@@ -245,6 +262,9 @@ const GlobalContextProvider = ({ children }) => {
         hideSearchModal,
         currentStoreLocation,
         setCurrentStoreLocation,
+        toastError,
+        toastInfo,
+        toastSuccess,
       }}
     >
       {children}

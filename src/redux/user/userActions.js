@@ -5,6 +5,8 @@ import {
   getFromLocalForage,
   httpErrorHandler,
   saveToLocalForage,
+  saveToLocalStorage,
+  getFromLocalStorage,
   toastSuccess,
 } from "../../contexts/GlobalContext";
 import { toast } from "react-toastify";
@@ -23,7 +25,7 @@ export const loginUserFailure = (error) => ({
   payload: error,
 });
 
-export const loginUser = (data) => {
+export const loginUser = (data, callback) => {
   return async function (dispatch) {
     dispatch(loginUserRequest());
     let toastId = toast.loading("Verifying admin...");
@@ -32,8 +34,10 @@ export const loginUser = (data) => {
       const user = response.data.user;
       const accessToken = response.data.accessToken;
       dispatch(loginUserSuccess(user));
-      await saveToLocalForage("accessToken", accessToken);
+      saveToLocalStorage("accessToken", accessToken);
       toastSuccess(response.data?.message || "Login Successful", toastId, true);
+      if (callback) callback();
+      return;
     } catch (error) {
       dispatch(
         loginUserFailure(error?.response?.data?.message || error?.message)
@@ -43,18 +47,22 @@ export const loginUser = (data) => {
   };
 };
 
-export const getUser = () => {
+export const getUser = (callback) => {
   return async function (dispatch) {
     try {
-      let accessToken = await getFromLocalForage("accessToken");
-      if (!accessToken) return;
+      let accessToken = getFromLocalStorage("accessToken");
+      if (!accessToken) {
+        callback && callback();
+      }
       dispatch(loginUserRequest());
       const response = await axios.post(`${BASE_URL}/auth/get-user`, null, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const user = response.data.user;
       dispatch(loginUserSuccess(user));
+      if (callback) callback();
     } catch (error) {
+      if (callback) callback();
       dispatch(
         loginUserFailure(error?.response?.data?.message || error?.message)
       );

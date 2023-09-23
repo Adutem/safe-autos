@@ -5,18 +5,22 @@ import heroImage from "../assets/Autos-lastest-logo.png";
 import tireImage from "../assets/image-3.jpg";
 import heroVideo from "../assets/acorn-video.mp4";
 
-const HomeHero = ({ isHomepage }) => {
+const HomeHero = ({ isHomepage, isAdmin }) => {
   return (
     <>
-      <HeroContainer>
-        <HeroImageContainer>
-          <HeroImage src={heroImage} />
-        </HeroImageContainer>
-      </HeroContainer>
-      {isHomepage && (
-        <HeroVideoContainer src={heroVideo} autoPlay={true} loop muted />
-      )}
-      {/* <HeroContainer style={{ background: "red" }} /> */}
+      {isAdmin || (
+        <>
+          <HeroContainer>
+            <HeroImageContainer>
+              <HeroImage src={heroImage} />
+            </HeroImageContainer>
+          </HeroContainer>
+          {isHomepage && (
+            <HeroVideoContainer src={heroVideo} autoPlay={true} loop muted />
+          )}
+          {/* <HeroContainer style={{ background: "red" }} /> */}
+        </>
+      )}{" "}
     </>
   );
 };

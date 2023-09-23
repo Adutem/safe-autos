@@ -51,7 +51,10 @@ const App = () => {
       <MyStore />
       {/* <Alert /> */}
       <Navbar />
-      <HomeHero isHomepage={location.pathname === "/"} />
+      <HomeHero
+        isHomepage={location.pathname === "/"}
+        isAdmin={location.pathname.startsWith("/admin")}
+      />
       <RoutesComponent />
       <Footer />
       {/* {showSearch && windowWidth >= 792 && <SearchTireIframe />} */}

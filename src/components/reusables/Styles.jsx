@@ -144,6 +144,7 @@ export const Button = styled.button`
   text-align: center;
   transition: 0.4s ease;
   font-family: var(--teko);
+  cursor: pointer;
 
   &:hover {
     background: var(--primary-color);
