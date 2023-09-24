@@ -75,10 +75,11 @@ const customId = "schedule-service-toast";
 const selects = ["serviceType", "state"];
 
 const ScheduleService = () => {
+  const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
   const [serviceData, setServiceData] = useState({
-    serviceLocation: null,
+    serviceLocation: currentStoreLocation,
   });
-  const { models, makes, modelYears, states, services } = useGlobalContext();
+  const { states, services } = useGlobalContext();
   const { state } = useLocation();
   const [disableAll, setDisableAll] = useState(false);
   const scheduleForm = useRef(null);
@@ -91,6 +92,11 @@ const ScheduleService = () => {
   } = useGlobalContext();
   const [showLocationModal, setShowLocationModal] = useState(false);
   const portalRef = useRef(null);
+
+  const handleStoreLocationChange = (e) => {
+    setCurrentStoreLocation(e.target.value);
+    handleInputChange(e);
+  };
 
   const hideShowModal = (e) => {
     e && e.preventDefault();
@@ -244,7 +250,7 @@ const ScheduleService = () => {
             </div> */}
           <SearchComponent
             showShowModal={showShowModal}
-            currentLocation={serviceData?.serviceLocation}
+            currentLocation={currentStoreLocation}
             style={{ marginTop: "1.5rem" }}
             linkType={"link"}
           />
@@ -459,7 +465,7 @@ const ScheduleService = () => {
         <LocationModal
           portalRef={portalRef}
           hideShowModal={hideShowModal}
-          handleInputChange={handleInputChange}
+          handleInputChange={handleStoreLocationChange}
         />
       )}
     </SchedulePageContainer>

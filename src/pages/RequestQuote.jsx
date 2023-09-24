@@ -50,14 +50,7 @@ const requiredFields = [
 ];
 
 const RequestQuote = () => {
-  const [quotingData, setQuotingData] = useState({
-    sendEmailsAndPromo: "No",
-    serviceLocation: null,
-  });
   const {
-    models,
-    makes,
-    modelYears,
     states,
     services,
     allFieldsPresent,
@@ -65,13 +58,23 @@ const RequestQuote = () => {
     telephoneValidator,
     formatTelephone,
     submitEmail,
-    displaySearchModal,
+    currentStoreLocation,
+    setCurrentStoreLocation,
   } = useGlobalContext();
+  const [quotingData, setQuotingData] = useState({
+    sendEmailsAndPromo: "No",
+    serviceLocation: currentStoreLocation,
+  });
   const { state } = useLocation();
   const quotingForm = useRef(null);
   const [disableBtn, setDisableBtn] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(false);
   const portalRef = useRef(null);
+
+  const handleStoreLocationChange = (e) => {
+    setCurrentStoreLocation(e.target.value);
+    handleInputChange(e);
+  };
 
   const hideShowModal = (e) => {
     e && e.preventDefault();
@@ -402,7 +405,7 @@ const RequestQuote = () => {
         <LocationModal
           portalRef={portalRef}
           hideShowModal={hideShowModal}
-          handleInputChange={handleInputChange}
+          handleInputChange={handleStoreLocationChange}
         />
       )}
     </QuotingPageContainer>
