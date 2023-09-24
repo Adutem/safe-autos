@@ -79,7 +79,7 @@ const FindUs = () => {
             </ButtonLink>
           </Actions>
         </ReviewContainer> */}
-        <SectionHeading>Conenct with us</SectionHeading>
+        <SectionHeading>Connect with us</SectionHeading>
         <br />
         <SocialCompCardCont>
           {serviceLocations.map((location) => (
@@ -179,6 +179,7 @@ const SocialComponent = ({
   phoneNumber,
   email,
   facebookLink,
+  mapLink,
 }) => {
   return (
     <SocialComponentCont>
@@ -193,6 +194,12 @@ const SocialComponent = ({
         <strong>Facebook: </strong>
         <a href={`${facebookLink}`} target="_blank">
           {facebookLink}
+        </a>
+      </OptimizedNormalPara>
+      <OptimizedNormalPara>
+        <strong>Direction: </strong>
+        <a href={`${mapLink}`} target="_blank">
+          {mapLink}
         </a>
       </OptimizedNormalPara>
     </SocialComponentCont>
