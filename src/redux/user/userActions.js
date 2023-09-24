@@ -36,7 +36,7 @@ export const loginUser = (data, callback) => {
       const accessToken = response.data.accessToken;
       const formEmail = response.data.formEmail;
       dispatch(loginUserSuccess(user));
-      dispatch(setFormEmail(formEmail[0] || null));
+      dispatch(setFormEmail(formEmail || null));
       saveToLocalStorage("accessToken", accessToken);
       toastSuccess(response.data?.message || "Login Successful", toastId, true);
       if (callback) callback();
@@ -64,7 +64,7 @@ export const getUser = (callback) => {
       const user = response.data.user;
       const formEmail = response.data.formEmail;
       dispatch(loginUserSuccess(user));
-      dispatch(setFormEmail(formEmail[0] || null));
+      dispatch(setFormEmail(formEmail || null));
       if (callback) callback();
     } catch (error) {
       if (callback) callback();
