@@ -16,7 +16,9 @@ const HomeHero = ({ isHomepage, isAdmin }) => {
             </HeroImageContainer>
           </HeroContainer>
           {isHomepage && (
-            <HeroVideoContainer src={heroVideo} autoPlay={true} loop muted />
+            <VideoContainer>
+              <HeroVideoContainer src={heroVideo} autoPlay={true} loop muted />
+            </VideoContainer>
           )}
           {/* <HeroContainer style={{ background: "red" }} /> */}
         </>
@@ -79,6 +81,14 @@ const HeroImage = styled.img`
   height: 100%;
   width: 100%;
   object-fit: contain;
+`;
+
+const VideoContainer = styled.div`
+  @media (max-width: 728px) {
+    padding: 1rem;
+    padding-bottom: 0;
+    background: #f1f1f1;
+  }
 `;
 
 const HeroVideoContainer = styled.video`
