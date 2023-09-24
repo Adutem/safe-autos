@@ -72,6 +72,7 @@ export const FormGroupComponent = ({
           }}
           value={value}
           views={["year", "month", "day", "hours", "minutes", "seconds"]}
+          disabled={disabled ? disabled : false}
         />
       </FormGroup>
     );
@@ -154,6 +155,23 @@ export const FormGroup = styled.div`
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1.5rem;
+
+  *[id*=":r"] {
+    font-family: var(--mont);
+    border: none;
+    outline: none;
+    background: #f1f1f1;
+    padding: 0.95rem;
+    width: 100%;
+    display: block;
+    cursor: pointer;
+    font-size: 0.85rem;
+
+    &:hover {
+      border: none;
+      outline: none;
+    }
+  }
 `;
 
 export const Label = styled.label`
