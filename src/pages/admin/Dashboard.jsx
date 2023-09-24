@@ -8,10 +8,12 @@ import {
 import { FormGroupComponent } from "../../components/reusables/Components";
 import { useDispatch, useSelector } from "react-redux";
 import { useGlobalContext } from "../../contexts/GlobalContext";
-import { updateFormEmail } from "../../redux";
+import { updateFormEmail, updateHoliday } from "../../redux";
+import dayjs from "dayjs";
 
 const Dashboard = () => {
   const formEmail = useSelector((state) => state.formEmail);
+  const holiday = useSelector((state) => state.holiday);
   return (
     <DashboardContainer>
       <SectionPara style={{ textAlign: "left" }}>
@@ -21,12 +23,19 @@ const Dashboard = () => {
         This email is where all submitted form will be directed
       </NormalPara>
       <FormSubmissionComponent formEmail={formEmail} />
+      <br />
+      <SectionPara style={{ textAlign: "left" }}>Declare Holiday</SectionPara>
+      <NormalPara style={{ margin: "0.4rem 0 0 0" }}>
+        This holiday will disappear from the homepage after the holiday has
+        passed.
+      </NormalPara>
+      <HolidayFormComponent holiday={holiday} />
     </DashboardContainer>
   );
 };
 
 const DashboardContainer = styled.div`
-  padding: 1rem;
+  padding: 2rem 1rem;
   background: #f1f1f1;
   border-left: 4px solid var(--primary-color);
 `;
@@ -48,6 +57,13 @@ const FormSubmissionComponent = ({ formEmail }) => {
     setShowSaveButton(true);
   };
 
+  const cancelEdit = (e) => {
+    e.preventDefault();
+    setDisabled(true);
+    setShowSaveButton(false);
+    setEmail(formEmail?.emailData?.email);
+  };
+
   const successCallback = () => {
     setDisabled(true);
     setShowSaveButton(false);
@@ -56,6 +72,7 @@ const FormSubmissionComponent = ({ formEmail }) => {
   const errorCallback = () => {
     // setDisabled(false);
     setEmail(formEmail?.emailData?.email);
+    setShowSaveButton(false);
   };
 
   const saveChanges = (e) => {
@@ -91,15 +108,20 @@ const FormSubmissionComponent = ({ formEmail }) => {
           disabled={disabled}
           style={{ flex: 1, marginBottom: "0", gap: 0 }}
         />
-        {disabled && (
+        {disabled && !showSaveButton && (
           <EditIcon onClick={makeInputEditable}>
             <i className="fi fi-sr-pencil"></i>
           </EditIcon>
         )}
-        {!disabled && showSaveButton && (
-          <SaveChange onClick={saveChanges}>
+        {showSaveButton && (
+          <SaveChange onClick={saveChanges} disabled={disabled}>
             {formEmail?.loading ? "Saving..." : "Save Changes"}
           </SaveChange>
+        )}
+        {showSaveButton && !formEmail?.loading && (
+          <CancelEdit onClick={cancelEdit} disabled={disabled}>
+            Cancel
+          </CancelEdit>
         )}
       </Form>
     </FormSubCompContainer>
@@ -132,5 +154,104 @@ const SaveChange = styled.button`
   color: #fff;
   font-family: var(--mont);
   font-weight: 600;
+`;
+
+const CancelEdit = styled(SaveChange)``;
+
+const HolidayFormComponent = ({ holiday }) => {
+  const [holidayData, setHolidayData] = useState(holiday.holidayData);
+  const [disabled, setDisabled] = useState(true);
+  const [showSaveButton, setShowSaveButton] = useState(false);
+  const { toastError } = useGlobalContext();
+  const dispatch = useDispatch();
+
+  const handleInputChange = (e) => {
+    return setHolidayData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const makeInputEditable = (e) => {
+    e.preventDefault();
+    setDisabled(false);
+    setShowSaveButton(true);
+  };
+
+  const cancelEdit = (e) => {
+    e.preventDefault();
+    setDisabled(true);
+    setShowSaveButton(false);
+    setHolidayData(holiday?.holidayData);
+  };
+
+  const successCallback = () => {
+    setShowSaveButton(false);
+  };
+
+  const errorCallback = () => {
+    setHolidayData(holiday.holidayData);
+    setShowSaveButton(false);
+  };
+
+  const saveChanges = (e) => {
+    e.preventDefault();
+    const { holidayText, holidayDate } = holidayData;
+    if (!holidayText || !holidayDate) {
+      return toastError("Please fill all fields");
+    }
+    setDisabled(true);
+    const data = { holidayText, holidayDate, holidayId: holidayData._id };
+    dispatch(updateHoliday(data, successCallback, errorCallback));
+  };
+
+  return (
+    <HolidayFormContainer>
+      <OptimizedForm>
+        <FormGroupComponent
+          type={"text"}
+          value={holidayData?.holidayText}
+          onChange={handleInputChange}
+          name={"holidayText"}
+          placeholder={"Enter holiday text"}
+          disabled={disabled}
+          style={{ flex: 1, marginBottom: "0", gap: 0 }}
+        />
+        <FormGroupComponent
+          type={"date-time"}
+          value={dayjs(holidayData?.holidayDate)}
+          onChange={handleInputChange}
+          name={"holidayData"}
+          style={{ flex: 1, marginBottom: "0", gap: 0 }}
+          disabled={disabled}
+        />
+        {disabled && !showSaveButton && (
+          <EditIcon onClick={makeInputEditable}>
+            <i className="fi fi-sr-pencil"></i>
+          </EditIcon>
+        )}
+        {showSaveButton && (
+          <SaveChange onClick={saveChanges} disabled={disabled}>
+            {holiday?.loading ? "Saving..." : "Save Changes"}
+          </SaveChange>
+        )}
+        {showSaveButton && !holiday?.loading && (
+          <CancelEdit onClick={cancelEdit} disabled={disabled}>
+            Cancel
+          </CancelEdit>
+        )}
+      </OptimizedForm>
+    </HolidayFormContainer>
+  );
+};
+
+const HolidayFormContainer = styled.div``;
+
+const OptimizedForm = styled(Form)`
+  background: #fff;
+  padding: 0.6rem 1rem;
+  margin: 1rem 0;
+  display: flex;
+  gap: 0.5rem;
 `;
 export default Dashboard;
