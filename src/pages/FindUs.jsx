@@ -17,6 +17,7 @@ import discoverImage from "../assets/discover.svg";
 import mastercardImage from "../assets/mastercard.svg";
 import visaImage from "../assets/visa.svg";
 import serviceLocations from "../data/service-location-data";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 const methods = [
   {
@@ -42,27 +43,28 @@ const methods = [
 ];
 
 const FindUs = () => {
+  const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
+  const { mapLink, iframe, shopLocation, phoneNumber } = currentStoreLocation;
   return (
     <FindUsPageContainer>
       <RedBackgroundHeading>Find Us</RedBackgroundHeading>
       <Container>
         <DaysOfOperationComponent />
-        <GoogleMapComp />
-        <RedBackgroundHeading>
-          Acorn Tire & Auto . 591 S Lapeer Rd. Lake Orion, MI 48362
-        </RedBackgroundHeading>
+        <GoogleMapComp iframeLink={iframe} />
+        <RedBackgroundHeading>{shopLocation}</RedBackgroundHeading>
         <Actions>
           <ButtonLink
-            to={
-              "https://www.google.com/maps/place/591+S+Lapeer+Rd,+Lake+Orion,+MI+48362/@42.775254,-83.238598,14z/data=!4m6!3m5!1s0x8824ecda1562952f:0x3f2fb58be35f7fe4!8m2!3d42.7752542!4d-83.2385977!16s%2Fg%2F11b8vch87h?hl=en&entry=ttu"
-            }
+            to={mapLink}
             target="_blank"
             style={{ maxWidth: "initial" }}
           >
-            Get Directions
+            Get Direction
           </ButtonLink>
-          <ButtonLink to="tel:(248) 693-7979" style={{ maxWidth: "initial" }}>
-            (248-693-7979) Call Us
+          <ButtonLink
+            to={`tel:+ 1 ${phoneNumber}`}
+            style={{ maxWidth: "initial" }}
+          >
+            + 1 {phoneNumber} Call Us
           </ButtonLink>
         </Actions>
         {/* <ReviewContainer>

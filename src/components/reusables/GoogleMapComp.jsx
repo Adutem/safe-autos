@@ -1,18 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import spinnerImage from "../../assets/loading-gif.gif";
 
-const GoogleMapComp = (props) => {
+const GoogleMapComp = ({ iframeLink, ...rest }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleLoaded = () => {
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setLoading(true);
+  }, [iframeLink]);
   return (
     // Important! Always set the container height explicitly
-    <MapContainer {...props}>
+    <MapContainer {...rest}>
+      {loading && <Loader />}
       <iframe
+        src={iframeLink}
         width="100%"
-        height="400"
-        frameborder="0"
-        scrolling="no"
-        marginheight="0"
-        marginwidth="0"
-        src="https://maps.google.com/maps?width=100%25&amp;height=400&amp;hl=en&amp;q=591%20S%20Lapeer%20Rd.%20Lake%20Orion,%20MI%2048362+(Acorn%20Tire%20&amp;%20Auto%20)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+        height="450"
+        style={{ border: 0 }}
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        onLoad={handleLoaded}
+        onLoadEnd={handleLoaded}
       ></iframe>
     </MapContainer>
   );
@@ -20,8 +33,39 @@ const GoogleMapComp = (props) => {
 
 const MapContainer = styled.div`
   width: 100%;
-  height: 400px;
+  height: 450px;
   margin-top: 2rem;
+  position: relative;
 `;
 
 export default GoogleMapComp;
+
+// `<iframe src={iframeLink} width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+const Loader = () => {
+  return (
+    <LoaderContainer>
+      <Spinner src={spinnerImage} />
+    </LoaderContainer>
+  );
+};
+
+const LoaderContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  background: lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+`;
+
+const Spinner = styled.img`
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+`;
