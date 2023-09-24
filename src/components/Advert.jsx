@@ -171,6 +171,7 @@ export default Advert;
 export function SearchComponent({
   showShowModal,
   currentLocation,
+  hideBrowseLink,
   dropdownText,
   linkText,
   linkType,
@@ -207,9 +208,10 @@ export function SearchComponent({
             </NormalPara>
             <NormalPara style={{ fontSize: "0.85rem", margin: "0.4rem 0" }}>
               Phone Number:{" "}
-              <a
-                href={`tel:+${currentLocation.phoneNumber.replace(/\-/g, "")}`}
-              >
+              <a href={`tel:+1 ${currentLocation.phoneNumber}`}>
+                {/* <a
+                href={`tel:+1 ${currentLocation.phoneNumber.replace(/\-/g, "")}`}
+              > */}
                 {currentLocation.phoneNumber}
               </a>
             </NormalPara>
@@ -226,19 +228,21 @@ export function SearchComponent({
           </>
         )}
       </div>
-      <OptimizedFormLink
-        to={
-          currentLocation && currentLocation[linkType]
-            ? currentLocation[linkType]
-            : "#"
-        }
-        target={
-          currentLocation && currentLocation[linkType] ? "_blank" : "_self"
-        }
-      >
-        {linkText || "Browse your vehicle data here"}
-        <i className="fi fi-sr-arrow-up-right-from-square"></i>
-      </OptimizedFormLink>
+      {hideBrowseLink || (
+        <OptimizedFormLink
+          to={
+            currentLocation && currentLocation[linkType]
+              ? currentLocation[linkType]
+              : "#"
+          }
+          target={
+            currentLocation && currentLocation[linkType] ? "_blank" : "_self"
+          }
+        >
+          {linkText || "Browse your vehicle data here"}
+          <i className="fi fi-sr-arrow-up-right-from-square"></i>
+        </OptimizedFormLink>
+      )}
     </ContainerX>
   );
 }
