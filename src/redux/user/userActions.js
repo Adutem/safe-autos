@@ -11,6 +11,7 @@ import {
 } from "../../contexts/GlobalContext";
 import { toast } from "react-toastify";
 import { setFormEmail } from "../formEmail/formEmailActions";
+import { setHoliday } from "../holiday/holidayActions";
 
 export const loginUserRequest = () => ({
   type: USER_ACIONS.LOGIN_USER_REQUEST,
@@ -35,8 +36,10 @@ export const loginUser = (data, callback) => {
       const user = response.data.user;
       const accessToken = response.data.accessToken;
       const formEmail = response.data.formEmail;
+      const holiday = response.data.holiday;
       dispatch(loginUserSuccess(user));
       dispatch(setFormEmail(formEmail || null));
+      dispatch(setHoliday(holiday));
       saveToLocalStorage("accessToken", accessToken);
       toastSuccess(response.data?.message || "Login Successful", toastId, true);
       if (callback) callback();
@@ -63,8 +66,10 @@ export const getUser = (callback) => {
       });
       const user = response.data.user;
       const formEmail = response.data.formEmail;
+      const holiday = response.data.holiday;
       dispatch(loginUserSuccess(user));
       dispatch(setFormEmail(formEmail || null));
+      dispatch(setHoliday(holiday));
       if (callback) callback();
     } catch (error) {
       if (callback) callback();
