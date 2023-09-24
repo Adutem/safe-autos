@@ -26,7 +26,7 @@ const App = () => {
         {
           toastId: "asdkflaf",
           autoClose: 3000,
-          position: windowWidth < 770 ? "bottom-right" : "top-left",
+          position: windowWidth < 770 ? "bottom-center" : "top-center",
         }
       );
   }, []);
