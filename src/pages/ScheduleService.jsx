@@ -587,6 +587,7 @@ const LocationCard = ({
             link,
             couponLink,
             financingLink,
+            ...rest,
           },
         },
       });
