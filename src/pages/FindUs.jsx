@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import {
   ButtonLink,
@@ -18,6 +18,8 @@ import mastercardImage from "../assets/mastercard.svg";
 import visaImage from "../assets/visa.svg";
 import serviceLocations from "../data/service-location-data";
 import { useGlobalContext } from "../contexts/GlobalContext";
+import { LocationModal } from "./ScheduleService";
+import { SearchComponent } from "../components/Advert";
 
 const methods = [
   {
@@ -44,12 +46,39 @@ const methods = [
 
 const FindUs = () => {
   const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const portalRef = useRef(null);
   const { mapLink, iframe, shopLocation, phoneNumber } = currentStoreLocation;
+
+  const showShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const hideShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(false);
+    document.body.style.overflow = "initial";
+  };
+
+  const handleServiceLocationChange = (e) => {
+    setCurrentStoreLocation(e.target.value);
+  };
+
   return (
     <FindUsPageContainer>
       <RedBackgroundHeading>Find Us</RedBackgroundHeading>
       <Container>
         <DaysOfOperationComponent />
+        <SearchComponent
+          showShowModal={showShowModal}
+          currentLocation={currentStoreLocation}
+          style={{ marginTop: "1.5rem" }}
+          linkType={"link"}
+          hideBrowseLink={true}
+          dropdownText={"Click to change store location"}
+        />
         <GoogleMapComp iframeLink={iframe} />
         <RedBackgroundHeading>{shopLocation}</RedBackgroundHeading>
         <Actions>
@@ -107,6 +136,13 @@ const FindUs = () => {
           </PaymentMethods>
         </PaymentSection>
       </Container>
+      {showLocationModal && (
+        <LocationModal
+          portalRef={portalRef}
+          hideShowModal={hideShowModal}
+          handleInputChange={handleServiceLocationChange}
+        />
+      )}
     </FindUsPageContainer>
   );
 };
