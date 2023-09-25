@@ -187,13 +187,20 @@ export default Career;
 
 const Careers = styled.div``;
 
-const CareerCardContainer = styled.div`
+export const CareerCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
 `;
 
-const CareerCard = ({ _id, role, careerLink, handleDelete, handleEdit }) => {
+export const CareerCard = ({
+  _id,
+  role,
+  careerLink,
+  handleDelete,
+  handleEdit,
+  hideActions,
+}) => {
   return (
     <CareerCardCont data-id={_id}>
       <CareerDetails>
@@ -202,14 +209,16 @@ const CareerCard = ({ _id, role, careerLink, handleDelete, handleEdit }) => {
           Career Link: <CareerLink> {careerLink}</CareerLink>{" "}
         </NormalPara>
       </CareerDetails>
-      <CareerActions>
-        <EditIcon onClick={() => handleEdit({ _id, role, careerLink })}>
-          <i className="fi fi-sr-pencil"></i>
-        </EditIcon>
-        <EditIcon onClick={() => handleDelete(_id)}>
-          <i className="fi fi-sr-trash"></i>
-        </EditIcon>
-      </CareerActions>
+      {hideActions || (
+        <CareerActions>
+          <EditIcon onClick={() => handleEdit({ _id, role, careerLink })}>
+            <i className="fi fi-sr-pencil"></i>
+          </EditIcon>
+          <EditIcon onClick={() => handleDelete(_id)}>
+            <i className="fi fi-sr-trash"></i>
+          </EditIcon>
+        </CareerActions>
+      )}
     </CareerCardCont>
   );
 };
