@@ -13,9 +13,18 @@ import { useGlobalContext } from "./contexts/GlobalContext";
 import LocationComp from "./components/LocationComp";
 import MyStore from "./components/MyStore";
 import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getHoliday } from "./redux";
 
 const App = () => {
   const { windowWidth } = useGlobalContext();
+  const { holidayData } = useSelector((state) => state.holiday);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!holidayData) dispatch(getHoliday());
+  }, []);
+
   const location = useLocation();
   useEffect(() => {
     location.pathname.startsWith("/admin") ||
@@ -49,7 +58,9 @@ const App = () => {
       <SmallScreenNav />
       <LocationComp />
       <MyStore />
-      {/* <Alert /> */}
+      {Date.now() < new Date(holidayData?.holidayDate).getTime() && (
+        <Alert holidayText={holidayData?.holidayText} />
+      )}
       <Navbar />
       <HomeHero
         isHomepage={location.pathname === "/"}

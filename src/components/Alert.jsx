@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const Alert = () => {
+const Alert = ({ holidayText }) => {
   return (
     <AlertText>
-      We will be closed on Monday September 4th for labor day
+      {/* We will be closed on Monday September 4th for labor day */}
+      {holidayText}
     </AlertText>
   );
 };
