@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {
   Form,
   NormalPara,
+  SectionHeading,
   SectionPara,
 } from "../../components/reusables/Styles";
 import { FormGroupComponent } from "../../components/reusables/Components";
@@ -15,7 +16,12 @@ const Dashboard = () => {
   const formEmail = useSelector((state) => state.formEmail);
   const holiday = useSelector((state) => state.holiday);
   return (
-    <DashboardContainer>
+    <AdminContainer>
+      <SectionHeading
+        style={{ wordSpacing: "initial", margin: 0, fontWeight: "bold" }}
+      >
+        Dashboard
+      </SectionHeading>
       <SectionPara style={{ textAlign: "left" }}>
         Form Submission Email
       </SectionPara>
@@ -30,11 +36,11 @@ const Dashboard = () => {
         passed.
       </NormalPara>
       <HolidayFormComponent holiday={holiday} />
-    </DashboardContainer>
+    </AdminContainer>
   );
 };
 
-const DashboardContainer = styled.div`
+export const AdminContainer = styled.div`
   padding: 2rem 1rem;
   background: #f1f1f1;
   border-left: 4px solid var(--primary-color);
@@ -128,7 +134,7 @@ const FormSubmissionComponent = ({ formEmail }) => {
   );
 };
 
-const EditIcon = styled.button`
+export const EditIcon = styled.button`
   border: none;
   outline: none;
   padding: 0.5rem;
@@ -144,7 +150,7 @@ const EditIcon = styled.button`
   }
 `;
 
-const SaveChange = styled.button`
+export const SaveChange = styled.button`
   outline: none;
   border: none;
   border-radius: 0.4rem;
@@ -156,7 +162,7 @@ const SaveChange = styled.button`
   font-weight: 600;
 `;
 
-const CancelEdit = styled(SaveChange)``;
+export const CancelEdit = styled(SaveChange)``;
 
 const HolidayFormComponent = ({ holiday }) => {
   const [holidayData, setHolidayData] = useState(holiday.holidayData);
