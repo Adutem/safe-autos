@@ -24,12 +24,8 @@ export const getCareerFailture = (error) => ({
 export const getCareer = () => {
   return async (dispatch) => {
     try {
-      const accessToken = getFromLocalStorage("accessToken");
-      if (!accessToken) return;
       dispatch(getCareerRequest());
-      let response = await axios.get(`${BASE_URL}/career`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      let response = await axios.get(`${BASE_URL}/career`);
       const careers = response.data.careers;
       dispatch(getCareerSuccess(careers));
     } catch (error) {
