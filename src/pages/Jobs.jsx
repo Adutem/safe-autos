@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   RedBackgroundHeading,
@@ -8,10 +8,14 @@ import {
   GridLayoutContainer,
   LeftContainer,
   RightContainer,
+  SectionPara,
 } from "../components/reusables/Styles";
 import { FormGroupComponent } from "../components/reusables/Components";
 import { FILE_FORMATS, useGlobalContext } from "../contexts/GlobalContext";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { getCareer } from "../redux";
+import { CareerCard, CareerCardContainer } from "./admin/Career";
 
 const customId = "job-toast";
 
@@ -54,6 +58,12 @@ const Jobs = () => {
     formatTelephone,
     submitEmail,
   } = useGlobalContext();
+  const { careers } = useSelector((state) => state.career);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCareer());
+  }, []);
 
   const stateUpdater = (name, value) => {
     setJobData((prev) => {
@@ -130,6 +140,14 @@ const Jobs = () => {
           offer. Contact us today to learn more about job opportunities at Acorn
           Tire & Auto!
         </Para>
+        <SectionPara style={{ textAlign: "left" }}>
+          Current Openings
+        </SectionPara>
+        <CareerCardContainer style={{ padding: "1rem", background: "#f1f1f1" }}>
+          {careers.map((car) => (
+            <CareerCard {...car} hideActions={true} />
+          ))}
+        </CareerCardContainer>
         <Heading>Fields marked with an asterisk * are required.</Heading>
         <RedBackgroundHeading>
           Please fill out the information below
