@@ -12,6 +12,12 @@ const holidayReducer = (state = initialState, action) => {
       return { ...state, holidayData: action.payload, loading: false };
     case HOLIDAY_ACTIONS.UPDATE_HOLIDAY_FAILURE:
       return { ...state, error: action.payload, loading: false };
+    case HOLIDAY_ACTIONS.GET_HOLIDAY_REQUEST:
+      return { ...state, loading: true, error: "" };
+    case HOLIDAY_ACTIONS.GET_HOLIDAY_SUCCESS:
+      return { ...state, holidayData: action.payload, loading: false };
+    case HOLIDAY_ACTIONS.GET_HOLIDAY_FAILURE:
+      return { ...state, error: action.payload, loading: false };
     default:
       return state;
   }

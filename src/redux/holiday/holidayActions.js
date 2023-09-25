@@ -27,6 +27,36 @@ export const updateHolidayFailure = (error) => ({
   payload: error,
 });
 
+export const getHolidayRequest = () => ({
+  type: HOLIDAY_ACTIONS.GET_HOLIDAY_REQUEST,
+});
+
+export const getHolidaySuccess = (holidayData) => ({
+  type: HOLIDAY_ACTIONS.GET_HOLIDAY_SUCCESS,
+  payload: holidayData,
+});
+
+export const getHolidayFailture = (error) => ({
+  type: HOLIDAY_ACTIONS.GET_HOLIDAY_FAILURE,
+  payload: error,
+});
+
+export const getHoliday = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(getHolidayRequest());
+      let response = await axios.get(`${BASE_URL}/get-holiday`);
+      const holiday = response.data.holiday;
+      dispatch(getHolidaySuccess(holiday));
+    } catch (error) {
+      dispatch(
+        getHolidayFailture(error?.response?.data?.message || error?.message)
+      );
+      httpErrorHandler(error);
+    }
+  };
+};
+
 export const updateHoliday = (data, successCallback, errorCallback) => {
   return async (dispatch) => {
     if (!data) return;
