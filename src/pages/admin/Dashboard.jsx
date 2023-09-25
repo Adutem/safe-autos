@@ -227,7 +227,7 @@ const HolidayFormComponent = ({ holiday }) => {
           type={"date-time"}
           value={dayjs(holidayData?.holidayDate)}
           onChange={handleInputChange}
-          name={"holidayData"}
+          name={"holidayDate"}
           style={{ flex: 1, marginBottom: "0", gap: 0 }}
           disabled={disabled}
         />
