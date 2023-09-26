@@ -44,7 +44,7 @@ const MyStore = () => {
           currentLocation={currentStoreLocation}
           style={{ marginTop: "1.5rem" }}
           linkType={"link"}
-          dropdownText={"Click to change store location"}
+          dropdownText={"select store location"}
         />
         <Seperator />
         <SectionPara>Store Hours</SectionPara>

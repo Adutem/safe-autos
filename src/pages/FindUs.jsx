@@ -77,7 +77,7 @@ const FindUs = () => {
           style={{ marginTop: "1.5rem" }}
           linkType={"link"}
           hideBrowseLink={true}
-          dropdownText={"Click to change store location"}
+          dropdownText={"select store location"}
         />
         <GoogleMapComp iframeLink={iframe} />
         <RedBackgroundHeading>{shopLocation}</RedBackgroundHeading>
