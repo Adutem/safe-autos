@@ -32,7 +32,7 @@ const Coupons = () => {
         showShowModal={showShowModal}
         currentLocation={currentLocation}
         linkType={"couponLink"}
-        dropdownText={"click to change location"}
+        dropdownText={"select store location"}
         linkText={"Checkout available coupons"}
       />
       {showLocationModal && (

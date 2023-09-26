@@ -30,7 +30,7 @@ const Financing = () => {
         showShowModal={showShowModal}
         currentLocation={currentLocation}
         linkType={"financingLink"}
-        dropdownText={"click to change location"}
+        dropdownText={"select store location"}
         linkText={"Checkout available Financing"}
       />
       {showLocationModal && (
