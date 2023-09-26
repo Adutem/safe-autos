@@ -190,7 +190,7 @@ export function SearchComponent({
         style={{ ...fullColumn, background: "#f1f1f1", color: "#000" }}
         onClick={showShowModal}
       >
-        {dropdownText || "click to change vehicle location"}
+        {dropdownText || "select store location"}
         <i className="fi fi-sr-caret-down"></i>
       </OptimizedFormButton>
       <div style={{ background: "transparent", padding: "1rem" }}>
