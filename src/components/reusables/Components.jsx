@@ -3,6 +3,7 @@ import hoursOfOperation from "../../data/hours-of-operation";
 import { useRef } from "react";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { Form } from "react-router-dom";
+import { useGlobalContext } from "../../contexts/GlobalContext";
 
 export const FormGroupComponent = ({
   type,
@@ -225,6 +226,7 @@ const dates = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 // let dayOfWeek = dates[today].toLowerCase();
 
 export const DaysOfOperationComponent = () => {
+  const { currentStoreLocation } = useGlobalContext();
   let today = useRef(new Date().getDay()).current;
   let dayOfWeek = useRef(dates[today].toLowerCase()).current;
 
@@ -233,9 +235,13 @@ export const DaysOfOperationComponent = () => {
       {hoursOfOperation.map(({ date, hours }) => (
         <HoursOfOperaton isToday={dayOfWeek === date.toLowerCase()}>
           <Dates>{date}</Dates>
-          {hours.map((hour) => (
-            <Hour>{hour}</Hour>
-          ))}
+          {(currentStoreLocation.shopLocation.includes("Lake Orion") ||
+            currentStoreLocation.shopLocation.includes("Alpine")) &&
+          date.toLowerCase() === "sat" ? (
+            <Hour>closed</Hour>
+          ) : (
+            hours.map((hour) => <Hour>{hour}</Hour>)
+          )}
         </HoursOfOperaton>
       ))}
     </HoursOfOperationContainer>
