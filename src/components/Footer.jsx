@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import footerLinks from "../data/footer-links";
 import { ColumnFlexContainer } from "./reusables/Styles";
-import tireOne from "../assets/acorn-logo-white.png";
+import { SearchComponent } from "./Advert";
+import { useGlobalContext } from "../contexts/GlobalContext";
+import { LocationModal } from "../pages/ScheduleService";
 
 const Footer = () => {
+  const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const portalRef = useRef(null);
+
+  const showShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const hideShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(false);
+    document.body.style.overflow = "initial";
+  };
+
   return (
     <FooterContainer>
       <GridContainer>
@@ -66,6 +84,22 @@ const Footer = () => {
         </ColumnFlexContainer>
       </Sections> */}
       <Sections>
+        <SearchComponent
+          showShowModal={showShowModal}
+          currentLocation={currentStoreLocation}
+          style={{
+            marginTop: "1.5rem",
+            padding: "0.5rem",
+            maxWidth: "500px",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+          linkType={"mapLink"}
+          dropdownText={"select store location"}
+          linkText={"Get Direction"}
+        />
+      </Sections>
+      <Sections>
         <Para>
           Copyright &copy; 2018-2023{" "}
           <LinkItem to="/terms-of-use">Terms of Use</LinkItem> |{" "}
@@ -83,6 +117,13 @@ const Footer = () => {
           </LinkItem>
         </Para>
       </Sections>
+      {showLocationModal && (
+        <LocationModal
+          portalRef={portalRef}
+          hideShowModal={hideShowModal}
+          handleInputChange={handleServiceLocationChange}
+        />
+      )}
     </FooterContainer>
   );
 };
