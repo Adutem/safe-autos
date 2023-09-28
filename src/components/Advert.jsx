@@ -224,7 +224,7 @@ export function SearchComponent({
           </>
         ) : (
           <>
-            <NormalPara>Please choose a location.</NormalPara>
+            <NormalPara>Pick a store</NormalPara>
           </>
         )}
       </div>
