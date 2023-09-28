@@ -48,7 +48,7 @@ const FindUs = () => {
   const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
   const [showLocationModal, setShowLocationModal] = useState(false);
   const portalRef = useRef(null);
-  const { mapLink, iframe, shopLocation, phoneNumber } = currentStoreLocation;
+  // const { mapLink, iframe, shopLocation, phoneNumber } = currentStoreLocation;
 
   const showShowModal = (e) => {
     e && e.preventDefault();
@@ -70,7 +70,7 @@ const FindUs = () => {
     <FindUsPageContainer>
       <RedBackgroundHeading>Find Us</RedBackgroundHeading>
       <Container>
-        <DaysOfOperationComponent />
+        {currentStoreLocation && <DaysOfOperationComponent />}
         <SearchComponent
           showShowModal={showShowModal}
           currentLocation={currentStoreLocation}
@@ -79,23 +79,29 @@ const FindUs = () => {
           hideBrowseLink={true}
           dropdownText={"select store location"}
         />
-        <GoogleMapComp iframeLink={iframe} />
-        <RedBackgroundHeading>{shopLocation}</RedBackgroundHeading>
-        <Actions>
-          <ButtonLink
-            to={mapLink}
-            target="_blank"
-            style={{ maxWidth: "initial" }}
-          >
-            Get Direction
-          </ButtonLink>
-          <ButtonLink
-            to={`tel:+ 1 ${phoneNumber}`}
-            style={{ maxWidth: "initial" }}
-          >
-            + 1 {phoneNumber} Call Us
-          </ButtonLink>
-        </Actions>
+        {currentStoreLocation && (
+          <>
+            <GoogleMapComp iframeLink={currentStoreLocation?.iframe} />
+            <RedBackgroundHeading>
+              {currentStoreLocation?.shopLocation}
+            </RedBackgroundHeading>
+            <Actions>
+              <ButtonLink
+                to={currentStoreLocation?.mapLink}
+                target="_blank"
+                style={{ maxWidth: "initial" }}
+              >
+                Get Direction
+              </ButtonLink>
+              <ButtonLink
+                to={`tel:+ 1 ${currentStoreLocation?.phoneNumber}`}
+                style={{ maxWidth: "initial" }}
+              >
+                + 1 {currentStoreLocation?.phoneNumber} Call Us
+              </ButtonLink>
+            </Actions>
+          </>
+        )}
         {/* <ReviewContainer>
           <SectionPara>Average Rating: ⭐⭐⭐⭐⭐</SectionPara>
           <Actions style={{ flex: 1, margin: 0 }}>

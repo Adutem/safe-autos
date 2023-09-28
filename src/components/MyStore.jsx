@@ -43,27 +43,32 @@ const MyStore = () => {
           showShowModal={showShowModal}
           currentLocation={currentStoreLocation}
           style={{ marginTop: "1.5rem" }}
-          linkType={"link"}
+          linkType={"mapLink"}
           dropdownText={"select store location"}
+          linkText={"Get Direction"}
         />
         <Seperator />
-        <SectionPara>Store Hours</SectionPara>
-        <ContainerDiv>
-          {fullHoursOfOperation.map((hop) => (
-            <NormalPara
-              style={{
-                margin: "0.5rem 0",
-                fontSize: "0.75rem",
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                //   justifyContent: "space-between",
-              }}
-            >
-              <strong>{hop.date}</strong>
-              {hop.hours.join(" - ")}
-            </NormalPara>
-          ))}
-        </ContainerDiv>
+        {currentStoreLocation && (
+          <>
+            <SectionPara>Store Hours</SectionPara>
+            <ContainerDiv>
+              {fullHoursOfOperation.map((hop) => (
+                <NormalPara
+                  style={{
+                    margin: "0.5rem 0",
+                    fontSize: "0.75rem",
+                    display: "grid",
+                    gridTemplateColumns: "repeat(2, 1fr)",
+                    //   justifyContent: "space-between",
+                  }}
+                >
+                  <strong>{hop.date}</strong>
+                  {hop.hours.join(" - ")}
+                </NormalPara>
+              ))}
+            </ContainerDiv>
+          </>
+        )}
       </StoreCompContContainer>
       {showLocationModal && (
         <LocationModal

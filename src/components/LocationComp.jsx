@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { NormalPara, SectionPara } from "./reusables/Styles";
 import hoursOfOperation, {
   fullHoursOfOperation,
 } from "../data/hours-of-operation";
+import { useGlobalContext } from "../contexts/GlobalContext";
+import { SearchComponent } from "./Advert";
+import { LocationModal } from "../pages/ScheduleService";
 
 const LocationComp = () => {
+  const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
+
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const portalRef = useRef(null);
+
+  const handleStoreLocationChange = (e) => {
+    setCurrentStoreLocation(e.target.value);
+  };
+
+  const hideShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(false);
+    document.body.style.overflow = "initial";
+  };
+
+  const showShowModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(true);
+    document.body.style.overflow = "hidden";
+  };
+
   const hideLocationComponent = () => {
     document.querySelector("#location-comp")?.classList.remove("show");
     document.body.style.overflow = "initial";
@@ -15,38 +39,57 @@ const LocationComp = () => {
     <LocationCompContainer id="location-comp">
       <Underlay onClick={hideLocationComponent} className="underlay" />
       <LocationCompContContainer>
-        <NormalPara
-          style={{ fontSize: "0.9rem", margin: 0, fontWeight: "bold" }}
-        >
-          Acorn Tire & Auto
-        </NormalPara>
-        <AddressComp>591 S Lapeer Road, Lake Orion, MI 48362</AddressComp>
-        <TelLink href="tel:+248-693-7979">248-693-7979</TelLink>
-        <TelLink
-          href="https://www.google.com/maps/place/591+S+Lapeer+Rd,+Lake+Orion,+MI+48362/@42.775254,-83.238598,14z/data=!4m6!3m5!1s0x8824ecda1562952f:0x3f2fb58be35f7fe4!8m2!3d42.7752542!4d-83.2385977!16s%2Fg%2F11b8vch87h?hl=en&entry=ttu"
-          target="_blank"
-        >
-          Direction
-        </TelLink>
-        <Seperator />
-        <SectionPara>Store Hours</SectionPara>
-        <ContainerDiv>
-          {fullHoursOfOperation.map((hop) => (
-            <NormalPara
-              style={{
-                margin: "0.5rem 0",
-                fontSize: "0.75rem",
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                //   justifyContent: "space-between",
-              }}
+        <SearchComponent
+          showShowModal={showShowModal}
+          currentLocation={currentStoreLocation}
+          style={{ marginTop: "1.5rem" }}
+          linkType={"mapLink"}
+          linkText={"Get Direction"}
+        />
+        {currentStoreLocation && (
+          <>
+            {/* <NormalPara
+              style={{ fontSize: "0.9rem", margin: 0, fontWeight: "bold" }}
             >
-              <strong>{hop.date}</strong>
-              {hop.hours.join(" - ")}
+              Acorn Tire & Auto
             </NormalPara>
-          ))}
-        </ContainerDiv>
+            <AddressComp>591 S Lapeer Road, Lake Orion, MI 48362</AddressComp>
+            <TelLink href="tel:+248-693-7979">248-693-7979</TelLink>
+            <TelLink
+              href="https://www.google.com/maps/place/591+S+Lapeer+Rd,+Lake+Orion,+MI+48362/@42.775254,-83.238598,14z/data=!4m6!3m5!1s0x8824ecda1562952f:0x3f2fb58be35f7fe4!8m2!3d42.7752542!4d-83.2385977!16s%2Fg%2F11b8vch87h?hl=en&entry=ttu"
+              target="_blank"
+            >
+              Direction
+            </TelLink> */}
+            <Seperator />
+
+            <SectionPara>Store Hours</SectionPara>
+            <ContainerDiv>
+              {fullHoursOfOperation.map((hop) => (
+                <NormalPara
+                  style={{
+                    margin: "0.5rem 0",
+                    fontSize: "0.75rem",
+                    display: "grid",
+                    gridTemplateColumns: "repeat(2, 1fr)",
+                    //   justifyContent: "space-between",
+                  }}
+                >
+                  <strong>{hop.date}</strong>
+                  {hop.hours.join(" - ")}
+                </NormalPara>
+              ))}
+            </ContainerDiv>
+          </>
+        )}
       </LocationCompContContainer>
+      {showLocationModal && (
+        <LocationModal
+          portalRef={portalRef}
+          hideShowModal={hideShowModal}
+          handleInputChange={handleStoreLocationChange}
+        />
+      )}
     </LocationCompContainer>
   );
 };
@@ -59,6 +102,8 @@ const LocationCompContContainer = styled.div`
   position: relative;
   z-index: 4;
   padding: 1rem;
+  overflow: auto;
+  padding-bottom: 6rem;
 `;
 
 const LocationCompContainer = styled.div`
