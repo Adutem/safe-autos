@@ -133,7 +133,8 @@ const GlobalContextProvider = ({ children }) => {
   const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
   const [showSearch, setShowSearch] = useState(false);
   const [currentStoreLocation, setCurrentStoreLocation] = useState(
-    () => serviceLocations[0]
+    // () => serviceLocations[0]
+    null
   );
 
   const handleWindowResize = (e) => {
