@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { NormalPara, SectionPara } from "./reusables/Styles";
 import hoursOfOperation, {
@@ -9,38 +9,26 @@ import { SearchComponent } from "./Advert";
 import { LocationModal } from "../pages/ScheduleService";
 
 const LocationComp = () => {
-  const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
-
-  const [showLocationModal, setShowLocationModal] = useState(false);
-  const portalRef = useRef(null);
-
-  const handleStoreLocationChange = (e) => {
-    setCurrentStoreLocation(e.target.value);
-  };
-
-  const hideShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(false);
-    document.body.style.overflow = "initial";
-  };
-
-  const showShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(true);
-    document.body.style.overflow = "hidden";
-  };
+  const { currentStoreLocation, displayLocationModal } = useGlobalContext();
 
   const hideLocationComponent = () => {
     document.querySelector("#location-comp")?.classList.remove("show");
     document.body.style.overflow = "initial";
   };
 
+  useEffect(() => {
+    if (document.querySelector("#location-comp")?.classList.contains("show")) {
+      console.log("True");
+      document.body.style.overflow = "hidden";
+    }
+  }, [currentStoreLocation]);
+
   return (
     <LocationCompContainer id="location-comp">
       <Underlay onClick={hideLocationComponent} className="underlay" />
       <LocationCompContContainer>
         <SearchComponent
-          showShowModal={showShowModal}
+          showShowModal={displayLocationModal}
           currentLocation={currentStoreLocation}
           style={{ marginTop: "1.5rem" }}
           linkType={"mapLink"}
@@ -83,13 +71,6 @@ const LocationComp = () => {
           </>
         )}
       </LocationCompContContainer>
-      {showLocationModal && (
-        <LocationModal
-          portalRef={portalRef}
-          hideShowModal={hideShowModal}
-          handleInputChange={handleStoreLocationChange}
-        />
-      )}
     </LocationCompContainer>
   );
 };

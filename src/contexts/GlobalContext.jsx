@@ -132,10 +132,23 @@ const GlobalContextProvider = ({ children }) => {
   const location = useLocation();
   const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
   const [showSearch, setShowSearch] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
   const [currentStoreLocation, setCurrentStoreLocation] = useState(
     // () => serviceLocations[0]
     null
   );
+
+  const displayLocationModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const hideLocationModal = (e) => {
+    e && e.preventDefault();
+    setShowLocationModal(false);
+    document.body.style.overflow = "initial";
+  };
 
   const handleWindowResize = (e) => {
     setWindowWidth(window.innerWidth);
@@ -266,6 +279,10 @@ const GlobalContextProvider = ({ children }) => {
         toastError,
         toastInfo,
         toastSuccess,
+        showLocationModal,
+        setShowLocationModal,
+        displayLocationModal,
+        hideLocationModal,
       }}
     >
       {children}

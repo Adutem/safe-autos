@@ -45,26 +45,7 @@ const methods = [
 ];
 
 const FindUs = () => {
-  const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
-  const [showLocationModal, setShowLocationModal] = useState(false);
-  const portalRef = useRef(null);
-  // const { mapLink, iframe, shopLocation, phoneNumber } = currentStoreLocation;
-
-  const showShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(true);
-    document.body.style.overflow = "hidden";
-  };
-
-  const hideShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(false);
-    document.body.style.overflow = "initial";
-  };
-
-  const handleServiceLocationChange = (e) => {
-    setCurrentStoreLocation(e.target.value);
-  };
+  const { currentStoreLocation, displayLocationModal } = useGlobalContext();
 
   return (
     <FindUsPageContainer>
@@ -72,7 +53,7 @@ const FindUs = () => {
       <Container>
         {currentStoreLocation && <DaysOfOperationComponent />}
         <SearchComponent
-          showShowModal={showShowModal}
+          showShowModal={displayLocationModal}
           currentLocation={currentStoreLocation}
           style={{ marginTop: "1.5rem" }}
           linkType={"link"}
@@ -142,13 +123,6 @@ const FindUs = () => {
           </PaymentMethods>
         </PaymentSection>
       </Container>
-      {showLocationModal && (
-        <LocationModal
-          portalRef={portalRef}
-          hideShowModal={hideShowModal}
-          handleInputChange={handleServiceLocationChange}
-        />
-      )}
     </FindUsPageContainer>
   );
 };

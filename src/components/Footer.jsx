@@ -5,24 +5,10 @@ import footerLinks from "../data/footer-links";
 import { ColumnFlexContainer } from "./reusables/Styles";
 import { SearchComponent } from "./Advert";
 import { useGlobalContext } from "../contexts/GlobalContext";
-import { LocationModal } from "../pages/ScheduleService";
+// import { LocationModal } from "../pages/ScheduleService";
 
 const Footer = () => {
-  const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
-  const [showLocationModal, setShowLocationModal] = useState(false);
-  const portalRef = useRef(null);
-
-  const showShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(true);
-    document.body.style.overflow = "hidden";
-  };
-
-  const hideShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(false);
-    document.body.style.overflow = "initial";
-  };
+  const { currentStoreLocation, displayLocationModal } = useGlobalContext();
 
   return (
     <FooterContainer>
@@ -69,23 +55,13 @@ const Footer = () => {
               >
                 <i className="fi fi-brands-linkedin"></i>
               </a>
-              {/* <a href="#">
-                <i className="fi fi-brands-twitter"></i>
-              </a> */}
             </Social>
           </ColumnFlexContainer>
         </Sections>
       </GridContainer>
-      {/* <Sections>
-        <ColumnFlexContainer>
-          <ImageContainer>
-            <TireOneImage src={tireOne} />
-          </ImageContainer>
-        </ColumnFlexContainer>
-      </Sections> */}
       <Sections>
         <SearchComponent
-          showShowModal={showShowModal}
+          showShowModal={displayLocationModal}
           currentLocation={currentStoreLocation}
           style={{
             marginTop: "1.5rem",
@@ -104,9 +80,6 @@ const Footer = () => {
           Copyright &copy; 2018-2023{" "}
           <LinkItem to="/terms-of-use">Terms of Use</LinkItem> |{" "}
           <LinkItem to={"/privacy"}>Privacy</LinkItem>
-          {/* |{" "}
-          <LinkItem to={"/accessiblity"}>Accessibility</LinkItem> |{" "}
-          <LinkItem to={"/sitemap"}>Sitemap</LinkItem> */}
         </Para>
       </Sections>
       <Sections>
@@ -117,13 +90,6 @@ const Footer = () => {
           </LinkItem>
         </Para>
       </Sections>
-      {showLocationModal && (
-        <LocationModal
-          portalRef={portalRef}
-          hideShowModal={hideShowModal}
-          handleInputChange={handleServiceLocationChange}
-        />
-      )}
     </FooterContainer>
   );
 };

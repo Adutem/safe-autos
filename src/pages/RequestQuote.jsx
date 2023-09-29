@@ -60,32 +60,15 @@ const RequestQuote = () => {
     submitEmail,
     currentStoreLocation,
     setCurrentStoreLocation,
+    displayLocationModal,
   } = useGlobalContext();
   const [quotingData, setQuotingData] = useState({
     sendEmailsAndPromo: "No",
-    serviceLocation: currentStoreLocation,
+    serviceLocation: currentStoreLocation?.shopLocation,
   });
   const { state } = useLocation();
   const quotingForm = useRef(null);
   const [disableBtn, setDisableBtn] = useState(false);
-  const [showLocationModal, setShowLocationModal] = useState(false);
-  const portalRef = useRef(null);
-
-  const handleStoreLocationChange = (e) => {
-    setCurrentStoreLocation(e.target.value);
-    handleInputChange(e);
-  };
-
-  const hideShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(false);
-    document.body.style.overflow = "initial";
-  };
-  const showShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(true);
-    document.body.style.overflow = "hidden";
-  };
 
   const stateUpdater = (name, value) => {
     setQuotingData((prev) => ({ ...prev, [name]: value }));
@@ -132,6 +115,13 @@ const RequestQuote = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    setQuotingData((prev) => ({
+      ...prev,
+      serviceLocation: currentStoreLocation?.shopLocation,
+    }));
+  }, [currentStoreLocation]);
 
   const validateForm = (e) => {
     e.preventDefault();
@@ -211,8 +201,8 @@ const RequestQuote = () => {
             Please provide your vehicle information:
           </OptimizedSectionPara>
           <SearchComponent
-            showShowModal={showShowModal}
-            currentLocation={quotingData?.serviceLocation}
+            showShowModal={displayLocationModal}
+            currentLocation={currentStoreLocation}
             style={{ marginTop: "1.5rem" }}
             linkType={"link"}
           />
@@ -401,13 +391,6 @@ const RequestQuote = () => {
           </Button>
         </Container>
       </QuotingForm>
-      {showLocationModal && (
-        <LocationModal
-          portalRef={portalRef}
-          hideShowModal={hideShowModal}
-          handleInputChange={handleStoreLocationChange}
-        />
-      )}
     </QuotingPageContainer>
   );
 };

@@ -75,39 +75,24 @@ const customId = "schedule-service-toast";
 const selects = ["serviceType", "state"];
 
 const ScheduleService = () => {
-  const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
-  const [serviceData, setServiceData] = useState({
-    serviceLocation: currentStoreLocation,
-  });
-  const { states, services } = useGlobalContext();
-  const { state } = useLocation();
-  const [disableAll, setDisableAll] = useState(false);
-  const scheduleForm = useRef(null);
   const {
+    currentStoreLocation,
+    setCurrentStoreLocation,
     allFieldsPresent,
     emailValidator,
     telephoneValidator,
     formatTelephone,
     submitEmail,
+    displayLocationModal,
   } = useGlobalContext();
-  const [showLocationModal, setShowLocationModal] = useState(false);
-  const portalRef = useRef(null);
+  const [serviceData, setServiceData] = useState({
+    serviceLocation: currentStoreLocation?.shopLocationn,
+  });
+  const { states, services } = useGlobalContext();
+  const { state } = useLocation();
+  const [disableAll, setDisableAll] = useState(false);
+  const scheduleForm = useRef(null);
 
-  const handleStoreLocationChange = (e) => {
-    setCurrentStoreLocation(e.target.value);
-    handleInputChange(e);
-  };
-
-  const hideShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(false);
-    document.body.style.overflow = "initial";
-  };
-  const showShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(true);
-    document.body.style.overflow = "hidden";
-  };
   const stateUpdater = (name, value) => {
     setServiceData((prev) => ({ ...prev, [name]: value }));
   };
@@ -133,6 +118,13 @@ const ScheduleService = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    setServiceData((prev) => ({
+      ...prev,
+      serviceLocation: currentStoreLocation?.shopLocation,
+    }));
+  }, [currentStoreLocation]);
 
   const validateForm = (e) => {
     e.preventDefault();
@@ -249,7 +241,7 @@ const ScheduleService = () => {
               />
             </div> */}
           <SearchComponent
-            showShowModal={showShowModal}
+            showShowModal={displayLocationModal}
             currentLocation={currentStoreLocation}
             style={{ marginTop: "1.5rem" }}
             linkType={"link"}
@@ -461,13 +453,13 @@ const ScheduleService = () => {
           DATA. YOU ASSUME ALL RISK RELATED TO THE DATA AND ITS USE.
         </OptimizedSectionPara>
       </Container>
-      {showLocationModal && (
+      {/* {showLocationModal && (
         <LocationModal
           portalRef={portalRef}
           hideShowModal={hideShowModal}
           handleInputChange={handleStoreLocationChange}
         />
-      )}
+      )} */}
     </SchedulePageContainer>
   );
 };

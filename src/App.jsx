@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./App.css";
 import Alert from "./components/Alert";
 import styled from "styled-components";
@@ -15,11 +15,22 @@ import MyStore from "./components/MyStore";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getHoliday } from "./redux";
+import { LocationModal } from "./pages/ScheduleService";
 
 const App = () => {
-  const { windowWidth } = useGlobalContext();
+  const {
+    windowWidth,
+    showLocationModal,
+    setCurrentStoreLocation,
+    hideLocationModal,
+  } = useGlobalContext();
   const { holidayData } = useSelector((state) => state.holiday);
   const dispatch = useDispatch();
+  const portalRef = useRef(null);
+
+  const handleStoreLocationChange = (e) => {
+    setCurrentStoreLocation(e.target.value);
+  };
 
   useEffect(() => {
     if (!holidayData) dispatch(getHoliday());
@@ -69,6 +80,13 @@ const App = () => {
       <RoutesComponent />
       {location.pathname.startsWith("/admin") || <Footer />}
       {/* {showSearch && windowWidth >= 792 && <SearchTireIframe />} */}
+      {showLocationModal && (
+        <LocationModal
+          handleInputChange={handleStoreLocationChange}
+          portalRef={portalRef}
+          hideShowModal={hideLocationModal}
+        />
+      )}
     </AppContainer>
   );
 };

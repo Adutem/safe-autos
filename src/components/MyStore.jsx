@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { NormalPara, SectionPara } from "./reusables/Styles";
 import hoursOfOperation, {
@@ -14,33 +14,18 @@ const MyStore = () => {
     document.querySelector("#store-container")?.classList.remove("show");
     document.body.style.overflow = "initial";
   };
-  const { currentStoreLocation, setCurrentStoreLocation } = useGlobalContext();
-  const [showLocationModal, setShowLocationModal] = useState(false);
-  const portalRef = useRef(null);
 
-  const showShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(true);
-    document.body.style.overflow = "hidden";
-  };
+  const { currentStoreLocation, displayLocationModal } = useGlobalContext();
 
-  const hideShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(false);
-    document.body.style.overflow = "initial";
-  };
-
-  const handleServiceLocationChange = (e) => {
-    setCurrentStoreLocation(e.target.value);
+  useEffect(() => {
     hideMyStore();
-  };
-
+  }, [currentStoreLocation]);
   return (
     <StoreCompContainer id="store-container">
       <Underlay onClick={hideMyStore} className="underlay" />
       <StoreCompContContainer>
         <SearchComponent
-          showShowModal={showShowModal}
+          showShowModal={displayLocationModal}
           currentLocation={currentStoreLocation}
           style={{ marginTop: "1.5rem" }}
           linkType={"mapLink"}
@@ -70,13 +55,6 @@ const MyStore = () => {
           </>
         )}
       </StoreCompContContainer>
-      {showLocationModal && (
-        <LocationModal
-          portalRef={portalRef}
-          hideShowModal={hideShowModal}
-          handleInputChange={handleServiceLocationChange}
-        />
-      )}
     </StoreCompContainer>
   );
 };
@@ -91,6 +69,8 @@ const StoreCompContContainer = styled.div`
   padding: 1rem;
   // margin-left: auto;
   // margin-top: 60px;
+  padding-bottom: 3rem;
+  overflow: auto;
 `;
 
 const StoreCompContainer = styled.div`
