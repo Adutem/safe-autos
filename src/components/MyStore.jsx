@@ -28,9 +28,10 @@ const MyStore = () => {
           showShowModal={displayLocationModal}
           currentLocation={currentStoreLocation}
           style={{ marginTop: "1.5rem" }}
-          linkType={"mapLink"}
+          linkType={"link"}
           dropdownText={"select store location"}
-          linkText={"Get Direction"}
+          // linkText={"Get Direction"}
+          hideBrowseLink={!currentStoreLocation}
         />
         <Seperator />
         {currentStoreLocation && (
