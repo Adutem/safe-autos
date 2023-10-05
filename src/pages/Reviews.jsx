@@ -5,8 +5,12 @@ import {
   Container,
   RedBackgroundHeading,
 } from "../components/reusables/Styles";
+import { SearchComponent } from "../components/Advert";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 const Reviews = () => {
+  const { displayLocationModal, currentStoreLocation } = useGlobalContext();
+
   return (
     <ReviewPageContainer>
       <RedBackgroundHeading>Reviews</RedBackgroundHeading>
@@ -15,17 +19,18 @@ const Reviews = () => {
           <LeftContainer>
             <Card>
               <Heading>Review By Location</Heading>
-              <SmallPara>
-                Location:{" "}
-                <select>
-                  <option> 591 S Lapeer Road</option>
-                </select>
-              </SmallPara>
-              <Address>
+              <SearchComponent
+                showShowModal={displayLocationModal}
+                currentLocation={currentStoreLocation}
+                style={{ marginTop: "1.5rem" }}
+                linkType={"link"}
+                hideBrowseLink={true}
+              />
+              {/* <Address>
                 <SmallPara>591 S Lapeer Road</SmallPara>
                 <SmallPara>Lake Orion, MI 48362</SmallPara>
                 <SmallPara>Phone: 248-693-7979</SmallPara>
-              </Address>
+              </Address> */}
               <ButtonLink
                 to="/submit-a-review"
                 style={{
