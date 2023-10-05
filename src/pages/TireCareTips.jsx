@@ -25,9 +25,8 @@ const TireCareTips = () => {
           improved handling and performance. Your tires are all that stand
           between the road and your car, which is why it’s important to stay up
           to date on their maintenance. At Acorn Tire & Auto, we want our
-          customers in Lapeer Road, Lake Orion, MI 48362, and surrounding areas
-          to remain on top of tire performance and adhere to maintenance
-          schedules outlined in their owner’s manual.
+          customers to remain on top of tire performance and adhere to
+          maintenance schedules outlined in their owner’s manual.
         </NormalPara>
         <NormalPara>
           To get the most out of your tires and keep your tires in working
@@ -80,8 +79,7 @@ const TireCareTips = () => {
           vibration, reduced wear on your tires, and better mileage.
         </NormalPara>
         <RedBackgroundHeading>
-          Acorn Tire & Auto Offers Quality Tire Services and Tire Maintenance in
-          Lapeer Road, Lake Orion, MI
+          Acorn Tire & Auto Offers Quality Tire Services and Tire Maintenance
         </RedBackgroundHeading>
         <NormalPara>
           Take these tips and suggestions into account while maintaining your
@@ -94,8 +92,8 @@ const TireCareTips = () => {
           replacing your tires when needed, and ensuring that your tires are
           well-balanced are essential for your vehicle’s performance and
           reliability. At Acorn Tire & Auto , we are here for all your tire
-          services and repairs in Lapeer Road, Lake Orion, MI . Schedule an
-          appointment today and let us care for your tires!
+          services and repairs. Schedule an appointment today and let us care
+          for your tires!
         </NormalPara>
         <OptimizedButtonLink to={"/find-us/contact"}>
           <i className="fi fi-sr-envelope"></i>
