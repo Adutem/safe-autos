@@ -25,9 +25,9 @@ const TireCareTips = () => {
           improved handling and performance. Your tires are all that stand
           between the road and your car, which is why it’s important to stay up
           to date on their maintenance. At Acorn Tire & Auto, we want our
-          customers in La Crosse, WI , and surrounding areas to remain on top of
-          tire performance and adhere to maintenance schedules outlined in their
-          owner’s manual.
+          customers in Lapeer Road, Lake Orion, MI 48362, and surrounding areas
+          to remain on top of tire performance and adhere to maintenance
+          schedules outlined in their owner’s manual.
         </NormalPara>
         <NormalPara>
           To get the most out of your tires and keep your tires in working
