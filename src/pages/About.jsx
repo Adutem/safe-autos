@@ -6,12 +6,18 @@ import {
 } from "../components/reusables/Styles";
 import styled from "styled-components";
 import { DaysOfOperationComponent } from "../components/reusables/Components";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 const About = () => {
+  const { currentStoreLocation } = useGlobalContext();
   return (
     <AboutContainer>
-      <RedBackgroundHeading>Hours of operation</RedBackgroundHeading>
-      <DaysOfOperationComponent />
+      {currentStoreLocation && (
+        <>
+          <RedBackgroundHeading>Hours of operation</RedBackgroundHeading>
+          <DaysOfOperationComponent />
+        </>
+      )}
       <RedBackgroundHeading>About Acorn Tire & Auto</RedBackgroundHeading>
       <Container style={{ padding: "2rem 0" }}>
         <Para>
