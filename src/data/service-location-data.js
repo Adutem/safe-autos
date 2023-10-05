@@ -1,5 +1,20 @@
 const serviceLocations = [
   {
+    shopLocation:
+      "Midas of Lake Orion,\n591 S Lapeer Road,\nLake Orion, MI 48362",
+    phoneNumber: "248-783-6829",
+    email: "midaslakeorion@acornauto.org",
+    link: "https://www.midas.com/store/mi/lake-orion/591-south-lapeer-road-48362/tires?shopnum=6861&v=lookup#tire-shop-modes",
+    couponLink:
+      "https://www.midas.com/store/mi/lake-orion/591-south-lapeer-road-48362/offers?shopnum=6861",
+    financingLink:
+      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6861",
+    facebookLink: "https://www.facebook.com/profile.php?id=100089322674584",
+    mapLink: "https://maps.app.goo.gl/Q3sCDRdVgKUNwGgs5",
+    iframe:
+      "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d366.1017151495378!2d-83.2643395!3d42.7711447!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8824ecda15611277%3A0x39db527c7a81e73f!2sMidas!5e0!3m2!1sen!2sng!4v1695589415158!5m2!1sen!2sng",
+  },
+  {
     shopLocation: "Midas of Warren,\n32601 Van Dyke Ave,\nWarren, MI 48093",
     phoneNumber: "586-981-0793",
     email: "midaswarren@acornauto.org",
@@ -56,21 +71,6 @@ const serviceLocations = [
     mapLink: "https://maps.app.goo.gl/giMV8222mxSSF5w38",
     iframe:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2941.831451457121!2d-83.4767086!3d42.4951358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8824af104d9bc731%3A0x5615c1226b764bd6!2sMidas!5e0!3m2!1sen!2sng!4v1695589447621!5m2!1sen!2sng",
-  },
-  {
-    shopLocation:
-      "Midas of Lake Orion,\n591 S Lapeer Road,\nLake Orion, MI 48362",
-    phoneNumber: "248-783-6829",
-    email: "midaslakeorion@acornauto.org",
-    link: "https://www.midas.com/store/mi/lake-orion/591-south-lapeer-road-48362/tires?shopnum=6861&v=lookup#tire-shop-modes",
-    couponLink:
-      "https://www.midas.com/store/mi/lake-orion/591-south-lapeer-road-48362/offers?shopnum=6861",
-    financingLink:
-      "https://www.midas.com/about-midas/midas-credit-card-service-financing?shopnum=6861",
-    facebookLink: "https://www.facebook.com/profile.php?id=100089322674584",
-    mapLink: "https://maps.app.goo.gl/Q3sCDRdVgKUNwGgs5",
-    iframe:
-      "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d366.1017151495378!2d-83.2643395!3d42.7711447!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8824ecda15611277%3A0x39db527c7a81e73f!2sMidas!5e0!3m2!1sen!2sng!4v1695589415158!5m2!1sen!2sng",
   },
   {
     shopLocation:
