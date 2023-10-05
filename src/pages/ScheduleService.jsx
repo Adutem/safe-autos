@@ -23,7 +23,7 @@ import { toast } from "react-toastify";
 import serviceLocations from "../data/service-location-data";
 import { SearchComponent } from "../components/Advert";
 
-const waitOptions = [
+export const waitOptions = [
   {
     label: "I will wait for my vehicle",
     value: "true",
@@ -162,10 +162,7 @@ const ScheduleService = () => {
       "secondAppointmentDate",
       serviceData?.secondAppointmentDate
     );
-    formData.append(
-      "serviceLocation",
-      serviceData?.serviceLocation.shopLocation
-    );
+    formData.append("serviceLocation", serviceData?.serviceLocation);
     submitEmail(
       formData,
       () => {
