@@ -53,7 +53,7 @@ const Services = () => {
             labelStyle={{ minWidth: "max-content" }}
           />
         </OptimizedRowFlex>
-        <NormalPara>
+        {/* <NormalPara>
           We are one of the leading auto repair shops serving customers in, 591
           S Lapeer Road, Lake Orion, MI and surrounding areas. All automotive
           repair and mechanic services at Acorn Tire & Auto are performed by
@@ -76,7 +76,7 @@ const Services = () => {
           repairs. Whether you need routine auto maintenance services or
           necessary car repairs, contact us online or visit us during business
           hours.
-        </NormalPara>
+        </NormalPara> */}
         <SectionHeading style={{ marginTop: "1.5rem" }}>
           Services
         </SectionHeading>
