@@ -25,6 +25,8 @@ import { toast } from "react-toastify";
 import serviceLocations from "../data/service-location-data";
 import { SearchComponent } from "../components/Advert";
 import { LocationModal } from "./ScheduleService";
+import hoursOfOperation from "../data/hours-of-operation";
+import { waitOptions } from "./ScheduleService";
 
 const customId = "kl239wesdjof";
 
@@ -36,6 +38,9 @@ const requiredFields = [
   "year",
   "model",
   "make",
+  "firstAppointmentDate",
+  "secondAppointmentDate",
+  "staying",
   "firstName",
   "lastName",
   "email",
@@ -134,6 +139,10 @@ const RequestQuote = () => {
       return toast.error("Please fill all field", { toastId: customId });
     }
 
+    if (!quotingData.serviceLocation) {
+      return toast.error("Please select a location", { toastId: customId });
+    }
+
     if (!emailValidator(quotingData.email)) {
       return toast.error("Please provide a valid email...", {
         toastId: customId,
@@ -155,8 +164,12 @@ const RequestQuote = () => {
     formData.append("heading", "New Quoting request for Acorn Tire & Auto");
     formData.append("template", "quote");
     formData.set("sendEmailsAndPromo", quotingData.sendEmailsAndPromo);
-    // console.log(formData);
-    // window.formati = formData;
+    formData.append("firstAppointmentDate", quotingData?.firstAppointmentDate);
+    formData.append(
+      "secondAppointmentDate",
+      quotingData?.secondAppointmentDate
+    );
+    formData.append("serviceLocation", quotingData?.serviceLocation);
     submitEmail(
       formData,
       () => {
@@ -279,6 +292,48 @@ const RequestQuote = () => {
                 placeholder={"Select Option"}
                 onChange={handleInputChange}
               /> */}
+            </RightContainer>
+          </OptimizedGridLayout>
+          <OptimizedGridLayout waitTillTab={true}>
+            <OptimizedSectionPara style={fullColumn}>
+              Appointment Details
+            </OptimizedSectionPara>
+            <LeftContainer>
+              <FormGroupComponent
+                type={"date-time"}
+                label={"Select first choice appointment:"}
+                value={quotingData?.firstAppointmentDate}
+                onChange={handleInputChange}
+                name={"firstAppointmentDate"}
+              />
+              <FormGroupComponent
+                type={"date-time"}
+                label={"Select second choice appointment:"}
+                value={quotingData?.secondAppointmentDate}
+                onChange={handleInputChange}
+                name={"secondAppointmentDate"}
+              />
+              <FormGroupComponent
+                generalName={"Will you wait while we work?:"}
+                name={"staying"}
+                options={waitOptions}
+                type={"radio"}
+                value={quotingData?.staying}
+                onChange={handleInputChange}
+              />
+            </LeftContainer>
+            <RightContainer>
+              {/* <GoogleMapComp style={{ marginTop: "0" }} /> */}
+              <OptimizedSectionPara style={{ fontSize: "1.3rem" }}>
+                Hours
+              </OptimizedSectionPara>
+              <div style={{ margin: "1rem 0 1.5rem" }}>
+                {hoursOfOperation.map((hop) => (
+                  <NormalPara style={{ margin: "0.5rem 0" }}>
+                    {hop.date}: {hop.hours.join(" - ")}
+                  </NormalPara>
+                ))}
+              </div>
             </RightContainer>
           </OptimizedGridLayout>
           <OptimizedSectionPara>
