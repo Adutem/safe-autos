@@ -34,7 +34,9 @@ const ServiceCard = ({ name: serviceName, imgUrl }) => {
       if (!content || !content.innerHTML) {
         content = htmlPage.body.querySelector("body > div:nth-child(2)");
       }
-      containerRef.current.innerHTML = `${content?.innerHTML.slice(0, 100)}...`;
+      // console.log(content.innerHTML.split("."));
+      // containerRef.current.innerHTML = `${content?.innerHTML.slice(0, 100)}...`;
+      containerRef.current.innerHTML = `${content?.innerHTML.split(".")[0]}.`;
     }
   }, []);
 
