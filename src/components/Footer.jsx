@@ -27,11 +27,11 @@ const Footer = () => {
         ))}
         <Sections>
           <ColumnFlexContainer style={{ alignItems: "flex-start" }}>
-            <Header>Vist Our Shop</Header>
+            <Header>Headquarters</Header>
             <Address>
               <strong>Phone: </strong> 248-693-7979 <br />
               <br />
-              <strong>Headquarters: </strong> 591 S Lapeer Road
+              <strong>Location: </strong> 591 S Lapeer Road
               <br />
               <br />
               Lake Orion, MI 48362
