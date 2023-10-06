@@ -14,26 +14,11 @@ import {
 } from "./reusables/Styles";
 import { LocationModal } from "../pages/ScheduleService";
 import serviceLocations from "../data/service-location-data";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 const Advert = () => {
-  const [showLocationModal, setShowLocationModal] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const { currentStoreLocation, displayLocationModal } = useGlobalContext();
   const portalRef = useRef(null);
-
-  const hideShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(false);
-    document.body.style.overflow = "initial";
-  };
-  const showShowModal = (e) => {
-    e && e.preventDefault();
-    setShowLocationModal(true);
-    document.body.style.overflow = "hidden";
-  };
-
-  const handleInputChange = (e) => {
-    setCurrentLocation(e.target.value);
-  };
 
   return (
     <AdvertContainer>
@@ -41,8 +26,8 @@ const Advert = () => {
         <LeftContainer>
           <Heading>Browse Our Tires</Heading>
           <SearchComponent
-            showShowModal={showShowModal}
-            currentLocation={currentLocation}
+            showShowModal={displayLocationModal}
+            currentLocation={currentStoreLocation}
             linkType={"link"}
           />
         </LeftContainer>
@@ -60,13 +45,6 @@ const Advert = () => {
           <ButtonLink to={"/services"}>View Repair</ButtonLink>
         </RightContainer>
       </AdvertContentContainer>
-      {showLocationModal && (
-        <LocationModal
-          portalRef={portalRef}
-          hideShowModal={hideShowModal}
-          handleInputChange={handleInputChange}
-        />
-      )}
     </AdvertContainer>
   );
 };
