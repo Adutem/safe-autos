@@ -17,7 +17,13 @@ const HomeHero = ({ isHomepage, isAdmin }) => {
           </HeroContainer>
           {isHomepage && (
             <VideoContainer>
-              <HeroVideoContainer src={heroVideo} autoPlay={true} loop muted />
+              <HeroVideoContainer
+                src={heroVideo}
+                autoPlay={true}
+                loop
+                muted
+                playsInline
+              />
             </VideoContainer>
           )}
           {/* <HeroContainer style={{ background: "red" }} /> */}
