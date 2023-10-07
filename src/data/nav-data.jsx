@@ -97,12 +97,13 @@ const routes = [
         name: "Contact",
         icon: <i className="fi fi-sr-envelope"></i>,
       },
-      {
-        path: "/join-our-team",
-        name: "Join our team",
-        icon: <i className="fi fi-sr-briefcase"></i>,
-      },
     ],
+  },
+  {
+    type: "normal",
+    path: "/join-our-team",
+    name: "Join our team",
+    icon: <i className="fi fi-sr-briefcase"></i>,
   },
 ];
 

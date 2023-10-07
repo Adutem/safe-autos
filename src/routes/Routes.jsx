@@ -36,8 +36,8 @@ const RoutesComponent = () => {
       <Route path="find-us">
         <Route index element={<FindUs />} />
         <Route path="contact" element={<Contact />} />
-        <Route path="join-our-team" element={<Jobs />} />
       </Route>
+      <Route path="/join-our-team" element={<Jobs />} />
       <Route path="/coupons" element={<Coupons />} />
       <Route path="/financing" element={<Financing />} />
       <Route path="services">
