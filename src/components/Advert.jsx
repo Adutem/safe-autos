@@ -217,7 +217,7 @@ export function SearchComponent({
             currentLocation && currentLocation[linkType] ? "_blank" : "_self"
           }
         >
-          {linkText || "Browse your vehicle data here"}
+          {linkText || "Continue"}
           <i className="fi fi-sr-arrow-up-right-from-square"></i>
         </OptimizedFormLink>
       )}

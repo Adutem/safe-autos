@@ -220,7 +220,7 @@ const RequestQuote = () => {
             linkType={"link"}
           />
           {/* <OptimizedFormButton onClick={displaySearchModal}>
-            Browse your vehicle data here{" "}
+            Continue{" "}
             <i className="fi fi-sr-arrow-up-right-from-square"></i>
           </OptimizedFormButton> */}
           <OptimizedGridLayout style={{ margin: "0 1rem 1rem" }}>
