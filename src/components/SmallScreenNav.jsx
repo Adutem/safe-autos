@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import routes from "../data/nav-data";
 import { MyStoreButton } from "./Navbar";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 export const handleWindowScroll = (id, others) => {
   if (document.querySelector(id).classList.contains("show")) {
@@ -17,6 +18,7 @@ export const handleWindowScroll = (id, others) => {
 };
 
 const SmallScreenNav = () => {
+  const { currentStoreLocation } = useGlobalContext();
   const toggleNav = () => {
     handleWindowScroll("#nav-bar", ["#location-comp", "#store-container"]);
     document.querySelector("#nav-bar")?.classList.toggle("show");
@@ -54,7 +56,13 @@ const SmallScreenNav = () => {
           <ToggleLocationButton onClick={toggleLocationComponent}>
             <i className="fi fi-ss-marker"></i>
           </ToggleLocationButton>
-          <TelLink href="tel:+1 248-693-7979">
+          <TelLink
+            href={`tel:+1 ${
+              currentStoreLocation
+                ? currentStoreLocation.phoneNumber
+                : "248-693-7979"
+            }`}
+          >
             <i className="fi fi-sr-phone-flip"></i>
           </TelLink>
         </Aside>
