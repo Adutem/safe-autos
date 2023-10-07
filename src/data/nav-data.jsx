@@ -98,8 +98,8 @@ const routes = [
         icon: <i className="fi fi-sr-envelope"></i>,
       },
       {
-        path: "/jobs",
-        name: "Jobs",
+        path: "/join-our-team",
+        name: "Join our team",
         icon: <i className="fi fi-sr-briefcase"></i>,
       },
     ],

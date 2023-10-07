@@ -128,7 +128,7 @@ const Jobs = () => {
   };
   return (
     <JobPageContainer>
-      <RedBackgroundHeading>Jobs</RedBackgroundHeading>
+      <RedBackgroundHeading>Join our team</RedBackgroundHeading>
       <Container style={{ margin: "2rem auto" }}>
         <Para>
           Acorn Tire & Auto is always looking for top talent to join our team.
