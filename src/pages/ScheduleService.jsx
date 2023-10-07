@@ -242,6 +242,7 @@ const ScheduleService = () => {
             currentLocation={currentStoreLocation}
             style={{ marginTop: "1.5rem" }}
             linkType={"link"}
+            hideBrowseLink={true}
           />
           <OptimizedGridLayout>
             <LeftContainer>
