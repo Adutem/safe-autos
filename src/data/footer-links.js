@@ -88,6 +88,10 @@ const footerLinks = [
         path: "find-us",
         name: "Find Us",
       },
+      {
+        path: "find-us/join-our-team",
+        name: "Join our team",
+      },
     ],
   },
 ];
