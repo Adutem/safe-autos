@@ -218,6 +218,7 @@ const RequestQuote = () => {
             currentLocation={currentStoreLocation}
             style={{ marginTop: "1.5rem" }}
             linkType={"link"}
+            hideBrowseLink={true}
           />
           {/* <OptimizedFormButton onClick={displaySearchModal}>
             Continue{" "}
