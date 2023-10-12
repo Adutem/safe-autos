@@ -16,6 +16,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getHoliday } from "./redux";
 import { LocationModal } from "./pages/ScheduleService";
+import { getAboutPageContent } from "./redux/aboutPage/aboutPageActions";
 
 const App = () => {
   const {
@@ -37,6 +38,10 @@ const App = () => {
     if (currentStoreLocation)
       dispatch(getHoliday(currentStoreLocation?.shopLocation));
   }, [currentStoreLocation]);
+
+  useEffect(() => {
+    dispatch(getAboutPageContent());
+  }, []);
 
   const location = useLocation();
   useEffect(() => {
