@@ -43,6 +43,25 @@ const AboutPage = () => {
     ]);
   };
 
+  const removeContent = (dataId) => {
+    const aboutPageContentCopy = [...aboutPageContent];
+    const indexToRemove = aboutPageContent.findIndex(
+      (cnt) => cnt?.customId === dataId || cnt?._id === dataId
+    );
+    aboutPageContentCopy.splice(indexToRemove, 1);
+    // const updatedPageContent = aboutPageContent.filter((cnt) => {
+    //   if (cnt.customId) {
+    //     return cnt.customId !== dataId
+    //   }
+    //   return (cnt._id === dataId)
+    // });
+    const updatedPageContent = aboutPageContentCopy.map((cnt, idx) => ({
+      ...cnt,
+      index: idx,
+    }));
+    setAboutPageContent(updatedPageContent);
+  };
+
   const savePage = () => {
     if (pageId) {
       toast.loading("Updating Page", { toastId: customToastId });
@@ -82,6 +101,7 @@ const AboutPage = () => {
                 // key={Object.values(content).join("")}
                 handleInputChange={handleInputChange}
                 disabled={updating}
+                removeContent={removeContent}
               />
             );
           if (content.contentType === "heading")
@@ -91,6 +111,7 @@ const AboutPage = () => {
                 // key={Object.values(content).join("")}
                 handleInputChange={handleInputChange}
                 disabled={updating}
+                removeContent={removeContent}
               />
             );
         })
