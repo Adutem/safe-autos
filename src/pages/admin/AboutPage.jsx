@@ -148,6 +148,9 @@ const AddNew = styled.button`
   cursor: pointer;
   color: var(--white);
   transition: 0.4s ease;
+  font-family: var(--mont);
+  font-weight: 600;
+  font-size: 0.8rem;
 
   &:hover {
     opacity: 0.6;
@@ -163,7 +166,6 @@ const ActionButtons = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(150px, 1fr));
   gap: 0.5rem;
-  border: 1px solid black;
   border-bottom: none;
   padding: 0.2rem;
 `;

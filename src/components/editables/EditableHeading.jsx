@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { EditIcon } from "../../pages/admin/Dashboard";
+import { DeleteButton, EditableContainer } from "./EdittablePara";
 
 const EditableHeading = ({
   contentData,
@@ -15,7 +16,7 @@ const EditableHeading = ({
     return handleInputChange(contentData._id, e.target.value);
   };
   return (
-    <div style={{ display: "flex", gap: "1rem" }}>
+    <EditableContainer>
       <AboutPageInput
         value={contentData.content}
         type="text"
@@ -25,12 +26,12 @@ const EditableHeading = ({
         onChange={inputChangeHandler}
         disabled={disabled}
       />
-      <EditIcon
+      <DeleteButton
         onClick={() => removeContent(contentData._id || contentData.customId)}
       >
-        <i className="fi fi-sr-trash"></i>
-      </EditIcon>
-    </div>
+        <i className="fi fi-sr-trash-xmark"></i>
+      </DeleteButton>
+    </EditableContainer>
   );
 };
 
@@ -38,9 +39,11 @@ const AboutPageInput = styled.input`
   font-family: var(--mont);
   font-weight: 700;
   font-size: 1.3rem;
-  margin: 1rem 0 0.5rem;
+  // margin: 1rem 0 0.5rem;
+  border: none;
+  outline: none;
   text-transform: uppercase;
-  border: 2px solid black;
+  // border: 2px solid black;
   padding: 1rem;
   display: block;
   width: 100%;
