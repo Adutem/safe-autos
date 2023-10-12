@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 const Dashboard = () => {
   const formEmail = useSelector((state) => state.formEmail);
   const holiday = useSelector((state) => state.holiday);
+  const { currentStoreLocation } = useGlobalContext();
   return (
     <AdminContainer>
       <SectionHeading
@@ -31,11 +32,24 @@ const Dashboard = () => {
       <FormSubmissionComponent formEmail={formEmail} />
       <br />
       <SectionPara style={{ textAlign: "left" }}>Declare Holiday</SectionPara>
-      <NormalPara style={{ margin: "0.4rem 0 0 0" }}>
-        This holiday will disappear from the homepage after the holiday has
-        passed.
-      </NormalPara>
-      <HolidayFormComponent holiday={holiday} />
+      {holiday.loading && <NormalPara>Loading holiday data</NormalPara>}
+      {currentStoreLocation && !holiday.loading && !holiday.holidayData && (
+        <NormalPara>No holiday record found</NormalPara>
+      )}
+      {currentStoreLocation ? (
+        !holiday?.loading &&
+        holiday?.holidayData && (
+          <>
+            <NormalPara style={{ margin: "0.4rem 0 0 0" }}>
+              This holiday will disappear from the homepage after the holiday
+              has passed.
+            </NormalPara>
+            <HolidayFormComponent holiday={holiday} />
+          </>
+        )
+      ) : (
+        <NormalPara>Pick a store location to show holiday</NormalPara>
+      )}
     </AdminContainer>
   );
 };
@@ -168,7 +182,7 @@ const HolidayFormComponent = ({ holiday }) => {
   const [holidayData, setHolidayData] = useState(holiday.holidayData);
   const [disabled, setDisabled] = useState(true);
   const [showSaveButton, setShowSaveButton] = useState(false);
-  const { toastError } = useGlobalContext();
+  const { toastError, currentStoreLocation } = useGlobalContext();
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
@@ -207,7 +221,11 @@ const HolidayFormComponent = ({ holiday }) => {
       return toastError("Please fill all fields");
     }
     setDisabled(true);
-    const data = { holidayText, holidayDate, holidayId: holidayData._id };
+    const data = {
+      holidayText,
+      holidayDate,
+      holidayId: holidayData._id,
+    };
     dispatch(updateHoliday(data, successCallback, errorCallback));
   };
 

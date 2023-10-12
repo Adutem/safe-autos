@@ -9,6 +9,7 @@ import {
   LeftContainer,
   RightContainer,
   SectionPara,
+  NormalPara,
 } from "../components/reusables/Styles";
 import { FormGroupComponent } from "../components/reusables/Components";
 import { FILE_FORMATS, useGlobalContext } from "../contexts/GlobalContext";
@@ -57,13 +58,16 @@ const Jobs = () => {
     telephoneValidator,
     formatTelephone,
     submitEmail,
+    currentStoreLocation,
   } = useGlobalContext();
-  const { careers } = useSelector((state) => state.career);
+  const { careers, loading } = useSelector((state) => state.career);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCareer());
-  }, []);
+    if (currentStoreLocation) {
+      dispatch(getCareer(currentStoreLocation.shopLocation));
+    }
+  }, [currentStoreLocation]);
 
   const stateUpdater = (name, value) => {
     setJobData((prev) => {
@@ -143,11 +147,24 @@ const Jobs = () => {
         <SectionPara style={{ textAlign: "left" }}>
           Current Openings
         </SectionPara>
-        <CareerCardContainer style={{ padding: "1rem", background: "#f1f1f1" }}>
-          {careers.map((car) => (
-            <CareerCard {...car} hideActions={true} />
-          ))}
-        </CareerCardContainer>
+        {loading && <NormalPara>Loading current openings</NormalPara>}
+        {currentStoreLocation && !loading && !careers.length && (
+          <NormalPara>No opening available</NormalPara>
+        )}
+        {currentStoreLocation ? (
+          !loading &&
+          careers.length > 0 && (
+            <CareerCardContainer
+              style={{ padding: "1rem", background: "#f1f1f1" }}
+            >
+              {careers.map((car) => (
+                <CareerCard {...car} hideActions={true} />
+              ))}
+            </CareerCardContainer>
+          )
+        ) : (
+          <NormalPara>Pick a store location to available openings</NormalPara>
+        )}
         <Heading>Fields marked with an asterisk * are required.</Heading>
         <RedBackgroundHeading>
           Please fill out the information below

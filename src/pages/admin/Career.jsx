@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AdminContainer, CancelEdit, EditIcon, SaveChange } from "./Dashboard";
 import {
   NormalPara,
@@ -16,6 +16,7 @@ import {
   getFromLocalStorage,
   toastError,
   toastSuccess,
+  useGlobalContext,
 } from "../../contexts/GlobalContext";
 import { toast } from "react-toastify";
 import { getCareer } from "../../redux";
@@ -31,6 +32,7 @@ const Career = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const { currentStoreLocation } = useGlobalContext();
 
   const updateCurrentItem = (data) => {
     setCurrentItem(data);
@@ -60,6 +62,12 @@ const Career = () => {
     setCurrentItem(null);
   };
 
+  useEffect(() => {
+    if (currentStoreLocation) {
+      dispatch(getCareer(currentStoreLocation.shopLocation));
+    }
+  }, [currentStoreLocation]);
+
   const confirmEdit = async (data) => {
     console.log("Edited data", data);
     const careerId = data._id;
@@ -74,7 +82,7 @@ const Career = () => {
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       toastSuccess(response.data.message, toastId, true);
-      dispatch(getCareer());
+      dispatch(getCareer(currentStoreLocation.shopLocation));
       handleCancelAction();
       setIsSaving(false);
     } catch (error) {
@@ -96,7 +104,7 @@ const Career = () => {
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       toastSuccess(response.data.message, toastId, true);
-      dispatch(getCareer());
+      dispatch(getCareer(currentStoreLocation.shopLocation));
       handleCancelAction();
       setIsDeleting(false);
     } catch (error) {
@@ -107,19 +115,22 @@ const Career = () => {
   };
 
   const confirmCreate = async (data) => {
-    console.log("Create data", data);
+    // console.log("Create data", data);
     const accessToken = getFromLocalStorage("accessToken");
     if (!accessToken) return handleCancelAction();
+    const reqBody = {
+      role: data.role,
+      careerLink: data.careerLink,
+      shopLocation: currentStoreLocation.shopLocation.replace(/\n/g, ""),
+    };
     const toastId = toast.loading("Creating career");
     try {
       setIsCreating(true);
-      let response = await axios.post(
-        `${BASE_URL}/career`,
-        { role: data.role, careerLink: data.careerLink },
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
+      let response = await axios.post(`${BASE_URL}/career`, reqBody, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
       toastSuccess(response.data.message, toastId, true);
-      dispatch(getCareer());
+      dispatch(getCareer(currentStoreLocation.shopLocation));
       handleCancelAction();
       setIsCreating(false);
     } catch (error) {
@@ -136,26 +147,41 @@ const Career = () => {
       >
         Career Page
       </SectionHeading>
-      <SaveChange
-        style={{ padding: "1rem" }}
-        onClick={() => setShowCreateModal(true)}
-      >
-        Create new career
-      </SaveChange>
-      <br />
-      <br />
+      {currentStoreLocation && (
+        <>
+          <SaveChange
+            style={{ padding: "1rem" }}
+            onClick={() => setShowCreateModal(true)}
+          >
+            Create new career
+          </SaveChange>
+          <br />
+          <br />
+        </>
+      )}
       <SectionPara style={{ textAlign: "left" }}>Careers</SectionPara>
-      <Careers>
-        <CareerCardContainer>
-          {career.careers.map((car) => (
-            <CareerCard
-              {...car}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
-          ))}
-        </CareerCardContainer>
-      </Careers>
+      {career.loading && <NormalPara>Loading current openings</NormalPara>}
+      {currentStoreLocation && !career.loading && !career.careers.length && (
+        <NormalPara>No opening available</NormalPara>
+      )}
+      {currentStoreLocation ? (
+        !career.loading &&
+        career.careers.length > 0 && (
+          <Careers>
+            <CareerCardContainer>
+              {career.careers.map((car) => (
+                <CareerCard
+                  {...car}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              ))}
+            </CareerCardContainer>
+          </Careers>
+        )
+      ) : (
+        <NormalPara>Pick a store location to available openings</NormalPara>
+      )}
       {showEditModal && (
         <EditModal
           currentItem={currentItem}
@@ -169,6 +195,7 @@ const Career = () => {
           handleCancelAction={handleCancelAction}
           confirmCreate={confirmCreate}
           isCreating={isCreating}
+          // currentStoreLocation={currentStoreLocation}
         />
       )}
       {showDeleteModal && (
@@ -206,7 +233,11 @@ export const CareerCard = ({
       <CareerDetails>
         <Role>Role: {role}</Role>
         <NormalPara style={{ margin: 0, fontSize: "0.85rem", fontWeight: 600 }}>
-          Career Link: <CareerLink> {careerLink}</CareerLink>{" "}
+          Career Link:{" "}
+          <CareerLink to={careerLink} target={"_blank"}>
+            {" "}
+            {careerLink}
+          </CareerLink>{" "}
         </NormalPara>
       </CareerDetails>
       {hideActions || (
@@ -357,7 +388,12 @@ const DeleteModalContContainer = styled.div`
   }
 `;
 
-const CreateModal = ({ handleCancelAction, confirmCreate, isCreating }) => {
+const CreateModal = ({
+  handleCancelAction,
+  confirmCreate,
+  isCreating,
+  // currentStoreLocation,
+}) => {
   const portalRef = useRef(null);
   const [careerData, setCareerData] = useState({});
 
@@ -371,7 +407,10 @@ const CreateModal = ({ handleCancelAction, confirmCreate, isCreating }) => {
   const handleSaveChanges = () => {
     if (!careerData?.role || !careerData.careerLink)
       return toastError("Please fill all fields", "afdasf");
-    confirmCreate(careerData);
+    confirmCreate({
+      ...careerData,
+      // shopLocation: currentStoreLocation.shopLocation,
+    });
   };
 
   return (
