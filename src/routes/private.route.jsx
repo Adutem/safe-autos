@@ -15,6 +15,11 @@ const routes = [
     Icon: <i className="fi fi-sr-briefcase"></i>,
     path: "/admin/career",
   },
+  {
+    name: "About",
+    Icon: <i className="fi fi-sr-info"></i>,
+    path: "/admin/about",
+  },
 ];
 
 const PrivateRoute = () => {

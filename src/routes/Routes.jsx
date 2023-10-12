@@ -23,6 +23,7 @@ import Authenticate from "../pages/admin/Authenticate";
 import Dashboard from "../pages/admin/Dashboard";
 import Career from "../pages/admin/Career";
 import PrivateRoute from "./private.route";
+import AboutPage from "../pages/admin/AboutPage";
 
 const RoutesComponent = () => {
   return (
@@ -58,6 +59,7 @@ const RoutesComponent = () => {
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="career" element={<Career />} />
+        <Route path="about" element={<AboutPage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
