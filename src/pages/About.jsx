@@ -7,9 +7,11 @@ import {
 import styled from "styled-components";
 import { DaysOfOperationComponent } from "../components/reusables/Components";
 import { useGlobalContext } from "../contexts/GlobalContext";
+import { useSelector } from "react-redux";
 
 const About = () => {
   const { currentStoreLocation } = useGlobalContext();
+  const { pageContent } = useSelector((state) => state.aboutPage);
   return (
     <AboutContainer>
       {currentStoreLocation && (
@@ -20,7 +22,15 @@ const About = () => {
       )}
       <RedBackgroundHeading>About Acorn Tire & Auto</RedBackgroundHeading>
       <Container style={{ padding: "2rem 0" }}>
-        <Para>
+        {pageContent &&
+          pageContent.contents &&
+          pageContent.contents.map((content) => {
+            if (content.contentType === "para")
+              return <Para>{content.content}</Para>;
+            if (content.contentType === "heading")
+              return <Heading>{content.content}</Heading>;
+          })}
+        {/* <Para>
           Welcome to Acorn Tire & Auto, your premier choice for comprehensive
           auto services and tire solutions in Michigan. Our goal is to ensure
           your utmost satisfaction by providing unparalleled value for your
@@ -74,8 +84,8 @@ const About = () => {
           require routine auto maintenance services or essential car repairs.
           Feel free to contact us online or visit our shop during business hours
           to experience our exceptional service firsthand.
-        </Para>
-        <Heading>
+        </Para> */}
+        {/* <Heading>
           Acorn Tire & Auto: Nurturing Growth and Providing Opportunity
         </Heading>
         <Para>
@@ -94,7 +104,7 @@ const About = () => {
           symbol of strength and reliability. Our team of dedicated
           professionals works tirelessly to ensure that our services contribute
           to the well-being and longevity of your vehicle.
-        </Para>
+        </Para> */}
         <Actions>
           <ButtonLink to={"/services"}>Browse Service Catalog</ButtonLink>
           <ButtonLink to={"/tires"}>Explore Tire Catalog</ButtonLink>
@@ -117,6 +127,7 @@ const Heading = styled.h3`
   font-weight: 700;
   font-size: 1.3rem;
   margin: 1.5rem 0 1rem;
+  text-transform: uppercase;
 `;
 
 const Actions = styled.div`
