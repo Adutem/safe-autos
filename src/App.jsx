@@ -23,6 +23,7 @@ const App = () => {
     showLocationModal,
     setCurrentStoreLocation,
     hideLocationModal,
+    currentStoreLocation,
   } = useGlobalContext();
   const { holidayData } = useSelector((state) => state.holiday);
   const dispatch = useDispatch();
@@ -33,8 +34,9 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (!holidayData) dispatch(getHoliday());
-  }, []);
+    if (currentStoreLocation)
+      dispatch(getHoliday(currentStoreLocation?.shopLocation));
+  }, [currentStoreLocation]);
 
   const location = useLocation();
   useEffect(() => {
