@@ -35,12 +35,8 @@ export const loginUser = (data, callback) => {
       const user = response.data.user;
       const accessToken = response.data.accessToken;
       const formEmail = response.data.formEmail;
-      const holiday = response.data.holiday;
-      const careers = response.data.careers;
       dispatch(loginUserSuccess(user));
       dispatch(setFormEmail(formEmail || null));
-      dispatch(setHoliday(holiday));
-      dispatch(setCareer(careers));
       saveToLocalStorage("accessToken", accessToken);
       toastSuccess(response.data?.message || "Login Successful", toastId, true);
       if (callback) callback();
@@ -67,12 +63,8 @@ export const getUser = (callback) => {
       });
       const user = response.data.user;
       const formEmail = response.data.formEmail;
-      const holiday = response.data.holiday;
-      const careers = response.data.careers;
       dispatch(loginUserSuccess(user));
       dispatch(setFormEmail(formEmail || null));
-      dispatch(setHoliday(holiday));
-      dispatch(setCareer(careers));
       if (callback) callback();
     } catch (error) {
       if (callback) callback();
