@@ -41,11 +41,16 @@ export const getHolidayFailture = (error) => ({
   payload: error,
 });
 
-export const getHoliday = () => {
+export const getHoliday = (shopLocation) => {
   return async (dispatch) => {
     try {
       dispatch(getHolidayRequest());
-      let response = await axios.get(`${BASE_URL}/get-holiday`);
+      let response = await axios.get(
+        `${BASE_URL}/get-holiday?shopLocation=${shopLocation.replace(
+          /\\n/,
+          ""
+        )}`
+      );
       const holiday = response.data.holiday;
       dispatch(getHolidaySuccess(holiday));
     } catch (error) {

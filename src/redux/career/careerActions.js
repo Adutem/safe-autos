@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BASE_URL, getFromLocalStorage } from "../../contexts/GlobalContext";
 import * as CAREER_ACTIONS from "./careerActionTypes";
+import { httpErrorHandler } from "../../contexts/GlobalContext";
 
 export const setCareer = (careers) => ({
   type: CAREER_ACTIONS.SET_CAREER,
@@ -21,11 +22,13 @@ export const getCareerFailture = (error) => ({
   payload: error,
 });
 
-export const getCareer = () => {
+export const getCareer = (shopLocation) => {
   return async (dispatch) => {
     try {
       dispatch(getCareerRequest());
-      let response = await axios.get(`${BASE_URL}/career`);
+      let response = await axios.get(
+        `${BASE_URL}/career?shopLocation=${shopLocation.replace(/\\n/, "")}`
+      );
       const careers = response.data.careers;
       dispatch(getCareerSuccess(careers));
     } catch (error) {
