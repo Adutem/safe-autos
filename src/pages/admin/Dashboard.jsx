@@ -109,7 +109,7 @@ const FormSubmissionComponent = ({ formEmail }) => {
   };
   return (
     <FormSubCompContainer>
-      <Form
+      {/* <Form
         style={{
           background: "#fff",
           padding: "0.6rem 1rem",
@@ -118,7 +118,8 @@ const FormSubmissionComponent = ({ formEmail }) => {
           gap: "0.5rem",
           // alignItems: "center",
         }}
-      >
+      > */}
+      <FormEl>
         <FormGroupComponent
           type={"text"}
           value={email}
@@ -143,10 +144,31 @@ const FormSubmissionComponent = ({ formEmail }) => {
             Cancel
           </CancelEdit>
         )}
-      </Form>
+      </FormEl>
     </FormSubCompContainer>
   );
 };
+
+const FormEl = styled.form`
+  padding: 0.7rem 1rem;
+  margin: 1rem 0;
+  background: #fff;
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+  transition: 0.4s ease;
+  gap: 1rem;
+
+  input {
+    font-weight: bold;
+  }
+
+  &:hover {
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+  }
+`;
 
 export const EditIcon = styled.button`
   border: none;
@@ -154,26 +176,40 @@ export const EditIcon = styled.button`
   padding: 0.5rem;
   width: 50px;
   height: 50px;
-  border-radius: 0.4rem;
   cursor: pointer;
-  background: var(--primary-color);
+  color: var(--primary-color);
+  background: transparent;
+  box-shadow: 0px 3px 6px rgba(var(--primary-rgb), 0.15);
+  transition: 0.3s ease;
 
   i {
     font-size: 2rem;
-    color: #fff;
+    color: inherit;
+  }
+
+  &:hover {
+    box-shadow: 0px 6px 8px rgba(var(--primary-rgb), 0.2);
   }
 `;
 
 export const SaveChange = styled.button`
-  outline: none;
-  border: none;
-  border-radius: 0.4rem;
-  cursor: pointer;
+  padding: 1rem;
+  white-space: no-wrap;
   background: var(--primary-color);
-  padding: 0.5rem 1rem;
-  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: var(--white);
+  transition: 0.4s ease;
   font-family: var(--mont);
   font-weight: 600;
+  font-size: 0.8rem;
+
+  &:hover {
+    background: #fff;
+    color: var(--primary-color);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+  }
 `;
 
 export const CancelEdit = styled(SaveChange)``;
@@ -271,7 +307,7 @@ const HolidayFormComponent = ({ holiday }) => {
 
 const HolidayFormContainer = styled.div``;
 
-const OptimizedForm = styled(Form)`
+const OptimizedForm = styled(FormEl)`
   background: #fff;
   padding: 0.6rem 1rem;
   margin: 1rem 0;

@@ -159,7 +159,9 @@ const Career = () => {
           <br />
         </>
       )}
-      <SectionPara style={{ textAlign: "left" }}>Careers</SectionPara>
+      <SectionPara style={{ textAlign: "left", fontSize: "1.5rem" }}>
+        Careers
+      </SectionPara>
       {career.loading && <NormalPara>Loading current openings</NormalPara>}
       {currentStoreLocation && !career.loading && !career.careers.length && (
         <NormalPara>No opening available</NormalPara>
@@ -212,7 +214,9 @@ const Career = () => {
 
 export default Career;
 
-const Careers = styled.div``;
+const Careers = styled.div`
+  margin: 1rem auto;
+`;
 
 export const CareerCardContainer = styled.div`
   display: flex;
@@ -246,7 +250,7 @@ export const CareerCard = ({
             <i className="fi fi-sr-pencil"></i>
           </EditIcon>
           <EditIcon onClick={() => handleDelete(_id)}>
-            <i className="fi fi-sr-trash"></i>
+            <i className="fi fi-sr-trash-xmark"></i>
           </EditIcon>
         </CareerActions>
       )}
@@ -255,11 +259,18 @@ export const CareerCard = ({
 };
 
 const CareerCardCont = styled.div`
-  padding: 1rem;
+  padding: 0 0 1rem 1rem;
   background: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+  transition: 0.4s ease;
+
+  &:hover {
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const CareerDetails = styled.div``;
@@ -273,6 +284,8 @@ const Role = styled(NormalPara)`
   margin: 0;
   font-weight: bold;
   font-size: 1.1rem;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
 `;
 
 const CareerLink = styled(Link)`

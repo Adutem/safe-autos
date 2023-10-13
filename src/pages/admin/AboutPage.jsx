@@ -153,7 +153,9 @@ const AddNew = styled.button`
   font-size: 0.8rem;
 
   &:hover {
-    opacity: 0.6;
+    background: #fff;
+    color: var(--primary-color);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
   }
 `;
 
