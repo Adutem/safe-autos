@@ -202,7 +202,19 @@ export function SearchComponent({
           </>
         ) : (
           <>
-            <NormalPara>Pick a store</NormalPara>
+            <NormalPara
+              style={{ color: "red", display: "flex", alignItems: "center" }}
+            >
+              Pick a store{" "}
+              <i
+                className="fi fi-sr-arrow-small-up"
+                style={{
+                  display: "flex",
+                  marginLeft: "0.5rem",
+                  fontSize: "2rem",
+                }}
+              ></i>
+            </NormalPara>
           </>
         )}
       </div>
