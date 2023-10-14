@@ -22,6 +22,7 @@ const Contact = () => {
     telephoneValidator,
     formatTelephone,
     submitEmail,
+    currentStoreLocation,
   } = useGlobalContext();
 
   const stateUpdater = (name, value) => {
@@ -77,12 +78,45 @@ const Contact = () => {
       <RedBackgroundHeading>Contact Us</RedBackgroundHeading>
       <Container>
         <AddressSection>
-          <FindUsLinkItem>Acorn Tires & Auto</FindUsLinkItem>
-          <AddressPara>591 S Lapeer Road</AddressPara>
-          <AddressPara>Lake Orion, MI 48362</AddressPara>
-          <AddressPara>
-            Phone: <a href="tel:(248) 693-7979">248-693-7979</a>
-          </AddressPara>
+          <FindUsLinkItem>Acorn Tire & Auto</FindUsLinkItem>
+          {/* <AddressPara>591 S Lapeer Road</AddressPara>
+          <AddressPara>Lake Orion, MI 48362</AddressPara> */}
+          {currentStoreLocation && (
+            <>
+              <AddressPara>
+                Location: {currentStoreLocation?.shopLocation}
+              </AddressPara>
+              <AddressPara>
+                Phone:{" "}
+                <a href={`tel: +1 ${currentStoreLocation?.phoneNumber}`}>
+                  {currentStoreLocation?.phoneNumber}
+                </a>
+              </AddressPara>
+              <AddressPara>
+                <a
+                  href={`${currentStoreLocation?.facebookLink}`}
+                  target="_blank"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    textDecoration: "none",
+                    color: "#000",
+                  }}
+                >
+                  Visit our page:{" "}
+                  <i
+                    className="fi fi-brands-facebook"
+                    style={{
+                      color: "blue",
+                      display: "flex",
+                      fontSize: "2rem",
+                      marginLeft: "1rem",
+                    }}
+                  ></i>
+                </a>
+              </AddressPara>
+            </>
+          )}
         </AddressSection>
       </Container>{" "}
       <RedBackgroundHeading>Contact Form</RedBackgroundHeading>
