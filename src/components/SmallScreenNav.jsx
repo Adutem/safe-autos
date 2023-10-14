@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import routes from "../data/nav-data";
 import { MyStoreButton } from "./Navbar";
-import { useGlobalContext } from "../contexts/GlobalContext";
+import { useGlobalContext, toastInfo } from "../contexts/GlobalContext";
 
 export const handleWindowScroll = (id, others) => {
   if (document.querySelector(id).classList.contains("show")) {
@@ -34,6 +34,12 @@ const SmallScreenNav = () => {
     document.querySelector("#store-container")?.classList.toggle("show");
   };
 
+  const makeCall = (e) => {
+    if (!currentStoreLocation) {
+      e.preventDefault();
+      return toastInfo("Please pick a store");
+    }
+  };
   return (
     <NavContainer>
       <NavContentContainer>
@@ -58,10 +64,9 @@ const SmallScreenNav = () => {
           </ToggleLocationButton>
           <TelLink
             href={`tel:+1 ${
-              currentStoreLocation
-                ? currentStoreLocation.phoneNumber
-                : "248-693-7979"
+              currentStoreLocation ? currentStoreLocation.phoneNumber : ""
             }`}
+            onClick={makeCall}
           >
             <i className="fi fi-sr-phone-flip"></i>
           </TelLink>
