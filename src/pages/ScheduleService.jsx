@@ -163,6 +163,7 @@ const ScheduleService = () => {
       serviceData?.secondAppointmentDate
     );
     formData.append("serviceLocation", serviceData?.serviceLocation);
+    formData.append("submissionEmail", currentStoreLocation?.email);
     submitEmail(
       formData,
       () => {
