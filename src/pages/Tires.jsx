@@ -7,9 +7,6 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 export default function Tires() {
   const { currentStoreLocation, displayLocationModal } = useGlobalContext();
 
-  const handleInputChange = (e) => {
-    setCurrentLocation(e.target.value);
-  };
   return (
     <TiresPageContainer>
       <SearchComponent
