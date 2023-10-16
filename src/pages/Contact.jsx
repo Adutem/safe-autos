@@ -8,7 +8,7 @@ import {
 import { Link } from "react-router-dom";
 import { FormGroupComponent } from "../components/reusables/Components";
 import { toast } from "react-toastify";
-import { useGlobalContext } from "../contexts/GlobalContext";
+import { toastError, useGlobalContext } from "../contexts/GlobalContext";
 
 const requiredFields = ["firstName", "lastName", "email", "tel", "message"];
 let customId = "contact-toast";
@@ -41,6 +41,9 @@ const Contact = () => {
     if (!allFieldsPresent(requiredFields, contactData)) {
       return toast.error("Please fill all fields...", { toastId: customId });
     }
+    if (!currentStoreLocation) {
+      return toastError("Please pick a store", customId);
+    }
     if (!emailValidator(contactData.email)) {
       return toast.error("Please provide a valid email...", {
         toastId: customId,
@@ -60,6 +63,7 @@ const Contact = () => {
     const formData = new FormData(contactForm.current);
     formData.append("heading", "New email for Acorn Tire & Auto");
     formData.append("template", "contact");
+    formData.append("submissionEmail", currentStoreLocation?.email);
     submitEmail(
       formData,
       () => {
