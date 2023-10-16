@@ -170,6 +170,7 @@ const RequestQuote = () => {
       quotingData?.secondAppointmentDate
     );
     formData.append("serviceLocation", quotingData?.serviceLocation);
+    formData.append("submissionEmail", currentStoreLocation?.email);
     submitEmail(
       formData,
       () => {
