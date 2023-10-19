@@ -24,11 +24,13 @@ import Dashboard from "../pages/admin/Dashboard";
 import Career from "../pages/admin/Career";
 import PrivateRoute from "./private.route";
 import AboutPage from "../pages/admin/AboutPage";
+import SubmitReview from "../pages/SubmitReview";
 
 const RoutesComponent = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/submit-a-review" element={<SubmitReview />} />
       <Route path="about">
         <Route index element={<About />} />
         <Route path="news" element={<News />} />
