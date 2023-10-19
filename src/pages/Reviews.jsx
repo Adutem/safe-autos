@@ -8,9 +8,12 @@ import {
 } from "../components/reusables/Styles";
 import { SearchComponent } from "../components/Advert";
 import { useGlobalContext } from "../contexts/GlobalContext";
+import { useSelector } from "react-redux";
+import ReviewCard from "../components/ReviewCard";
 
 const Reviews = () => {
   const { displayLocationModal, currentStoreLocation } = useGlobalContext();
+  const { reviews } = useSelector((state) => state.review);
 
   return (
     <ReviewPageContainer>
@@ -98,28 +101,16 @@ const Reviews = () => {
                 Sort Reviews By{" "}
                 <select name="sort-by">
                   <option value={"rating"}>Star Rating</option>
-                  <option value={"recent"}>Most Recent</option>
+                  <option value={"recent"}>Mo st Recent</option>
                 </select>
               </SmallPara>
             </Card>
             {currentStoreLocation ? (
-              <ReviewCard>
-                <div style={styles.flexRowWithWrap}>
-                  <Stars>⭐⭐⭐⭐⭐</Stars>
-                  <Rating>5/5</Rating>
-                </div>
-                <ReviewText>
-                  So we had an issue on the road coming back from a camping
-                  trip/had a tire issue/battery issue and needs for some general
-                  service/called Acorn Tire & Auto and talked with
-                  Brandon/brought the truck to them and said squeeze us in
-                  whenever you can and they did/fluids replaced and battery
-                  replaced and new tires rated for a pickup which does some
-                  towing and not a passenger car/easy to work with/any troubles
-                  with the work we did give us a call/you can't ask for
-                  more.......Thank You Guy's!! (u 2 Jake!)
-                </ReviewText>
-              </ReviewCard>
+              reviews.length === 0 ? (
+                <NormalPara>No reviews</NormalPara>
+              ) : (
+                reviews.map((review) => <ReviewCard {...review} />)
+              )
             ) : (
               <NormalPara>Pick a store location to see reviews</NormalPara>
             )}
@@ -168,10 +159,6 @@ const Heading = styled.h2`
   font-family: var(--mont);
 `;
 
-const Address = styled.address`
-  font-style: normal;
-`;
-
 const StarRating = styled.p`
   text-align: right;
   background: ${(props) => props.background};
@@ -181,37 +168,4 @@ const StarRating = styled.p`
   font-weight: 600;
   padding: 0.5rem;
 `;
-
-const ReviewCard = styled.div`
-  background: var(--primary-color);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin: 1rem 0;
-`;
-
-const ReviewText = styled.p`
-  color: var(--white);
-  margin-top: 1rem;
-  font-family: var(--mont);
-  font-size: 0.9rem;
-  line-height: 1.5;
-`;
-
-const Stars = styled.p`
-  color: #fff;
-  font-family: var(--mont);
-`;
-const Rating = styled.p`
-  color: #fff;
-  font-family: var(--mont);
-  margin-left: 1rem;
-`;
-
-const styles = {
-  flexRowWithWrap: {
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-};
 export default Reviews;
