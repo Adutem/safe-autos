@@ -15,6 +15,8 @@ import {
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getReview } from "../redux";
 
 // const ratings = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 const ratings = [0, 1, 2, 3, 4, 5];
@@ -27,6 +29,7 @@ const SubmitReview = () => {
   const [reviewing, setReviewing] = useState(false);
   const { allFieldsPresent, currentStoreLocation } = useGlobalContext();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     setReviewData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -49,6 +52,7 @@ const SubmitReview = () => {
       setReviewing(true);
       let response = await axios.post(`${BASE_URL}/review`, reviewData);
       toastSuccess(response.data.message, toastId, true);
+      dispatch(getReview(currentStoreLocation.shopLocation));
       navigate("/about/reviews");
       setReviewing(false);
     } catch (error) {
