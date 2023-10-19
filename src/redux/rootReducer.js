@@ -4,6 +4,7 @@ import formEmailReducer from "./formEmail/formEmailReducer";
 import holidayReducer from "./holiday/holidayReducer";
 import careerReducer from "./career/careerReducer";
 import aboutPageReducer from "./aboutPage/aboutPageReducer";
+import reviewReducer from "./review/reviewReducer";
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   holiday: holidayReducer,
   career: careerReducer,
   aboutPage: aboutPageReducer,
+  review: reviewReducer,
 });
 
 export default rootReducer;
