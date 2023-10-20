@@ -59,7 +59,7 @@ const Rating = styled.p`
   margin-left: 1rem;
 `;
 
-const Author = styled.h3`
+export const Author = styled.h3`
   font-style: italic;
   font-size: 0.8rem;
   margin: 1.2rem 0 0 0;
