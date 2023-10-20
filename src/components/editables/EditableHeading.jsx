@@ -8,6 +8,8 @@ const EditableHeading = ({
   handleInputChange,
   disabled,
   removeContent,
+  inputStyle,
+  ...rest
 }) => {
   const inputChangeHandler = (e) => {
     if (contentData.customId) {
@@ -16,7 +18,7 @@ const EditableHeading = ({
     return handleInputChange(contentData._id, e.target.value);
   };
   return (
-    <EditableContainer>
+    <EditableContainer {...rest}>
       <AboutPageInput
         value={contentData.content}
         type="text"
@@ -25,6 +27,7 @@ const EditableHeading = ({
         multiple={true}
         onChange={inputChangeHandler}
         disabled={disabled}
+        style={inputStyle}
       />
       <DeleteButton
         onClick={() => removeContent(contentData._id || contentData.customId)}

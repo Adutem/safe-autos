@@ -7,6 +7,8 @@ const EdittablePara = ({
   handleInputChange,
   disabled,
   removeContent,
+  inputStyle,
+  ...rest
 }) => {
   const inputChangeHandler = (e) => {
     if (contentData.customId) {
@@ -15,7 +17,7 @@ const EdittablePara = ({
     return handleInputChange(contentData._id, e.target.value);
   };
   return (
-    <EditableContainer>
+    <EditableContainer {...rest}>
       <AboutPageTextArea
         value={contentData.content}
         type="text"
@@ -24,6 +26,7 @@ const EdittablePara = ({
         multiple={true}
         onChange={inputChangeHandler}
         disabled={disabled}
+        style={inputStyle}
       />
       <DeleteButton
         onClick={() => removeContent(contentData._id || contentData.customId)}
