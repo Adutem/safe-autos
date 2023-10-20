@@ -25,6 +25,11 @@ const routes = [
     Icon: <i className="fi fi-sr-circle-star"></i>,
     path: "/admin/review",
   },
+  {
+    name: "News",
+    Icon: <i className="fi fi-sr-radio"></i>,
+    path: "/admin/news",
+  },
 ];
 
 const PrivateRoute = () => {
