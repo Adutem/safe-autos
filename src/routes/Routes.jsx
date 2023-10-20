@@ -25,6 +25,7 @@ import Career from "../pages/admin/Career";
 import PrivateRoute from "./private.route";
 import AboutPage from "../pages/admin/AboutPage";
 import SubmitReview from "../pages/SubmitReview";
+import ReviewAdmin from "../pages/admin/ReviewAdmin";
 
 const RoutesComponent = () => {
   return (
@@ -62,6 +63,7 @@ const RoutesComponent = () => {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="career" element={<Career />} />
         <Route path="about" element={<AboutPage />} />
+        <Route path="review" element={<ReviewAdmin />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

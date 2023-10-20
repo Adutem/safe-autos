@@ -20,6 +20,11 @@ const routes = [
     Icon: <i className="fi fi-sr-info"></i>,
     path: "/admin/about",
   },
+  {
+    name: "Review",
+    Icon: <i className="fi fi-sr-circle-star"></i>,
+    path: "/admin/review",
+  },
 ];
 
 const PrivateRoute = () => {
