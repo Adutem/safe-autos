@@ -14,7 +14,7 @@ const News = () => {
 
   return (
     <NewsContainer>
-      <SectionHeading>News</SectionHeading>
+      <SectionHeading style={{ marginTop: "1rem" }}>News</SectionHeading>
       <Container>
         {news.loading && <NormalPara>Loading news</NormalPara>}
         {currentStoreLocation && !news.loading && !news.news.length && (
@@ -62,7 +62,7 @@ export const NewsCardContainer = styled.div`
   gap: 1rem;
 `;
 
-const NewsCard = ({ _id, title, imgUrl, createdAt }) => {
+const NewsCard = ({ _id, title, author, imgUrl, createdAt }) => {
   return (
     <CardContainer>
       <NewsImageContainer>
@@ -70,6 +70,7 @@ const NewsCard = ({ _id, title, imgUrl, createdAt }) => {
       </NewsImageContainer>
       <NewsDetails>
         <Title>Title: {title}</Title>
+        <Author>Author: {author}</Author>
         <CreatedAt>
           Published on: {new Date(createdAt).toDateString()}
         </CreatedAt>
@@ -87,6 +88,7 @@ const CardContainer = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.19);
   cursor: pointer;
   transition: 0.4s ease;
+  border: 1px solid lightgray;
 
   &:hover {
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
@@ -113,6 +115,12 @@ const NewsDetails = styled.div`
 
 const Title = styled.h3`
   font-style: italic;
+  font-weight: 600;
+  font-family: var(--mont);
+`;
+
+const Author = styled.p`
+  font-size: 0.75rem;
   font-weight: 600;
   font-family: var(--mont);
 `;
