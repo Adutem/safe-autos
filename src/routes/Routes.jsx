@@ -27,6 +27,7 @@ import AboutPage from "../pages/admin/AboutPage";
 import SubmitReview from "../pages/SubmitReview";
 import ReviewAdmin from "../pages/admin/ReviewAdmin";
 import NewsAdmin from "../pages/admin/NewsAdmin";
+import NewsDetails from "../pages/NewsDetails";
 
 const RoutesComponent = () => {
   return (
@@ -36,6 +37,7 @@ const RoutesComponent = () => {
       <Route path="about">
         <Route index element={<About />} />
         <Route path="news" element={<News />} />
+        <Route path="news/:newsId" element={<NewsDetails />} />
         <Route path="reviews" element={<Reviews />} />
       </Route>
       <Route path="find-us">
