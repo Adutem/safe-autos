@@ -14,7 +14,7 @@ import LocationComp from "./components/LocationComp";
 import MyStore from "./components/MyStore";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getHoliday, getReview } from "./redux";
+import { getHoliday, getReview, getNews } from "./redux";
 import { LocationModal } from "./pages/ScheduleService";
 import { getAboutPageContent } from "./redux/aboutPage/aboutPageActions";
 
@@ -38,6 +38,7 @@ const App = () => {
     if (currentStoreLocation) {
       dispatch(getHoliday(currentStoreLocation?.shopLocation));
       dispatch(getReview(currentStoreLocation?.shopLocation));
+      dispatch(getNews(currentStoreLocation?.shopLocation));
     }
   }, [currentStoreLocation]);
 
