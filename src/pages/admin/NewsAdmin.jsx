@@ -62,7 +62,7 @@ const NewsAdmin = () => {
   };
 
   const handleCancelAction = () => {
-    if (news.creating) return;
+    if (news.creating || isDeleting) return;
     setShowDeleteModal(false);
     setShowEditModal(false);
     setShowCreateModal(false);
@@ -70,31 +70,26 @@ const NewsAdmin = () => {
     setCurrentItem(null);
   };
 
-  //   const confirmCreate = async (data) => {
-  //     // console.log("Create data", data);
-  //     const accessToken = getFromLocalStorage("accessToken");
-  //     if (!accessToken) return handleCancelAction();
-  //     const reqBody = {
-  //       role: data.role,
-  //       newsLink: data.newsLink,
-  //       shopLocation: currentStoreLocation.shopLocation.replace(/\n/g, ""),
-  //     };
-  //     const toastId = toast.loading("Creating news");
-  //     try {
-  //       setIsCreating(true);
-  //       let response = await axios.post(`${BASE_URL}/news`, reqBody, {
-  //         headers: { Authorization: `Bearer ${accessToken}` },
-  //       });
-  //       toastSuccess(response.data.message, toastId, true);
-  //       dispatch(getNews(currentStoreLocation.shopLocation));
-  //       handleCancelAction();
-  //       setIsCreating(false);
-  //     } catch (error) {
-  //       toastError(error?.response?.data.message, toastId, true);
-  //       handleCancelAction();
-  //       setIsCreating(false);
-  //     }
-  //   };
+  const confirmDelete = async () => {
+    console.log("Deleted data id", currentDeleteId);
+    const accessToken = getFromLocalStorage("accessToken");
+    if (!currentDeleteId || !accessToken) return handleCancelAction();
+    const toastId = toast.loading("Deleting news...");
+    try {
+      setIsDeleting(true);
+      let response = await axios.delete(`${BASE_URL}/news/${currentDeleteId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      toastSuccess(response.data.message, toastId, true);
+      dispatch(getNews(currentStoreLocation.shopLocation));
+      handleCancelAction();
+      setIsDeleting(false);
+    } catch (error) {
+      toastError(error?.response?.data.message, toastId, true);
+      handleCancelAction();
+      setIsDeleting(false);
+    }
+  };
   return (
     <NewsPageContainer>
       <SectionHeading>News</SectionHeading>
@@ -113,7 +108,7 @@ const NewsAdmin = () => {
       <SectionPara style={{ textAlign: "left", fontSize: "1.5rem" }}>
         News
       </SectionPara>
-      {news.loading && <NormalPara>Loading current openings</NormalPara>}
+      {news.loading && <NormalPara>Loading news</NormalPara>}
       {currentStoreLocation && !news.loading && !news.news.length && (
         <NormalPara>No news yet. Create a new one 👆</NormalPara>
       )}
@@ -141,6 +136,14 @@ const NewsAdmin = () => {
           isCreating={news.creating}
           currentStoreLocation={currentStoreLocation}
           createError={news.createError}
+        />
+      )}
+      {showDeleteModal && (
+        <DeleteModal
+          currentDeleteId={currentDeleteId}
+          handleCancelAction={handleCancelAction}
+          confirmDelete={confirmDelete}
+          isDeleting={isDeleting}
         />
       )}
     </NewsPageContainer>
@@ -267,7 +270,7 @@ const CreateModal = ({
         {
           ...newsData,
           contents: newsContent,
-          shopLocation: currentStoreLocation.shopLocation,
+          shopLocation: currentStoreLocation.shopLocation.replace(/\n/g, ""),
         },
         handleCancelAction
       )
@@ -443,6 +446,47 @@ const AddNew = styled.button`
     background: #fff;
     color: var(--primary-color);
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const DeleteModal = ({ handleCancelAction, confirmDelete, isDeleting }) => {
+  const portalRef = useRef(null);
+
+  return (
+    <PortalModalContainer
+      onClick={(e) => {
+        if (e.target !== portalRef.current) return;
+        return handleCancelAction();
+      }}
+      ref={portalRef}
+      style={{ height: "100%" }}
+    >
+      <DeleteModalContContainer>
+        <SectionPara>Delete this career</SectionPara>
+        <NormalPara> Are you sure you want to proceed?</NormalPara>
+        <NewsActions style={{ marginTop: "1rem", justifyContent: "flex-end" }}>
+          <SaveChange onClick={confirmDelete}>
+            {isDeleting ? "Deleting..." : "Yes"}
+          </SaveChange>
+          {isDeleting || (
+            <SaveChange onClick={handleCancelAction}>No</SaveChange>
+          )}
+        </NewsActions>
+      </DeleteModalContContainer>
+    </PortalModalContainer>
+  );
+};
+
+const DeleteModalContContainer = styled.div`
+  width: 90%;
+  max-width: 300px;
+  min-height: 150px;
+  background: #fff;
+  padding: 1rem;
+
+  p:nth-child(2) {
+    margin: 0;
+    font-size: 0.9rem;
   }
 `;
 export default NewsAdmin;
