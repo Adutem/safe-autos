@@ -69,6 +69,7 @@ export const createNews = (data, cb) => {
         title: data.title,
         contents: data.contents,
         shopLocation: data.shopLocation,
+        author: data.author,
       };
       let imgUrl = await uploadFile(data.imgUrl);
       reqBody.imgUrl = imgUrl;
