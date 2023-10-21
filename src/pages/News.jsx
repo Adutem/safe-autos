@@ -7,6 +7,7 @@ import {
   Container,
 } from "../components/reusables/Styles";
 import { useGlobalContext } from "../contexts/GlobalContext";
+import { useNavigate } from "react-router-dom";
 
 const News = () => {
   const news = useSelector((state) => state.news);
@@ -63,8 +64,13 @@ export const NewsCardContainer = styled.div`
 `;
 
 const NewsCard = ({ _id, title, author, imgUrl, createdAt }) => {
+  const navigate = useNavigate();
   return (
-    <CardContainer>
+    <CardContainer
+      onClick={() => {
+        navigate("/about/news/" + _id);
+      }}
+    >
       <NewsImageContainer>
         <NewsImage src={imgUrl} />
       </NewsImageContainer>
