@@ -260,7 +260,12 @@ const CreateModal = ({
   };
 
   const handleSaveChanges = () => {
-    if (!newsData.title || !newsData.imgUrl || !newsContent.length)
+    if (
+      !newsData.title ||
+      !newsData.imgUrl ||
+      !newsContent.length ||
+      !newsContent.author
+    )
       return toastError("Please fill all fields", customToastId);
     if (!currentStoreLocation) {
       return toastError("Please pick a store");
@@ -336,6 +341,14 @@ const CreateModal = ({
             type={"text"}
             value={newsData?.title}
             placeholder={"Enter news title"}
+            onChange={handleInputChange}
+          />
+          <FormGroupComponent
+            label={"Author "}
+            name={"author"}
+            type={"text"}
+            value={newsData?.author}
+            placeholder={"Enter news author"}
             onChange={handleInputChange}
           />
           <FormGroupComponent
