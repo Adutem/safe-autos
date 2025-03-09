@@ -16,7 +16,7 @@ const Editor = ({
         <ChangeText onClick={changeToHeading}>Change to Heading</ChangeText>
         <ChangeText onClick={changeToPara}>Change to Paragraph</ChangeText>
       </ActionButtons>
-      <RedBackgroundHeading>About Mimidas Tire & Auto</RedBackgroundHeading>
+      <RedBackgroundHeading>About Safe Tire & Auto</RedBackgroundHeading>
       <div
         contentEditable={true}
         onBlur={(e) => onChange(e)}
