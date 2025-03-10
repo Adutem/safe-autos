@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 // import heroImage from "../assets/Autos-lastest-logo.png";
-import heroImage from "../assets/Safe-logo.png";
+import heroImage from "../assets/safe-tire-logo.png";
 import tireImage from "../assets/image-3.jpg";
 import heroVideo from "../assets/heroVideo.mp4";
 
