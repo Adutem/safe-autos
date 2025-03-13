@@ -9,7 +9,6 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 import { SearchComponent } from "./Advert";
 import { LocationModal } from "../pages/ScheduleService";
 
-
 const MyStore = () => {
   const [isNearbyStoresVisible, setIsNearbyStoresVisible] = useState(false);
 
@@ -18,7 +17,7 @@ const MyStore = () => {
     document.body.style.overflow = "initial";
   };
 
-  const { currentStoreLocation, displayLocationModal, nearbyStores } = useGlobalContext();
+  const { currentStoreLocation, displayLocationModal, allStores, nearbyStores } = useGlobalContext();
 
   useEffect(() => {
     hideMyStore();
@@ -37,9 +36,20 @@ const MyStore = () => {
             currentLocation={currentStoreLocation}
             style={{ marginTop: "1rem" }}
             linkType={"link"}
-            dropdownText={"select store location"}
+            dropdownText={"Select Store Location"}
+            storeOptions={
+              isNearbyStoresVisible
+                ? nearbyStores.length > 0
+                  ? nearbyStores // ✅ Show nearby stores if available
+                  : [] // ❌ Pass empty list if no nearby stores
+                : allStores // ✅ Show all stores when "All Stores" is selected
+            }
             hideBrowseLink={!currentStoreLocation}
+            disabled={isNearbyStoresVisible && nearbyStores.length === 0} // ✅ Disable dropdown if no nearby stores
           />
+
+
+
           <Seperator />
 
           {!isNearbyStoresVisible ? (
@@ -105,7 +115,6 @@ const MyStore = () => {
     </>
   );
 };
-
 
 
 const StoreCompContContainer = styled.div`

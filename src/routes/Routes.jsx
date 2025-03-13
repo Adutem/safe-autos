@@ -8,6 +8,8 @@ import Coupons from "../pages/Coupons";
 import FindUs from "../pages/FindUs";
 import Contact from "../pages/Contact";
 import Jobs from "../pages/Jobs";
+import BlogPage from "../pages/Blog";
+import BlogDetails from "../pages/BlogDetails";
 import CarCareTips from "../pages/CarCareTips";
 import TireCareTips from "../pages/TireCareTips";
 import TermsOfUse from "../pages/TermsOfUse";
@@ -45,6 +47,8 @@ const RoutesComponent = () => {
         <Route path="contact" element={<Contact />} />
       </Route>
       <Route path="/join-our-team" element={<Jobs />} />
+      <Route path="/blog" element={<BlogPage />} />
+      <Route path="/blog/:id" element={<BlogDetails />} />
       <Route path="/coupons" element={<Coupons />} />
       <Route path="/financing" element={<Financing />} />
       <Route path="services">

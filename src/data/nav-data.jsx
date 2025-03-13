@@ -105,6 +105,12 @@ const routes = [
     name: "Join our team",
     icon: <i className="fi fi-sr-briefcase"></i>,
   },
+  {
+    type: "normal",
+    path: "/blog",
+    name: "Blog",
+    icon: <i className="fi fi-sr-briefcase"></i>,
+  },
 ];
 
 export default routes;
