@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { NormalPara, SectionPara } from "./reusables/Styles";
+import { Button, NormalPara, SectionPara } from "./reusables/Styles";
 import hoursOfOperation, {
   fullHoursOfOperation,
 } from "../data/hours-of-operation";
@@ -9,56 +9,104 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 import { SearchComponent } from "./Advert";
 import { LocationModal } from "../pages/ScheduleService";
 
+
 const MyStore = () => {
+  const [isNearbyStoresVisible, setIsNearbyStoresVisible] = useState(false);
+
   const hideMyStore = () => {
     document.querySelector("#store-container")?.classList.remove("show");
     document.body.style.overflow = "initial";
   };
 
-  const { currentStoreLocation, displayLocationModal } = useGlobalContext();
+  const { currentStoreLocation, displayLocationModal, nearbyStores } = useGlobalContext();
 
   useEffect(() => {
     hideMyStore();
   }, [currentStoreLocation]);
+
   return (
-    <StoreCompContainer id="store-container">
-      <Underlay onClick={hideMyStore} className="underlay" />
-      <StoreCompContContainer>
-        <SearchComponent
-          showShowModal={displayLocationModal}
-          currentLocation={currentStoreLocation}
-          style={{ marginTop: "1.5rem" }}
-          linkType={"link"}
-          dropdownText={"select store location"}
-          // linkText={"Get Direction"}
-          hideBrowseLink={!currentStoreLocation}
-        />
-        <Seperator />
-        {currentStoreLocation && (
-          <>
-            <SectionPara>Store Hours</SectionPara>
-            <ContainerDiv>
-              {fullHoursOfOperation.map((hop) => (
-                <NormalPara
-                  style={{
-                    margin: "0.5rem 0",
-                    fontSize: "0.75rem",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, 1fr)",
-                    //   justifyContent: "space-between",
-                  }}
-                >
-                  <strong>{hop.date}</strong>
-                  {hop.hours.join(" - ")}
-                </NormalPara>
-              ))}
-            </ContainerDiv>
-          </>
-        )}
-      </StoreCompContContainer>
-    </StoreCompContainer>
+    <>
+      <StoreCompContainer id="store-container">
+        <Underlay onClick={hideMyStore} className="underlay" />
+        <StoreCompContContainer>
+          {/* ✅ Dynamic Heading */}
+          <SectionPara>{isNearbyStoresVisible ? "Stores Nearby" : "All Stores"}</SectionPara>
+
+          <SearchComponent
+            showShowModal={displayLocationModal}
+            currentLocation={currentStoreLocation}
+            style={{ marginTop: "1rem" }}
+            linkType={"link"}
+            dropdownText={"select store location"}
+            hideBrowseLink={!currentStoreLocation}
+          />
+          <Seperator />
+
+          {!isNearbyStoresVisible ? (
+            // ✅ Main Store List View
+            <>
+              {currentStoreLocation && (
+                <>
+                  <SectionPara>Store Hours</SectionPara>
+                  <ContainerDiv>
+                    {fullHoursOfOperation.map((hop) => (
+                      <NormalPara
+                        key={hop.date}
+                        style={{
+                          margin: "0.5rem 0",
+                          fontSize: "0.75rem",
+                          display: "grid",
+                          gridTemplateColumns: "repeat(2, 1fr)",
+                        }}
+                      >
+                        <strong>{hop.date}</strong>
+                        {hop.hours.join(" - ")}
+                      </NormalPara>
+                    ))}
+                  </ContainerDiv>
+                </>
+              )}
+              <Button onClick={() => setIsNearbyStoresVisible(true)}>Show Nearby Stores</Button>
+            </>
+          ) : (
+            // ✅ Nearby Stores View
+            <>
+              <ContainerDiv>
+                {nearbyStores.length > 0 ? (
+                  nearbyStores.map((store) => (
+                    <NormalPara
+                      key={store.id}
+                      onClick={() => {
+                        setCurrentStoreLocation(store);
+                        setIsNearbyStoresVisible(false);
+                      }}
+                      style={{
+                        margin: "0.5rem 0",
+                        fontSize: "0.75rem",
+                        cursor: "pointer",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(2, 1fr)",
+                      }}
+                    >
+                      <strong>{store.name}</strong>
+                      <span>{store.address}</span>
+                      <span>{store.phone}</span>
+                    </NormalPara>
+                  ))
+                ) : (
+                  <NormalPara>No nearby stores found.</NormalPara>
+                )}
+              </ContainerDiv>
+              <Button onClick={() => setIsNearbyStoresVisible(false)}>Back to All Stores</Button>
+            </>
+          )}
+        </StoreCompContContainer>
+      </StoreCompContainer>
+    </>
   );
 };
+
+
 
 const StoreCompContContainer = styled.div`
   display: flex;
@@ -129,4 +177,5 @@ const Underlay = styled.div`
   bottom: 0;
   left: 0;
 `;
+
 export default MyStore;

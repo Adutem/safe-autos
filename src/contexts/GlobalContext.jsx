@@ -137,6 +137,7 @@ const GlobalContextProvider = ({ children }) => {
     // () => serviceLocations[0]
     null
   );
+  const [nearbyStores, setNearbyStores] = useState([]);
 
   const displayLocationModal = (e) => {
     e && e.preventDefault();
@@ -253,6 +254,37 @@ const GlobalContextProvider = ({ children }) => {
     }
   };
 
+  const fetchNearbyStores = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/stores`, {
+        params: { latitude, longitude },
+      });
+      setNearbyStores(response.data);
+    } catch (error) {
+      console.error("Error fetching nearby stores:", error);
+    }
+  };
+
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchNearbyStores(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
+
+  useEffect(() => {
+    getUserLocation();
+  }, []);
+
   return (
     <GlobalContext.Provider
       value={{
@@ -283,6 +315,7 @@ const GlobalContextProvider = ({ children }) => {
         setShowLocationModal,
         displayLocationModal,
         hideLocationModal,
+        nearbyStores,
       }}
     >
       {children}
