@@ -60,7 +60,7 @@ export const httpErrorHandler = (error, toastId, shouldToastErrorMessage) => {
 };
 
 export const BASE_URL =
-  import.meta.env.VITE_BASE_URL || "http://192.168.137.1:5000";
+  import.meta.env.VITE_BASE_URL || "https://acorn-backend.onrender.com";
 
 export const saveToLocalForage = async (key, value) => {
   try {

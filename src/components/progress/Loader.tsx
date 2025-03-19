@@ -1,3 +1,4 @@
+import React from "react";
 import { Spinner, SpinnerType } from "./Spinner";
 
 interface LoaderProps {

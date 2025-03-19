@@ -26,6 +26,7 @@ import Dashboard from "../pages/admin/Dashboard";
 import Career from "../pages/admin/Career";
 import PrivateRoute from "./private.route";
 import AboutPage from "../pages/admin/AboutPage";
+import AdminBlogPage from "../pages/admin/AdminBlogPage";
 import SubmitReview from "../pages/SubmitReview";
 import ReviewAdmin from "../pages/admin/ReviewAdmin";
 import NewsAdmin from "../pages/admin/NewsAdmin";
@@ -72,6 +73,7 @@ const RoutesComponent = () => {
         <Route path="about" element={<AboutPage />} />
         <Route path="review" element={<ReviewAdmin />} />
         <Route path="news" element={<NewsAdmin />} />
+        <Route path="blogs" element={<AdminBlogPage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

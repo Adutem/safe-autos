@@ -5,7 +5,7 @@ import {
   createBlog as createBlogApi,
   updateBlog as updateBlogApi,
   deleteBlog as deleteBlogApi,
-} from "@/api/blog";
+} from "../../../api/blog";
 import { BlogState, BlogApiResponse, AllBlogsApiResponse } from "./interface";
 
 // initial blog state
