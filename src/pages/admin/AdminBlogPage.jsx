@@ -162,11 +162,11 @@ const AdminBlogPage = () => {
                 <Modal open={showDeleteModal} onClose={handleCancelAction}>
                     <DeleteModalContainer>
                         <Typography variant="h6">Delete Blog</Typography>
-                        <Typography>Are you sure you want to delete this blog post?</Typography>
-                        <Button variant="contained" color="secondary" onClick={confirmDelete}>
+                        <Typography style={{marginTop: '20px'}}>Are you sure you want to delete this blog post?</Typography>
+                        <Button style={{marginTop: '20px'}} variant="contained" color="secondary" onClick={confirmDelete}>
                             Yes
                         </Button>
-                        <Button variant="contained" onClick={handleCancelAction}>
+                        <Button style={{marginTop: '20px'}} variant="contained" onClick={handleCancelAction}>
                             No
                         </Button>
                     </DeleteModalContainer>
@@ -245,6 +245,7 @@ const DeleteModalContainer = styled.div`
   width: 300px;
   margin-top: 100px;
   text-align: center;
+  
 `;
 
 export default AdminBlogPage;
