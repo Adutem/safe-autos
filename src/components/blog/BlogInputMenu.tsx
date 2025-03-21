@@ -1,9 +1,10 @@
+import React from "react";
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "../ui/dropdown-menu";
+  Menu,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
+import { MoreVertical, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 
 interface BlogInputMenuProps {
   id: string;
@@ -20,51 +21,62 @@ const BlogInputMenu = ({
   onMoveInput,
   blogContentLength,
 }: BlogInputMenuProps) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <span
-          className={`w-8 h-8 rounded-md transparent-white grid place-items-center cursor-pointer hover:bg-gray-700 transition-all`}
-        >
-          <i
-            className={`text-white flex fi fi-rr-menu-dots-vertical text-base`}
-          ></i>
-        </span>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent style={{ zIndex: 100000005 }} className="bg-black">
-        <DropdownMenuItem
-          className="cursor-pointer text-gray-300 hover:text-black focus:text-black"
-          onClick={() => onRemoveInput(id)}
-        >
-          <span className="w-36 flex justify-between cursor-pointer items-center">
+    <div>
+      <IconButton
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <MoreVertical />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: 48 * 4.5,
+            width: '20ch',
+          },
+        }}
+      >
+        <MenuItem onClick={() => { onRemoveInput(id); handleClose(); }}>
+          <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
             <span>Remove</span>
-            <i className="flex fi fi-rr-delete text-sm rotate-180"></i>
+            <Trash2 size={16} />
           </span>
-        </DropdownMenuItem>
+        </MenuItem>
         {index > 0 && (
-          <DropdownMenuItem
-            className="cursor-pointer text-gray-300 hover:text-black"
-            onClick={() => onMoveInput(index, "up")}
-          >
-            <span className="w-36 flex justify-between cursor-pointer items-center">
+          <MenuItem onClick={() => { onMoveInput(index, "up"); handleClose(); }}>
+            <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
               <span>Move Up</span>
-              <i className={`flex fi fi-rr-caret-up text-sm`}></i>
+              <ArrowUp size={16} />
             </span>
-          </DropdownMenuItem>
+          </MenuItem>
         )}
         {blogContentLength > index + 1 && (
-          <DropdownMenuItem
-            className="cursor-pointer text-gray-300 hover:text-black"
-            onClick={() => onMoveInput(index, "down")}
-          >
-            <span className="w-36 flex justify-between cursor-pointer items-center">
+          <MenuItem onClick={() => { onMoveInput(index, "down"); handleClose(); }}>
+            <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
               <span>Move Down</span>
-              <i className={`flex fi fi-rr-caret-down text-sm`}></i>
+              <ArrowDown size={16} />
             </span>
-          </DropdownMenuItem>
+          </MenuItem>
         )}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </Menu>
+    </div>
   );
 };
 

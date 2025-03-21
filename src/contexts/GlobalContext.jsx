@@ -102,27 +102,27 @@ export const removeFromLocalForage = async (key) => {
 export const toastError = (message, toastId, shouldUpdate) => {
   return shouldUpdate
     ? toast.update(toastId, {
-        render: message,
-        ...toaster("error"),
-      })
+      render: message,
+      ...toaster("error"),
+    })
     : toast.error(message, { toastId });
 };
 
 export const toastSuccess = (message, toastId, shouldUpdate) => {
   return shouldUpdate
     ? toast.update(toastId, {
-        render: message,
-        ...toaster("success"),
-      })
+      render: message,
+      ...toaster("success"),
+    })
     : toast.success(message, { toastId });
 };
 
 export const toastInfo = (message, toastId, shouldUpdate) => {
   return shouldUpdate
     ? toast.update(toastId, {
-        render: message,
-        ...toaster("info"),
-      })
+      render: message,
+      ...toaster("info"),
+    })
     : toast.info(message, { toastId });
 };
 
@@ -254,12 +254,18 @@ const GlobalContextProvider = ({ children }) => {
     }
   };
 
-  const fetchNearbyStores = async (latitude, longitude) => {
+  const fetchNearbyStores = async (long, lat) => {
+    if (!long || !lat) {
+      console.error("User longitude and latitude are required");
+      return;
+    }
     try {
-      const response = await axios.get(`${BASE_URL}/stores`, {
-        params: { latitude, longitude },
+      const response = await axios.post(`${BASE_URL}/store/nearest`, {
+        long, lat 
       });
-      setNearbyStores(response.data);
+      setNearbyStores([response.data.nearestStore]);
+      console.log(response.data.nearestStore);
+      console.log(nearbyStores);
     } catch (error) {
       console.error("Error fetching nearby stores:", error);
     }
@@ -270,7 +276,7 @@ const GlobalContextProvider = ({ children }) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          fetchNearbyStores(latitude, longitude);
+          fetchNearbyStores(longitude, latitude);
         },
         (error) => {
           console.error("Error getting user location:", error);

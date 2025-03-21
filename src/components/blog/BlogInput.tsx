@@ -3,6 +3,17 @@ import FormFeedback from "../forms/FormFeedback";
 import classNames from "classnames";
 import { v4 as uuidv4 } from "uuid";
 import BlogInputMenu from "./BlogInputMenu";
+import React from "react";
+import {
+  TextField,
+  Button,
+  IconButton,
+  Box,
+  Typography,
+} from "@mui/material";
+import { Plus, ArrowUp, ArrowDown, Trash } from "lucide-react";
+
+
 
 interface BlogInputProps {
   name: string;
@@ -68,8 +79,8 @@ const BlogInput = ({
 
   if (type === "text") {
     return (
-      <div className="mb-4 w-full">
-        <div className="flex gap-2 md:gap-3 items-start w-full">
+      <Box mb={4} width="100%">
+        <Box display="flex" gap={2} alignItems="start" width="100%">
           <BlogInputMenu
             id={id}
             onRemoveInput={onRemoveInput}
@@ -77,41 +88,41 @@ const BlogInput = ({
             index={index}
             onMoveInput={onMoveInput}
           />
-          <div className="flex-1">
-            <label
-              htmlFor={name}
-              className="block text-sm font-medium text-white"
-            >
-              Heading
-            </label>
-            <input
+          <Box flex={1}>
+            <TextField
+              label="Heading"
               type={type}
               name={name}
-              placeholder={"Your text here..."}
+              placeholder="Your text here..."
               value={value}
               onBlur={onBlur}
               onChange={onChange}
               disabled={disabled}
-              className={classNames(
-                "block border-[1px] rounded-md px-4 py-3 text-xl mt-2 w-full outline-none border-[lightgray] text-gray-300 font-bold bg-[var(--input-bg)] cursor-pointer",
-                className
-              )}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              InputProps={{
+                className: classNames(
+                  "text-xl mt-2 w-full outline-none text-gray-300 font-bold bg-[var(--input-bg)] cursor-pointer",
+                  className
+                ),
+              }}
             />
             {validation.touched[name] && validation.errors[name] ? (
               <FormFeedback type="invalid">
                 {validation.errors[name]}
               </FormFeedback>
             ) : null}
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     );
   }
 
   if (type === "textarea") {
     return (
-      <div className="mb-4 w-full">
-        <div className="flex gap-2 md:gap-3 items-start w-full">
+      <Box mb={4} width="100%">
+        <Box display="flex" gap={2} alignItems="start" width="100%">
           <BlogInputMenu
             id={id}
             onRemoveInput={onRemoveInput}
@@ -119,66 +130,66 @@ const BlogInput = ({
             index={index}
             onMoveInput={onMoveInput}
           />
-          <div className="flex-1">
-            <label
-              htmlFor={name}
-              className="block text-sm font-medium text-white"
-            >
-              Paragraph
-            </label>
-            <textarea
+          <Box flex={1}>
+            <TextField
+              label="Paragraph"
               name={name}
-              placeholder={"Your text here..."}
+              placeholder="Your text here..."
               value={value}
               onBlur={onBlur}
               onChange={onChange}
               disabled={disabled}
-              className={classNames(
-                className,
-                "block border-[1px] rounded-md px-4 py-3 text-xs mt-2 w-full outline-none border-[lightgray] text-gray-300 font-medium bg-[var(--input-bg)] resize-y min-h-32 cursor-pointer"
-              )}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              multiline
+              rows={4}
+              InputProps={{
+                className: classNames(
+                  className,
+                  "text-xs mt-2 w-full outline-none text-gray-300 font-medium bg-[var(--input-bg)] resize-y min-h-32 cursor-pointer"
+                ),
+              }}
             />
             {validation.touched[name] && validation.errors[name] ? (
               <FormFeedback type="invalid">
                 {validation.errors[name]}
               </FormFeedback>
             ) : null}
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     );
   }
 
   if (type === "multiple-input") {
     return (
       <MultipleInput
-        {...{
-          type,
-          onChange,
-          onBlur,
-          value,
-          placeholder,
-          name,
-          validation,
-          disabled,
-          className,
-          min,
-          max,
-          defaultValue,
-          index,
-          onRemoveInput,
-          onMoveInput,
-          blogContentLength,
-          id,
-        }}
+        type={type}
+        onChange={onChange}
+        onBlur={onBlur}
+        value={value}
+        placeholder={placeholder}
+        name={name}
+        validation={validation}
+        disabled={disabled}
+        className={className}
+        min={min}
+        max={max}
+        defaultValue={defaultValue}
+        index={index}
+        onRemoveInput={onRemoveInput}
+        onMoveInput={onMoveInput}
+        blogContentLength={blogContentLength}
+        id={id}
       />
     );
   }
 
   if (type === "file") {
     return (
-      <div className="mb-4 w-full">
-        <div className="flex gap-2 md:gap-3 items-start w-full">
+      <Box mb={4} width="100%">
+        <Box display="flex" gap={2} alignItems="start" width="100%">
           <BlogInputMenu
             id={id}
             onRemoveInput={onRemoveInput}
@@ -186,58 +197,62 @@ const BlogInput = ({
             index={index}
             onMoveInput={onMoveInput}
           />
-          <div className="flex-1">
-            <label
-              htmlFor={name}
-              className="block text-sm font-medium text-white"
-            >
-              Image
-            </label>
-            <input
+          <Box flex={1}>
+            <TextField
+              label="Image"
               type={type}
               name={name}
               placeholder={placeholder}
               onBlur={onBlur}
               onChange={handleFileChange}
               disabled={disabled}
-              className={classNames(
-                "border-[1px] rounded-md px-4 py-3 text-xs mt-2 w-full outline-none border-[lightgray] text-gray-500 font-medium bg-[var(--input-bg)] cursor-pointer",
-                className
-              )}
-              min={min}
-              max={max}
-              hidden={true}
-              ref={inputRef}
-              accept={accept}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              InputProps={{
+                className: classNames(
+                  "text-xs mt-2 w-full outline-none text-gray-500 font-medium bg-[var(--input-bg)] cursor-pointer",
+                  className
+                ),
+              }}
+              inputProps={{
+                min: min,
+                max: max,
+                hidden: true,
+                ref: inputRef,
+                accept: accept,
+              }}
             />
-            <button
-              type="button"
-              className={classNames(
-                "border-[1px] rounded-md px-4 py-3 text-xs mt-2 w-full outline-none border-[lightgray] text-gray-500 font-medium bg-[var(--input-bg)] cursor-pointer flex items-center gap-2",
-                className
-              )}
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
               onClick={(e: any) => {
                 inputRef && inputRef.current
                   ? inputRef.current.click()
                   : e.target.previousElementSibling.click();
               }}
+              className={classNames(
+                "mt-2 w-full outline-none text-gray-500 font-medium bg-[var(--input-bg)] cursor-pointer flex items-center gap-2",
+                className
+              )}
             >
               <i className="fi fi-rr-images flex text-white pointer-events-none"></i>
               <span className="neue-regular pointer-events-none">
                 Choose File
               </span>
-            </button>
-            <p className="text-gray-400 neue-regular text-xs mt-2">
+            </Button>
+            <Typography variant="body2" color="textSecondary" mt={2}>
               {value ? `Chosen file: ${value}` : "No file chosen"}
-            </p>
+            </Typography>
             {validation.touched[name] && validation.errors[name] ? (
               <FormFeedback type="invalid">
                 {validation.errors[name]}
               </FormFeedback>
             ) : null}
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     );
   }
 
@@ -313,8 +328,8 @@ const MultipleInput = ({
   }, []);
 
   return (
-    <div className="mb-4 w-full">
-      <div className="flex gap-2 md:gap-3 items-start w-full">
+    <Box mb={4} width="100%">
+      <Box display="flex" gap={2} alignItems="start" width="100%">
         <BlogInputMenu
           id={id}
           onRemoveInput={onRemoveInput}
@@ -322,30 +337,21 @@ const MultipleInput = ({
           index={index}
           onMoveInput={onMoveInput}
         />
-        <div className="flex-1">
-          <div className="flex justify-between items-center">
-            <label
-              htmlFor={name}
-              className="block text-sm font-medium text-white"
-            >
+        <Box flex={1}>
+          <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Typography variant="body1" color="textPrimary">
               List
-            </label>
-            <button
-              className={`w-8 h-8 rounded-md transparent-white grid place-items-center cursor-pointer hover:bg-gray-700 transition-all`}
-              type="button"
-              onClick={addNewDetachableInput}
-            >
-              {/* <i className={`text-white flex fi fi-rr-layer-plus text-xl`}></i> */}
-              <i
-                className={`text-white flex fi fi-rr-plus-small text-base`}
-              ></i>
-            </button>
-          </div>
+            </Typography>
+            <IconButton onClick={addNewDetachableInput}>
+              <Plus />
+            </IconButton>
+          </Box>
           {inputs && inputs.length > 0 && (
-            <div className="mt-2">
-              <div className="flex flex-col gap-2">
+            <Box mt={2}>
+              <Box display="flex" flexDirection="column" gap={2}>
                 {inputs.map((inputData, index) => (
                   <DetachableInput
+                    key={inputData.id}
                     id={inputData.id}
                     onChangeValue={onChangeValue}
                     onRemove={onRemove}
@@ -354,15 +360,15 @@ const MultipleInput = ({
                     placeholder={placeholder}
                   />
                 ))}
-              </div>
-            </div>
+              </Box>
+            </Box>
           )}
-        </div>
-      </div>
+        </Box>
+      </Box>
       {validation.touched[name] && validation.errors[name] ? (
         <FormFeedback type="invalid">{validation.errors[name]}</FormFeedback>
       ) : null}
-    </div>
+    </Box>
   );
 };
 
@@ -376,27 +382,27 @@ const DetachableInput = ({
   placeholder,
 }: DetachableInputProps) => {
   return (
-    <div className="flex gap-2 md:gap-3 items-center mt-2">
-      <button
-        className={`w-8 h-8 rounded-md transparent-white grid place-items-center cursor-pointer hover:bg-gray-700 transition-all`}
-        type={"button"}
-        onClick={() => onRemove(id)}
-      >
-        {/* <i className={`text-white flex fi fi-rr-layer-minus text-sm`}></i> */}
-        <i className={`text-white flex fi fi-rr-minus-small text-sm`}></i>
-      </button>
-      <input
-        type={"text"}
+    <Box display="flex" gap={2} alignItems="center" mt={2}>
+      <IconButton onClick={() => onRemove(id)}>
+        <Trash />
+      </IconButton>
+      <TextField
+        type="text"
         value={value}
         onChange={(e) => onChangeValue(id, e.target.value)}
         disabled={disabled}
         placeholder={placeholder}
-        className={classNames(
-          "block border-[1px] rounded-md px-4 py-3 text-xs w-full outline-none border-[lightgray] text-gray-300 font-medium bg-[var(--input-bg)] cursor-pointer neue-regular",
-          className
-        )}
+        fullWidth
+        variant="outlined"
+        margin="normal"
+        InputProps={{
+          className: classNames(
+            "text-xs w-full outline-none text-gray-300 font-medium bg-[var(--input-bg)] cursor-pointer neue-regular",
+            className
+          ),
+        }}
       />
-    </div>
+    </Box>
   );
 };
 

@@ -67,6 +67,34 @@ interface DetachableInputProps {
   placeholder?: string;
 }
 
+const StyledInput = styled.input`
+  border: 1px solid lightgray;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  outline: none;
+  font-weight: 500;
+  background-color: var(--input-bg);
+  cursor: pointer;
+  &.text-gray-300 {
+    color: gray;
+  }
+  &.text-gray-800 {
+    color: black;
+  }
+  &.border-lightgray {
+    border-color: lightgray;
+  }
+  &.border-[#1c1c1c] {
+    border-color: #1c1c1c;
+  }
+  &.card {
+    // Add card specific styles here
+  }
+`;
+
 const FormInput = ({
   type,
   label,
@@ -114,24 +142,20 @@ const FormInput = ({
         >
           {label}
         </label>
-        <input
+        <StyledInput
           type={type}
           placeholder={placeholder}
           value={value}
           onBlur={onBlur}
           onChange={onChange}
           disabled={disabled}
-          className={classNames(
-            "block border-[1px] rounded-md px-4 py-3 text-xs mt-2 w-full outline-none font-medium bg-[var(--input-bg)] cursor-pointer",
-            className,
-            {
-              "text-gray-300": !lightMode,
-              "text-gray-800": lightMode,
-              "border-[lightgray]": lightMode,
-              card: !lightMode,
-              "border-[#1c1c1c]": !lightMode,
-            }
-          )}
+          className={classNames(className, {
+            "text-gray-300": !lightMode,
+            "text-gray-800": lightMode,
+            "border-lightgray": lightMode,
+            card: !lightMode,
+            "border-[#1c1c1c]": !lightMode,
+          })}
         />
         {validation.touched[name] && validation.errors[name] ? (
           <FormFeedback type="invalid">{validation.errors[name]}</FormFeedback>
@@ -158,17 +182,13 @@ const FormInput = ({
           value={value}
           onChange={(value) => validation.setFieldValue(name, value)}
           disabled={disabled}
-          inputClass={classNames(
-            "block border-[1px] rounded-md px-4 py-3 text-xs mt-2 w-full outline-none font-medium bg-[var(--input-bg)] cursor-pointer",
-            className,
-            {
-              "text-gray-300": !lightMode,
-              "text-gray-800": lightMode,
-              "border-[lightgray]": lightMode,
-              card: !lightMode,
-              "border-[#1c1c1c]": !lightMode,
-            }
-          )}
+          inputClass={classNames(className, {
+            "text-gray-300": !lightMode,
+            "text-gray-800": lightMode,
+            "border-lightgray": lightMode,
+            card: !lightMode,
+            "border-[#1c1c1c]": !lightMode,
+          })}
           inputStyle={{
             padding: "12px 16px 12px 48px",
             fontSize: "12px",
@@ -204,7 +224,8 @@ const FormInput = ({
           </label>
         )}
 
-        <textarea
+        <StyledInput
+          as="textarea"
           name={name}
           placeholder={placeholder}
           value={value}
@@ -212,17 +233,13 @@ const FormInput = ({
           onChange={onChange}
           disabled={disabled}
           style={inputStyle}
-          className={classNames(
-            className,
-            "block border-[1px] rounded-md px-4 py-3 text-xs mt-2 w-full outline-none  font-medium bg-[var(--input-bg)] resize-y min-h-32 cursor-pointer",
-            {
-              "text-gray-300": !lightMode,
-              "text-gray-800": lightMode,
-              "border-[lightgray]": lightMode,
-              card: !lightMode,
-              "border-[#1c1c1c]": !lightMode,
-            }
-          )}
+          className={classNames(className, {
+            "text-gray-300": !lightMode,
+            "text-gray-800": lightMode,
+            "border-lightgray": lightMode,
+            card: !lightMode,
+            "border-[#1c1c1c]": !lightMode,
+          })}
         />
         {validation.touched[name] && validation.errors[name] ? (
           <FormFeedback type="invalid">{validation.errors[name]}</FormFeedback>
@@ -455,18 +472,14 @@ const FormInput = ({
         <label htmlFor={name} className="block text-sm font-medium text-white">
           {label}
         </label>
-        <input
+        <StyledInput
           type={type}
           name={name}
           placeholder={placeholder}
           onBlur={onBlur}
           onChange={handleFileChange}
           disabled={disabled}
-          className={classNames(
-            "border-[1px] rounded-md px-4 py-3 text-xs mt-2 w-full outline-none border-[lightgray] text-gray-500 font-medium bg-[var(--input-bg)] cursor-pointer",
-            className,
-            { block: !hidden }
-          )}
+          className={classNames(className, { block: !hidden })}
           min={min}
           max={max}
           hidden={hidden}
@@ -526,7 +539,7 @@ const FormInput = ({
       <label htmlFor={name} className="block text-sm font-medium text-white">
         {label}
       </label>
-      <input
+      <StyledInput
         type={type}
         name={name}
         placeholder={placeholder}
@@ -534,10 +547,7 @@ const FormInput = ({
         onBlur={onBlur}
         onChange={onChange}
         disabled={disabled}
-        className={classNames(
-          "block border-[1px] rounded-md px-4 py-3 text-xs mt-2 w-full outline-none border-[lightgray] text-gray-500 font-medium bg-[var(--input-bg)] cursor-pointer",
-          className
-        )}
+        className={classNames(className)}
         min={min}
         max={max}
       />
@@ -891,19 +901,15 @@ const DetachableInput = ({
         type={"button"}
         onClick={() => onRemove(id)}
       >
-        {/* <i className={`text-white flex fi fi-rr-layer-minus text-sm`}></i> */}
         <i className={`text-white flex fi fi-rr-minus-small text-sm`}></i>
       </button>
-      <input
+      <StyledInput
         type={"text"}
         value={value}
         onChange={(e) => onChangeValue(id, e.target.value)}
         disabled={disabled}
         placeholder={placeholder}
-        className={classNames(
-          "block border-[1px] rounded-md px-4 py-3 text-xs w-full outline-none border-[lightgray] text-gray-300 font-medium bg-[var(--input-bg)] cursor-pointer neue-regular",
-          className
-        )}
+        className={classNames(className)}
       />
     </div>
   );

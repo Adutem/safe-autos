@@ -1,34 +1,40 @@
 import * as yup from "yup";
 import { useFormik } from "formik";
-import FormInput from "../forms/FormInput";
-import { DivWithoutScrollBar } from "../DivWithoutScrollBar";
-import { Portal } from "../Portal";
-import Button from "../forms/Button";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRedux } from "../hooks/useRedux";
-// import { BlogPost } from "@/data/blog";
 import { fileDetails } from "../helpers";
 import {
   showErrorNotification,
   showInfoNotification,
   showSuccessNotification,
 } from "../utils";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import { v4 as uuidv4 } from "uuid";
 import BlogInput from "../blog/BlogInput";
 import { nanoid } from "nanoid";
 import { createBlog, resetCreateBlog } from "../redux/blog/blogSlice";
-import { Loader, Spinner } from "../progress";
 import {
   BlogContentInputType,
   BlogContentType as BlogContent,
   BlogPost,
 } from "./type";
+import styled from "styled-components";
+import {
+  TextField,
+  // Button as MuiButton,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Modal,
+  Box,
+  IconButton,
+  Typography,
+  CircularProgress,
+  Input,
+} from "@mui/material";
+import { Plus, ArrowUp, ArrowDown, Trash } from "lucide-react";
+import { Button } from "../reusables/Styles";
+
 
 export type BlogContentType = {
   id: string;
@@ -81,7 +87,7 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
 
   // Blog state
   const { isCreatingBlog, blogCreated, createError } = useStateSelector(
-    (state) => state.Blog
+    (state) => state.Blog || {}
   );
 
   // File Input State
@@ -132,9 +138,7 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
   });
 
   const validation = useFormik({
-    // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
-
     initialValues: defaultValues,
     validationSchema: blogSchema,
     onSubmit: async (values) => {
@@ -215,8 +219,6 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
   }, [blogContent.length]);
 
   const blogContentValidation = useFormik({
-    // enableReinitialize : use this flag when initial values needs to be changed
-    // enableReinitialize: true,
     initialValues: defaultBlogContentValue,
     validationSchema: blogContentSchema,
     onSubmit: (values) => {
@@ -266,12 +268,6 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
       });
 
       dispatch(createBlog(formData));
-
-      // console.log(formData.get("content"));
-      // Call the final submit of the main form
-      // console.log("Main Form Values:", validation.values);
-      // console.log("Blog Content Values:", updatedContent);
-      // Submit the main form or perform any desired actions here
     },
   });
 
@@ -285,14 +281,7 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
         e.target.value = "";
         return showInfoNotification("Max thumbnail size is 4mb", 1300);
       }
-      // const { width, height } = details?.dimension;
-      // if (width < 1280 || height < 720) {
-      //   e.target.value = "";
-      //   return showInfoNotification(`Min banner dimension 1280 x 720`);
-      // }
-      // setBlogThumbNail(file);
       setBlogContentFiles((prev) => {
-        // prev[e.target.name] = file
         return { ...prev, [e.target.name]: file };
       });
       blogContentValidation.setFieldValue(e.target.name, details.name);
@@ -317,149 +306,114 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
   }, [createError]);
 
   return (
-    <Portal
-      onClose={() => onClose()}
-      shouldModalCloseOnClick={false}
-      modalContentContainerStyle="rounded-md"
-      isOpen={isOpen}
-      showBackdropElement={true}
-    >
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl sm:text-2xl text-white neue-regular font-bold">
-          Blog Form
-        </h2>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <span
-              className={`w-8 h-8 rounded-md transparent-white grid place-items-center cursor-pointer hover:bg-gray-700 transition-all`}
-            >
-              <i className={`text-white flex fi fi-rr-multiple text-base`}></i>
-            </span>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            style={{ zIndex: 100000005 }}
-            className="bg-black"
-          >
-            <DropdownMenuItem
-              className="cursor-pointer text-gray-300 hover:text-black focus:text-black"
-              onClick={() => addBlogContent("heading")}
-            >
-              <span className="w-36 flex justify-between">
-                <span>Heading</span>
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="cursor-pointer text-gray-300 hover:text-black"
-              onClick={() => addBlogContent("paragraph")}
-            >
-              <span className="w-36 flex justify-between">
-                <span>Paragraph</span>
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="cursor-pointer text-gray-300 hover:text-black"
-              onClick={() => addBlogContent("list")}
-            >
-              <span className="w-36 flex justify-between">
-                <span>List</span>
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="cursor-pointer text-gray-300 hover:text-black"
-              onClick={() => addBlogContent("image")}
-            >
-              <span className="w-36 flex justify-between">
-                <span>Image</span>
-              </span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      {isCreatingBlog && <Loader />}
-      <DivWithoutScrollBar className="pb-60 sm:pb-32 h-5/6 overflow-auto relative">
-        <form
-          className="relative w-full flex flex-col gap-4"
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log("Called here!");
-            validation.handleSubmit();
-            return false;
+    <Modal open={isOpen} onClose={onClose}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 600,
+          bgcolor: "background.paper",
+          borderRadius: 1,
+          boxShadow: 24,
+          p: 4,
+        }}
+      >
+        <Header>
+          <Title>Blog Form</Title>
+          <IconButton onClick={() => addBlogContent("heading")}>
+            <Plus />
+          </IconButton>
+        </Header>
+        {isCreatingBlog && <CircularProgress />}
+        <Box
+          sx={{
+            maxHeight: "70vh",
+            overflowY: "auto",
+            paddingBottom: "2rem",
           }}
         >
-          <FormInput
-            type="text"
-            name="title"
-            label="Title"
-            onBlur={validation.handleBlur}
-            onChange={validation.handleChange}
-            placeholder="Enter blog title"
-            value={validation.values.title || ""}
-            validation={validation}
-            className="neue-regular text-gray-300"
-          />
-          <FormInput
-            type="textarea"
-            name="shortIntroduction"
-            label="Short Introduction"
-            onBlur={validation.handleBlur}
-            onChange={validation.handleChange}
-            placeholder="Enter short introduction"
-            value={validation.values.shortIntroduction || ""}
-            validation={validation}
-            className="neue-regular text-gray-300"
-          />
-          <FormInput
-            type="file"
-            name="thumbNail"
-            label="Thumbnail"
-            onBlur={validation.handleBlur}
-            onChange={validation.handleChange}
-            placeholder="Choose thumbnail"
-            value={validation.values.thumbNail}
-            validation={validation}
-            hidden={true}
-            inputRef={thumbNailInputRef}
-            accept={".jpeg, .jpg, .png"}
-            handleFileChange={handleFileChange}
-            className="neue-regular text-gray-300"
-          />
-
-          <FormInput
-            type="chad-select"
-            label="Blog tag"
-            name="tag"
-            onBlur={validation.handleBlur}
-            onChange={validation.handleChange}
-            placeholder="Select blog tag"
-            value={validation.values.tag || ""}
-            validation={validation}
-            options={["Uncategorized", "Marketing", "SEO", "E-Commerce"]}
-            defaultValue={editData?.tag || "Uncategorized"}
-            className="neue-regular text-gray-300"
-          />
-
-          <h3 className="block text-xl font-bold text-white neue-regular">
-            Blog Content
-          </h3>
-          {blogContent.length === 0 && (
-            <div className="flex flex-col items-center gap-1">
-              <p className="text-center text-gray-400 neue-regular text-xs">
-                You have not added a blog content yet <br />
-              </p>
-              <p className="text-center text-gray-400 neue-regular text-xs">
-                Click the plus icon at the top right to add new content
-              </p>
-            </div>
-          )}
-          {blogContent.length > 0 && (
-            <div className="ml-3">
-              <div>
-                {blogContent.map((content, index) =>
-                  content.type !== "list" ? (
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              validation.handleSubmit();
+              return false;
+            }}
+          >
+            <TextField
+              type="text"
+              name="title"
+              label="Title"
+              onBlur={validation.handleBlur}
+              onChange={validation.handleChange}
+              placeholder="Enter blog title"
+              value={validation.values.title || ""}
+              error={Boolean(validation.errors.title)}
+              helperText={validation.errors.title}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
+            <TextField
+              type="textarea"
+              name="shortIntroduction"
+              label="Short Introduction"
+              onBlur={validation.handleBlur}
+              onChange={validation.handleChange}
+              placeholder="Enter short introduction"
+              value={validation.values.shortIntroduction || ""}
+              error={Boolean(validation.errors.shortIntroduction)}
+              helperText={validation.errors.shortIntroduction}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              multiline
+              rows={4}
+            />
+            <FormControl fullWidth variant="outlined" margin="normal">
+              <InputLabel htmlFor="thumbNail">Thumbnail</InputLabel>
+              <Input
+                type="file"
+                name="thumbNail"
+                id="thumbNail"
+                onBlur={validation.handleBlur}
+                onChange={handleFileChange}
+                inputRef={thumbNailInputRef}
+                inputProps={{ accept: ".jpeg, .jpg, .png" }}
+              />
+            </FormControl>
+            <FormControl fullWidth variant="outlined" margin="normal">
+              <InputLabel>Blog tag</InputLabel>
+              <Select
+                label="Blog tag"
+                name="tag"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.tag || ""}
+                error={Boolean(validation.errors.tag)}
+              >
+                <MenuItem value="Uncategorized">Uncategorized</MenuItem>
+                <MenuItem value="Marketing">Marketing</MenuItem>
+                <MenuItem value="SEO">SEO</MenuItem>
+                <MenuItem value="E-Commerce">E-Commerce</MenuItem>
+              </Select>
+            </FormControl>
+            <SectionTitle>Blog Content</SectionTitle>
+            {blogContent.length === 0 && (
+              <EmptyContent>
+                <Typography>You have not added a blog content yet</Typography>
+                <Typography>
+                  Click the plus icon at the top right to add new content
+                </Typography>
+              </EmptyContent>
+            )}
+            {blogContent.length > 0 && (
+              <ContentContainer>
+                {blogContent.map((content, index) => (
+                  <Box key={content.id} sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                     <BlogInput
                       type={content.inputType}
-                      key={content.id}
                       id={content.id}
                       name={content.nanoId}
                       value={blogContentValidation.values[content.nanoId]}
@@ -473,41 +427,78 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
                       index={index}
                       blogContentLength={blogContent.length}
                     />
-                  ) : (
-                    <BlogInput
-                      type={content.inputType}
-                      key={content.id}
-                      id={content.id}
-                      name={content.nanoId}
-                      value={blogContentValidation.values[content.nanoId]}
-                      onBlur={blogContentValidation.handleBlur}
-                      onChange={blogContentValidation.handleChange}
-                      validation={blogContentValidation}
-                      onRemoveInput={removeBlogContent}
-                      onMoveInput={moveBlogContent}
-                      blogContentLength={blogContent.length}
-                      index={index}
-                    />
-                  )
-                )}
-              </div>
-            </div>
-          )}
-
-          <div className="mt-8 col-span-full">
+                    <IconButton onClick={() => moveBlogContent(index, "up")}>
+                      <ArrowUp />
+                    </IconButton>
+                    <IconButton onClick={() => moveBlogContent(index, "down")}>
+                      <ArrowDown />
+                    </IconButton>
+                    <IconButton onClick={() => removeBlogContent(content.id)}>
+                      <Trash />
+                    </IconButton>
+                  </Box>
+                ))}
+              </ContentContainer>
+            )}
             <Button
               type="submit"
-              className="bg-[var(--base-primary)]"
+              // variant="contained"
+              color="primary"
               disabled={isCreatingBlog}
+            // fullWidth
             >
-              {isCreatingBlog && <Spinner type="plain" />}
-              {isCreatingBlog ? "Creating Blog..." : "Create Blog"}
+              {isCreatingBlog && <CircularProgress size={24} />}
+              {isCreatingBlog ? "Submitting..." : "Submit"}
             </Button>
-          </div>
-        </form>
-      </DivWithoutScrollBar>
-    </Portal>
+          </Form>
+        </Box>
+      </Box>
+    </Modal>
   );
 };
 
 export default BlogForm;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+`;
+
+const Title = styled.h2`
+  font-size: 1.25rem;
+  @media (min-width: 640px) {
+    font-size: 1.5rem;
+  }
+  color: black;
+  font-weight: bold;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 1.25rem;
+  color: black;
+  font-weight: bold;
+`;
+
+const EmptyContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  color: #9ca3af;
+  font-size: 0.75rem;
+  text-align: center;
+`;
+
+const ContentContainer = styled.div`
+  margin-left: 0.75rem;
+`;
+
+

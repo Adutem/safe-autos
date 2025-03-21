@@ -1,3 +1,10 @@
+/* filepath: c:\Users\User\Documents\WebProjects\Adutem\safe-auto\src\index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
 :root {
   --primary-color: #f02c33;
   --white: #fff;
