@@ -94,25 +94,56 @@ const MyStore = () => {
             <>
               <ContainerDiv>
                 {nearestStore && (
-                  <StoreDetails
+                  <NormalPara
                     key={nearestStore.id}
-                    store={nearestStore}
                     onClick={() => {
                       setCurrentStoreLocation(nearestStore);
                       setIsNearbyStoresVisible(false);
                     }}
-                  />
+                    style={{
+                      margin: "0.5rem 0",
+                      fontSize: "0.75rem",
+                      cursor: "pointer",
+                      display: "grid",
+                      gridTemplateColumns: "repeat(2, 1fr)",
+                    }}
+                  >
+                    <strong>{nearestStore.shopLocation}</strong>
+                    <span>{nearestStore.address}</span>
+                    <span>{nearestStore.phoneNumber}</span>
+                    <a href={nearestStore.link} target="_blank" rel="noopener noreferrer">Visit Store</a>
+                    <a href={nearestStore.couponLink} target="_blank" rel="noopener noreferrer">Coupons</a>
+                    <a href={nearestStore.financingLink} target="_blank" rel="noopener noreferrer">Financing</a>
+                    <a href={nearestStore.facebookLink} target="_blank" rel="noopener noreferrer">Facebook</a>
+                    <a href={nearestStore.mapLink} target="_blank" rel="noopener noreferrer">Map</a>
+                  </NormalPara>
+                  
                 )}
                 {nearbyStores.length > 0 ? (
                   nearbyStores.map((store) => (
-                    <StoreDetails
+                    <NormalPara
                       key={store.id}
-                      store={store}
                       onClick={() => {
                         setCurrentStoreLocation(store);
                         setIsNearbyStoresVisible(false);
                       }}
-                    />
+                      style={{
+                        margin: "0.5rem 0",
+                        fontSize: "0.75rem",
+                        cursor: "pointer",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(2, 1fr)",
+                      }}
+                    >
+                      <strong>{store.shopLocation}</strong>
+                      <span>{store.address}</span>
+                      <span>{store.phone}</span>
+                      <a href={store.link} target="_blank" rel="noopener noreferrer">Visit Store</a>
+                      <a href={store.couponLink} target="_blank" rel="noopener noreferrer">Coupons</a>
+                      <a href={store.financingLink} target="_blank" rel="noopener noreferrer">Financing</a>
+                      <a href={store.facebookLink} target="_blank" rel="noopener noreferrer">Facebook</a>
+                      <a href={store.mapLink} target="_blank" rel="noopener noreferrer">Map</a>
+                    </NormalPara>
                   ))
                 ) : (
                   <NormalPara>No nearby stores found.</NormalPara>
@@ -127,28 +158,6 @@ const MyStore = () => {
   );
 };
 
-const StoreDetails = ({ store, onClick }) => (
-  <NormalPara
-    onClick={onClick}
-    style={{
-      margin: "0.5rem 0",
-      fontSize: "0.75rem",
-      cursor: "pointer",
-      display: "grid",
-      gridTemplateColumns: "repeat(2, 1fr)",
-      gap: "0.5rem",
-    }}
-  >
-    <strong>{store.shopLocation}</strong>
-    <span>{store.address}</span>
-    <span>{store.phoneNumber}</span>
-    <a href={store.link} target="_blank" rel="noopener noreferrer">Visit Store</a>
-    <a href={store.couponLink} target="_blank" rel="noopener noreferrer">Coupons</a>
-    <a href={store.financingLink} target="_blank" rel="noopener noreferrer">Financing</a>
-    <a href={store.facebookLink} target="_blank" rel="noopener noreferrer">Facebook</a>
-    <a href={store.mapLink} target="_blank" rel="noopener noreferrer">Map</a>
-  </NormalPara>
-);
 
 const StoreCompContContainer = styled.div`
   display: flex;
