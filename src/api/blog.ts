@@ -6,6 +6,11 @@ import {
 } from "../contexts/GlobalContext";
 import axios from "axios";
 
+
+
+const token = localStorage?.getItem('accessToken');
+console.log(token);
+
 export const getAllBlogs = async (limit: number = 20, page: number = 1) => {
   try {
     const response = await axios.get(`${BASE_URL}/blogs?limit=${limit}&page=${page}`);
@@ -28,9 +33,10 @@ export const getBlog = async (blogId: string) => {
 
 export const createBlog = async (data: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/blogs`, data, {
+    const response = await axios.post(`${BASE_URL}/blog/create`, data, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
       }
     });
     toastSuccess("Blog created successfully");

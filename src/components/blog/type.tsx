@@ -22,7 +22,7 @@ type FileMetaData = {
     inputType: BlogContentInputType;
     nanoId: string;
     listContent?: Array<string>;
-    textContent?: string;
+    content?: string;
     fileContent?: FileContentType;
   }
   

@@ -26,7 +26,7 @@ const Editor = ({
         onInput={(e) => {
           if (content === "") {
             setContent(
-              `<p class="about-page-para-text">${e.target.textContent}</p>`
+              `<p class="about-page-para-text">${e.target.content}</p>`
             );
           }
         }}

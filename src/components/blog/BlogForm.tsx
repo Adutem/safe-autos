@@ -31,16 +31,16 @@ import {
   Typography,
   CircularProgress,
   Input,
+  Menu,
 } from "@mui/material";
 import { Plus, ArrowUp, ArrowDown, Trash } from "lucide-react";
 import { Button } from "../reusables/Styles";
-
 
 export type BlogContentType = {
   id: string;
   type: BlogContent;
   listContent?: Array<string>;
-  textContent?: string;
+  content?: string;
   fileContent?: any;
   inputType: BlogContentInputType;
   nanoId: string;
@@ -97,6 +97,21 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
   const [blogContentFiles, setBlogContentFiles] = useState<Record<string, any>>(
     {}
   );
+
+  // Menu state
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuItemClick = (type: BlogContent) => {
+    addBlogContent(type);
+    handleClose();
+  };
 
   const removeBlogContent = (id: string) => {
     setBlogContent((prev) => prev.filter((content) => content.id !== id));
@@ -177,7 +192,7 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
       id: uuidv4(),
       type,
       listContent: [],
-      textContent: "",
+      content: "",
       inputType: blogContentToInputMap[type],
       nanoId: nanoid(9),
       fileContent: null,
@@ -228,9 +243,9 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
         } else if (content.type === "image") {
           console.log(blogContentFiles);
           content.fileContent = blogContentFiles[content.nanoId];
-          content.textContent = values[content.nanoId];
+          content.content = values[content.nanoId];
         } else {
-          content.textContent = values[content.nanoId];
+          content.content = values[content.nanoId];
         }
         return content;
       });
@@ -252,19 +267,18 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
 
       // Append all blog content
       updatedContent.forEach((content, index) => {
+        formData.append(`content[${index}][type]`, content.type);
+        formData.append(`content[${index}][nanoId]`, content.nanoId);
+        formData.append(`content[${index}][inputType]`, content.inputType);
         if (content.type === "image") {
-          formData.append(`content[${index}].fileContent`, content.fileContent);
+          formData.append(`content[${index}][fileContent]`, content.fileContent);
         } else if (content.type === "list") {
-          formData.append(
-            `content[${index}].listContent`,
-            JSON.stringify(content.listContent)
-          );
-        } else if (content.textContent) {
-          formData.append(`content[${index}].textContent`, content.textContent);
+          content.listContent?.forEach((item, itemIndex) => {
+            formData.append(`content[${index}][listContent][${itemIndex}]`, item);
+          });
+        } else if (content.content) {
+          formData.append(`content[${index}][content]`, content.content);
         }
-        formData.append(`content[${index}].type`, content.type);
-        formData.append(`content[${index}].nanoId`, content.nanoId);
-        formData.append(`content[${index}].inputType`, content.inputType);
       });
 
       dispatch(createBlog(formData));
@@ -322,9 +336,19 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
       >
         <Header>
           <Title>Blog Form</Title>
-          <IconButton onClick={() => addBlogContent("heading")}>
+          <IconButton onClick={handleClick}>
             <Plus />
           </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={() => handleMenuItemClick("heading")}>Heading</MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick("paragraph")}>Paragraph</MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick("image")}>Image</MenuItem>
+            <MenuItem onClick={() => handleMenuItemClick("list")}>List</MenuItem>
+          </Menu>
         </Header>
         {isCreatingBlog && <CircularProgress />}
         <Box
