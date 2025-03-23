@@ -11,6 +11,7 @@ import { LocationModal } from "../pages/ScheduleService";
 
 const MyStore = () => {
   const [isNearbyStoresVisible, setIsNearbyStoresVisible] = useState(false);
+  const [nearestStore, setNearestStore] = useState(null);
 
   const hideMyStore = () => {
     document.querySelector("#store-container")?.classList.remove("show");
@@ -21,7 +22,19 @@ const MyStore = () => {
 
   useEffect(() => {
     hideMyStore();
+    // Fetch nearest store details
+    fetchNearestStore();
   }, [currentStoreLocation]);
+
+  const fetchNearestStore = async () => {
+    try {
+      const response = await fetch('/api/nearest-store');
+      const data = await response.json();
+      setNearestStore(data.nearestStore);
+    } catch (error) {
+      console.error('Error fetching nearest store:', error);
+    }
+  };
 
   return (
     <>
@@ -47,8 +60,6 @@ const MyStore = () => {
             hideBrowseLink={!currentStoreLocation}
             disabled={isNearbyStoresVisible && nearbyStores.length === 0} // ✅ Disable dropdown if no nearby stores
           />
-
-
 
           <Seperator />
 
@@ -82,26 +93,26 @@ const MyStore = () => {
             // ✅ Nearby Stores View
             <>
               <ContainerDiv>
+                {nearestStore && (
+                  <StoreDetails
+                    key={nearestStore.id}
+                    store={nearestStore}
+                    onClick={() => {
+                      setCurrentStoreLocation(nearestStore);
+                      setIsNearbyStoresVisible(false);
+                    }}
+                  />
+                )}
                 {nearbyStores.length > 0 ? (
                   nearbyStores.map((store) => (
-                    <NormalPara
+                    <StoreDetails
                       key={store.id}
+                      store={store}
                       onClick={() => {
                         setCurrentStoreLocation(store);
                         setIsNearbyStoresVisible(false);
                       }}
-                      style={{
-                        margin: "0.5rem 0",
-                        fontSize: "0.75rem",
-                        cursor: "pointer",
-                        display: "grid",
-                        gridTemplateColumns: "repeat(2, 1fr)",
-                      }}
-                    >
-                      <strong>{store.name}</strong>
-                      <span>{store.address}</span>
-                      <span>{store.phone}</span>
-                    </NormalPara>
+                    />
                   ))
                 ) : (
                   <NormalPara>No nearby stores found.</NormalPara>
@@ -116,6 +127,28 @@ const MyStore = () => {
   );
 };
 
+const StoreDetails = ({ store, onClick }) => (
+  <NormalPara
+    onClick={onClick}
+    style={{
+      margin: "0.5rem 0",
+      fontSize: "0.75rem",
+      cursor: "pointer",
+      display: "grid",
+      gridTemplateColumns: "repeat(2, 1fr)",
+      gap: "0.5rem",
+    }}
+  >
+    <strong>{store.shopLocation}</strong>
+    <span>{store.address}</span>
+    <span>{store.phoneNumber}</span>
+    <a href={store.link} target="_blank" rel="noopener noreferrer">Visit Store</a>
+    <a href={store.couponLink} target="_blank" rel="noopener noreferrer">Coupons</a>
+    <a href={store.financingLink} target="_blank" rel="noopener noreferrer">Financing</a>
+    <a href={store.facebookLink} target="_blank" rel="noopener noreferrer">Facebook</a>
+    <a href={store.mapLink} target="_blank" rel="noopener noreferrer">Map</a>
+  </NormalPara>
+);
 
 const StoreCompContContainer = styled.div`
   display: flex;
