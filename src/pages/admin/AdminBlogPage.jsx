@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Typography } from "@mui/material";
 import styled from "styled-components";
 import {
@@ -6,16 +6,28 @@ import {
     SectionHeading,
 } from "../../components/reusables/Styles";
 import BlogForm from "../../components/blog/BlogForm";
-import { blogs as initialBlogs } from "../../data/blog-data"; // Import initial blogs data
+import { getAllBlogs } from "../../api/blog"; // Import getAllBlogs API function
 import { BlogCard, BlogContent, BlogFooter, BlogImage } from "../Blog"; // Import BlogCard and related components
 
 const AdminBlogPage = () => {
-    const [blogs, setBlogs] = useState(initialBlogs);
+    const [blogs, setBlogs] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchCategory, setSearchCategory] = useState("");
     const [searchDate, setSearchDate] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const blogsPerPage = 12;
+
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                const data = await getAllBlogs();
+                setBlogs(data.blogs);
+            } catch (error) {
+                console.error("Error fetching blogs:", error);
+            }
+        };
+        fetchBlogs();
+    }, []);
 
     const filteredBlogs = blogs.filter(blog =>
         (searchTerm === "" || blog.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
@@ -220,7 +232,6 @@ const ReadMore = styled.a`
     text-decoration: underline;
   }
 `;
-
 
 const PageButton = styled.button`
   margin: 0 5px;

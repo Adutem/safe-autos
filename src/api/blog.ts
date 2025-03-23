@@ -13,7 +13,7 @@ console.log(token);
 
 export const getAllBlogs = async (limit: number = 20, page: number = 1) => {
   try {
-    const response = await axios.get(`${BASE_URL}/blogs?limit=${limit}&page=${page}`);
+    const response = await axios.get(`${BASE_URL}/blog`);
     return response.data;
   } catch (error) {
     toastError(error.message);
