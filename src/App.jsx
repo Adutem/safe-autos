@@ -61,9 +61,21 @@ const App = () => {
       );
   }, []);
 
+  useEffect(() => {
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function() {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/67e0923fa07298190e41f4b8/1in2jmimn';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+  }, []);
+
   const handleLiveChatClick = () => {
     // Logic to open live chat
-    alert("Live chat opened!");
+    Tawk_API.maximize();
   };
 
   return (
@@ -102,7 +114,7 @@ const App = () => {
           hideShowModal={hideLocationModal}
         />
       )}
-      <FloatingButton onClick={handleLiveChatClick}>💬</FloatingButton>
+      <FloatingButton onClick={handleLiveChatClick} />
     </AppContainer>
   );
 };
@@ -115,7 +127,6 @@ const FloatingButton = styled.button`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 50%;
@@ -126,7 +137,6 @@ const FloatingButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 `;
 
