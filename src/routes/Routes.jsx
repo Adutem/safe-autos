@@ -49,7 +49,7 @@ const RoutesComponent = () => {
       </Route>
       <Route path="/join-our-team" element={<Jobs />} />
       <Route path="/blog" element={<BlogPage />} />
-      <Route path="/blog/:id" element={<BlogDetails />} />
+      <Route path="/blog/:blogId" element={<BlogDetails />} />
       <Route path="/coupons" element={<Coupons />} />
       <Route path="/financing" element={<Financing />} />
       <Route path="services">

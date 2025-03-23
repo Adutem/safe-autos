@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom"; // Import useParams from react-router-dom
 import { mostVisited } from "../data/blog-data";
+import { getBlog } from "../api/blog"; // Import getBlog API function
 
-const BlogDetails = ({ blog }) => {
+const BlogDetails = () => {
+  const { blogId } = useParams(); // Use useParams to get blogId from the URL
+  const [blog, setBlog] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [reactions, setReactions] = useState({ like: 0, love: 0, laugh: 0, fire: 0 });
+
+  const fetchBlogDetails = async () => {
+    try {
+      const data = await getBlog(blogId);
+      setBlog(data.blog);
+    } catch (error) {
+      console.error("Error fetching blog details:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogDetails();
+  }, [blogId]);
 
   const handleCommentSubmit = () => {
     if (newComment.trim() !== "") {
@@ -27,10 +44,31 @@ const BlogDetails = ({ blog }) => {
   return (
     <BlogContainer>
       <MainContent>
-        <h1>{blog?.title || "This is the title" }</h1>
-        <BlogImage src={blog?.image || 'htp'} alt={blog?.title} />
-        <BlogDate>{blog?.date || "8/12/12"}</BlogDate>
-        <p>{blog?.content || "This is the content"}</p>
+        <Title>{blog?.title}</Title>
+        <BlogImage src={blog?.thumbNail?.downloadUrl} alt={blog?.title} />
+        <BlogDate>{new Date(blog?.publicationDate).toLocaleDateString()}</BlogDate>
+        <Introduction>{blog?.shortIntroduction}</Introduction>
+
+        {blog?.blogContents?.map((content, index) => {
+          switch (content.type) {
+            case "heading":
+              return <ContentHeading key={index}>{content.textContent}</ContentHeading>;
+            case "paragraph":
+              return <ContentParagraph key={index}>{content.textContent}</ContentParagraph>;
+            case "list":
+              return (
+                <ContentList key={index}>
+                  {content.listContent.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ContentList>
+              );
+            case "image":
+              return <ContentImage key={index} src={content.fileContent.downloadUrl} alt={content.fileContent.metadata.name} />;
+            default:
+              return null;
+          }
+        })}
 
         <Reactions>
           {Object.entries(reactions).map(([key, value]) => (
@@ -41,7 +79,7 @@ const BlogDetails = ({ blog }) => {
         </Reactions>
 
         <CommentSection>
-          <h2>Comments</h2>
+          <CommentHeading>Comments</CommentHeading>
           <CommentInput>
             <input
               type="text"
@@ -75,7 +113,7 @@ const BlogDetails = ({ blog }) => {
       </MainContent>
 
       <Sidebar>
-        <h2>Most Visited</h2>
+        <SidebarHeading>Most Visited</SidebarHeading>
         {mostVisited.map((blog) => (
           <SidebarItem key={blog.id}>
             <img src={blog.image} alt={blog.title} />
@@ -101,18 +139,62 @@ const MainContent = styled.div`
   padding-right: 2rem;
 `;
 
+const Title = styled.h1`
+  font-size: 2rem;
+  color: var(--black);
+  margin-bottom: 1rem;
+`;
+
 const BlogImage = styled.img`
   width: 100%;
-  height: 400px;
+  max-height: 400px;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 1rem;
+`;
+
+const ContentImage = styled.img`
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 1rem 0;
 `;
 
 const BlogDate = styled.p`
   font-size: 0.9rem;
   color: var(--gray);
   margin-bottom: 1rem;
+`;
+
+const Introduction = styled.p`
+  font-size: 1.1rem;
+  color: var(--dark-gray);
+  margin-bottom: 1rem;
+`;
+
+const ContentHeading = styled.h2`
+  font-size: 1.5rem;
+  color: var(--black);
+  margin: 1rem 0;
+`;
+
+const ContentParagraph = styled.p`
+  font-size: 1rem;
+  color: var(--dark-gray);
+  margin: 1rem 0;
+`;
+
+const ContentList = styled.ul`
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+
+  li {
+    font-size: 1rem;
+    color: var(--dark-gray);
+    margin: 0.5rem 0;
+  }
 `;
 
 const Reactions = styled.div`
@@ -130,6 +212,12 @@ const ReactionButton = styled.button`
 
 const CommentSection = styled.div`
   margin-top: 2rem;
+`;
+
+const CommentHeading = styled.h2`
+  font-size: 1.5rem;
+  color: var(--black);
+  margin-bottom: 1rem;
 `;
 
 const CommentInput = styled.div`
@@ -183,6 +271,12 @@ const Sidebar = styled.div`
   padding: 1rem;
   border-radius: 10px;
   height: fit-content;
+`;
+
+const SidebarHeading = styled.h2`
+  font-size: 1.5rem;
+  color: var(--black);
+  margin-bottom: 1rem;
 `;
 
 const SidebarItem = styled.div`

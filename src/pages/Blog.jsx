@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { blogs, mostVisited } from "../data/blog-data";
+import { getAllBlogs } from "../api/blog"; // Import getAllBlogs API function
 
 const BlogPage = () => {
+    const [blogs, setBlogs] = useState([]);
+    const [mostVisited, setMostVisited] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchCategory, setSearchCategory] = useState("");
     const [searchDate, setSearchDate] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const blogsPerPage = 10;
 
+    const fetchBlogs = async () => {
+        try {
+            const data = await getAllBlogs(blogsPerPage, currentPage);
+            setBlogs(data.blogs);
+            setMostVisited(data.mostVisited); // Assuming the API returns most visited blogs
+        } catch (error) {
+            console.error("Error fetching blogs:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchBlogs();
+    }, [currentPage]);
+
     const filteredBlogs = blogs.filter(blog =>
         (searchTerm === "" || blog.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        (searchCategory === "" || blog.category === searchCategory) &&
-        (searchDate === "" || blog.date === searchDate)
+        (searchCategory === "" || blog.tag === searchCategory) &&
+        (searchDate === "" || new Date(blog.publicationDate).toLocaleDateString() === new Date(searchDate).toLocaleDateString())
     );
 
     const indexOfLastBlog = currentPage * blogsPerPage;
@@ -47,8 +63,8 @@ const BlogPage = () => {
                     <input type="text" placeholder="Search by title..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                     <select value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
                         <option value="">All Categories</option>
-                        <option value="Tires">Tires</option>
-                        <option value="Brakes">Brakes</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Uncategorized">Uncategorized</option>
                     </select>
                     <input type="date" value={searchDate} onChange={(e) => setSearchDate(e.target.value)} />
                 </SearchBar>
@@ -57,14 +73,14 @@ const BlogPage = () => {
                     <>
                         <BlogGrid>
                             {currentBlogs.map((blog) => (
-                                <BlogCard key={blog.id}>
-                                    <BlogImage src={blog.image} alt={blog.title} />
+                                <BlogCard key={blog._id}>
+                                    <BlogImage src={blog.thumbNail.downloadUrl} alt={blog.title} />
                                     <BlogContent>
                                         <h2>{blog.title}</h2>
-                                        <p>{blog.content}</p>
+                                        <p>{blog.shortIntroduction}</p>
                                         <BlogFooter>
-                                            <span>{blog.date}</span>
-                                            <ReadMore href={`/blog/${blog.id}`}>Read More →</ReadMore>
+                                            <span>{new Date(blog.publicationDate).toLocaleDateString()}</span>
+                                            <ReadMore href={`/blog/${blog._id}`}>Read More →</ReadMore>
                                         </BlogFooter>
                                     </BlogContent>
                                 </BlogCard>
@@ -89,10 +105,10 @@ const BlogPage = () => {
 
             <Sidebar>
                 <h2>Most Visited</h2>
-                {mostVisited.map((blog) => (
-                    <SidebarItem key={blog.id}>
-                        <img src={blog.image} alt={blog.title} />
-                        <a href={`/blog/${blog.id}`}>{blog.title}</a>
+                {mostVisited?.map((blog) => (
+                    <SidebarItem key={blog._id}>
+                        <img src={blog.thumbNail.downloadUrl} alt={blog.title} />
+                        <a href={`/blog/${blog._id}`}>{blog.title}</a>
                     </SidebarItem>
                 ))}
             </Sidebar>
@@ -195,6 +211,8 @@ const BlogFooter = styled.div`
   justify-content: space-between;
   font-size: 0.8rem;
   color: var(--primary-color);
+  width: 100%;
+  gap: 10px;
 `;
 
 const ReadMore = styled.a`

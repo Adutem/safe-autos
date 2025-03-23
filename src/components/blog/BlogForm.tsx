@@ -11,11 +11,11 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import BlogInput from "../blog/BlogInput";
 import { nanoid } from "nanoid";
-import { createBlog, resetCreateBlog } from "../redux/blog/blogSlice";
+import { createBlog, resetCreateBlog, updateBlog } from "../redux/blog/blogSlice";
 import {
   BlogContentInputType,
   BlogContentType as BlogContent,
-  BlogPost,
+  
 } from "./type";
 import styled from "styled-components";
 import {
@@ -44,7 +44,19 @@ export type BlogContentType = {
   fileContent?: any;
   inputType: BlogContentInputType;
   nanoId: string;
+  textContent?: string;
 };
+
+// Ensure BlogPost type includes blogContents
+export interface BlogPost {
+  _id: string;
+  title: string;
+  shortIntroduction: string;
+  thumbNail: any;
+  publicationDate: Date;
+  tag: string;
+  blogContents: BlogContentType[];
+}
 
 interface BlogFormProps {
   onClose: () => void;
@@ -89,14 +101,18 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
   const { isCreatingBlog, blogCreated, createError } = useStateSelector(
     (state) => state.Blog || {}
   );
+  console.log(editData);
 
   // File Input State
-  const [blogThumbNail, setBlogThumbNail] = useState<any>(null);
+  const [blogThumbNail, setBlogThumbNail] = useState<any>(editData?.thumbNail || null);
   const thumbNailInputRef = useRef<HTMLInputElement | null>(null);
-  const [blogContent, setBlogContent] = useState<BlogContentType[]>([]);
-  const [blogContentFiles, setBlogContentFiles] = useState<Record<string, any>>(
-    {}
-  );
+  const [blogContent, setBlogContent] = useState<BlogContentType[]>(editData?.blogContents?.map(content => ({
+    ...content,
+    id: uuidv4(),
+    inputType: blogContentToInputMap[content.type],
+    content: content.textContent || content.content || "",
+  })) ?? []);
+  const [blogContentFiles, setBlogContentFiles] = useState<Record<string, any>>({});
 
   // Menu state
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -196,6 +212,7 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
       inputType: blogContentToInputMap[type],
       nanoId: nanoid(9),
       fileContent: null,
+      textContent: '',
     };
     setBlogContent((prev: BlogContentType[]) => [...prev, newBlogContent]);
   };
@@ -225,10 +242,10 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
     const value: { [key: string]: any } = {};
     blogContent.forEach((content) => {
       if (content.type === "list") {
-        value[content.nanoId] = [];
+        value[content.nanoId] = content.listContent || [];
         return;
       }
-      value[content.nanoId] = "";
+      value[content.nanoId] = content.content || "";
     });
     return value;
   }, [blogContent.length]);
@@ -241,8 +258,7 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
         if (content.type === "list") {
           content.listContent = values[content.nanoId];
         } else if (content.type === "image") {
-          console.log(blogContentFiles);
-          content.fileContent = blogContentFiles[content.nanoId];
+          content.fileContent = blogContentFiles[content.nanoId] || content.fileContent;
           content.content = values[content.nanoId];
         } else {
           content.content = values[content.nanoId];
@@ -281,7 +297,11 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
         }
       });
 
-      dispatch(createBlog(formData));
+      if (editData && editData._id) {
+        dispatch(updateBlog({ id: editData._id, data: formData })); // Use updateBlog if editing
+      } else {
+        dispatch(createBlog(formData)); // Use createBlog if creating new
+      }
     },
   });
 

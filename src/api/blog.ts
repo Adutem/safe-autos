@@ -13,7 +13,9 @@ console.log(token);
 
 export const getAllBlogs = async (limit: number = 20, page: number = 1) => {
   try {
-    const response = await axios.get(`${BASE_URL}/blog`);
+    const response = await axios.get(`${BASE_URL}/blog`, {
+      params: { limit, page }
+    });
     return response.data;
   } catch (error) {
     toastError(error.message);
@@ -23,7 +25,7 @@ export const getAllBlogs = async (limit: number = 20, page: number = 1) => {
 
 export const getBlog = async (blogId: string) => {
   try {
-    const response = await axios.get(`${BASE_URL}/blogs/${blogId}`);
+    const response = await axios.get(`${BASE_URL}/blog/${blogId}`);
     return response.data;
   } catch (error) {
     toastError(error.message);
@@ -49,7 +51,12 @@ export const createBlog = async (data: any) => {
 
 export const updateBlog = async (blogId: string, data: any) => {
   try {
-    const response = await axios.put(`${BASE_URL}/blogs/${blogId}`, data);
+    const response = await axios.put(`${BASE_URL}/blog/${blogId}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      }
+    });
     toastSuccess("Blog updated successfully");
     return response.data;
   } catch (error) {

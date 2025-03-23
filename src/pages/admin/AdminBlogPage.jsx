@@ -17,17 +17,18 @@ const AdminBlogPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const blogsPerPage = 12;
 
+    const fetchBlogs = async () => {
+        try {
+            const data = await getAllBlogs(blogsPerPage, currentPage);
+            setBlogs(data.blogs);
+        } catch (error) {
+            console.error("Error fetching blogs:", error);
+        }
+    };
+
     useEffect(() => {
-        const fetchBlogs = async () => {
-            try {
-                const data = await getAllBlogs();
-                setBlogs(data.blogs);
-            } catch (error) {
-                console.error("Error fetching blogs:", error);
-            }
-        };
         fetchBlogs();
-    }, []);
+    }, [currentPage]);
 
     const filteredBlogs = blogs.filter(blog =>
         (searchTerm === "" || blog.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
@@ -116,8 +117,8 @@ const AdminBlogPage = () => {
                     <input type="text" placeholder="Search by title..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                     <select value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
                         <option value="">All Categories</option>
-                        <option value="Tires">Tires</option>
-                        <option value="Brakes">Brakes</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Uncategorized">Uncategorized</option>
                     </select>
                     <input type="date" value={searchDate} onChange={(e) => setSearchDate(e.target.value)} />
                 </SearchBar>
@@ -126,26 +127,26 @@ const AdminBlogPage = () => {
             <div style={{ height: '400px', overflowY: 'auto' }}>
                 <BlogGrid>
                     {currentBlogs.map((blog) => (
-                        <BlogCard key={blog.id}>
-                            <BlogImage src={blog.image} alt={blog.title} />
+                        <BlogCard key={blog._id}>
+                            <BlogImage src={blog.thumbNail.downloadUrl} alt={blog.title} />
                             <BlogContent>
                                 <Typography variant="h6">{blog.title}</Typography>
-                                <Typography>{blog.content}</Typography>
+                                <Typography>{blog.shortIntroduction}</Typography>
 
                                 <div style={{display: 'flex', justifyContent: 'space-between',margin: '10px'}}>
-                                    <span>{blog.date}</span>
-                                    <ReadMore href={`/blog/${blog.id}`}>Read More →</ReadMore>
+                                    <span>{new Date(blog.publicationDate).toLocaleDateString()}</span>
+                                    <ReadMore href={`/blog/${blog._id}`}>Read More →</ReadMore>
                                 </div>
 
                                 <BlogFooter>
-                                    <div style={{ display: "flex", gap: "10px" }}>
+                                    {/* <div style={{ display: "flex", gap: "10px", justifyContent: 'space-between' }}> */}
                                         <Button color="primary" onClick={() => handleOpen(blog)}>
                                             Edit
                                         </Button>
-                                        <Button color="secondary" onClick={() => handleDelete(blog.id)}>
+                                        <Button color="secondary" onClick={() => handleDelete(blog._id)}>
                                             Delete
                                         </Button>
-                                    </div>
+                                    {/* </div> */}
                                 </BlogFooter>
                             </BlogContent>
                         </BlogCard>
