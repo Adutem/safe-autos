@@ -267,17 +267,17 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
 
       // Append all blog content
       updatedContent.forEach((content, index) => {
-        formData.append(`content[${index}][type]`, content.type);
-        formData.append(`content[${index}][nanoId]`, content.nanoId);
-        formData.append(`content[${index}][inputType]`, content.inputType);
+        formData.append(`content[${index}].type`, content.type);
+        formData.append(`content[${index}].nanoId`, content.nanoId);
+        formData.append(`content[${index}].inputType`, content.inputType);
         if (content.type === "image") {
-          formData.append(`content[${index}][fileContent]`, content.fileContent);
+          formData.append(`content[${index}].fileContent`, content.fileContent);
         } else if (content.type === "list") {
           content.listContent?.forEach((item, itemIndex) => {
-            formData.append(`content[${index}][listContent][${itemIndex}]`, item);
+            formData.append(`content[${index}].listContent[${itemIndex}]`, item);
           });
         } else if (content.content) {
-          formData.append(`content[${index}][content]`, content.content);
+          formData.append(`content[${index}].textContent`, content.content);
         }
       });
 
@@ -307,9 +307,9 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
     if (blogCreated) {
       showSuccessNotification("Blog created", 1300);
       dispatch(resetCreateBlog());
-      onClose();
+      onClose(); // Close the modal
     }
-  }, [blogCreated]);
+  }, [blogCreated, dispatch, onClose]);
 
   // Posting blog error
   useEffect(() => {
