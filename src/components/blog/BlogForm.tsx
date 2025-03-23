@@ -101,7 +101,7 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
   const { isCreatingBlog, blogCreated, createError } = useStateSelector(
     (state) => state.Blog || {}
   );
-  console.log(editData);
+  
 
   // File Input State
   const [blogThumbNail, setBlogThumbNail] = useState<any>(editData?.thumbNail || null);
@@ -298,7 +298,7 @@ const BlogForm = ({ onClose, isOpen, editData }: BlogFormProps) => {
       });
 
       if (editData && editData._id) {
-        dispatch(updateBlog({ id: editData._id, data: formData })); // Use updateBlog if editing
+        dispatch(updateBlog({ blogId: editData._id, data: formData })); // Use updateBlog if editing
       } else {
         dispatch(createBlog(formData)); // Use createBlog if creating new
       }

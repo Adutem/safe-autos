@@ -51,7 +51,7 @@ export const createBlog = async (data: any) => {
 
 export const updateBlog = async (blogId: string, data: any) => {
   try {
-    const response = await axios.put(`${BASE_URL}/blog/${blogId}`, data, {
+    const response = await axios.put(`${BASE_URL}/blog/blog-content/${blogId}`, data, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
