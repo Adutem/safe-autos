@@ -114,7 +114,7 @@ const App = () => {
           hideShowModal={hideLocationModal}
         />
       )}
-      <FloatingButton onClick={handleLiveChatClick} />
+      <FloatingButton onClick={handleLiveChatClick}>💬</FloatingButton>
     </AppContainer>
   );
 };
@@ -127,6 +127,7 @@ const FloatingButton = styled.button`
   position: fixed;
   bottom: 20px;
   right: 20px;
+  background-color:rgba(0, 123, 255, 0);
   color: white;
   border: none;
   border-radius: 50%;
@@ -137,6 +138,7 @@ const FloatingButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 `;
 
