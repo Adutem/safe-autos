@@ -148,12 +148,21 @@ const BlogContainer = styled.div`
   margin: auto;
   padding: 2rem;
   background: var(--white);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 1rem;
+  }
 `;
 
 const MainContent = styled.div`
   flex: 3;
   gap: 1rem;
   padding-right: 2rem;
+
+  @media (max-width: 768px) {
+    padding-right: 0;
+  }
 `;
 
 const SearchBar = styled.div`
@@ -174,6 +183,10 @@ const BlogGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; /* Single column on mobile */
+  }
 `;
 
 const BlogCard = styled.div`
@@ -185,6 +198,10 @@ const BlogCard = styled.div`
 
   &:hover {
     transform: translateY(-5px);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%; /* Full width on mobile */
   }
 `;
 
@@ -233,6 +250,10 @@ const Sidebar = styled.div`
   padding: 1rem;
   border-radius: 10px;
   height: fit-content;
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
 `;
 
 const SidebarItem = styled.div`

@@ -145,11 +145,20 @@ const BlogContainer = styled.div`
   margin: auto;
   padding: 2rem;
   background: var(--white);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 1rem;
+  }
 `;
 
 const MainContent = styled.div`
   flex: 3;
   padding-right: 2rem;
+
+  @media (max-width: 768px) {
+    padding-right: 0;
+  }
 `;
 
 const Title = styled.h1`
@@ -164,6 +173,10 @@ const BlogImage = styled.img`
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    max-height: 250px;
+  }
 `;
 
 const ContentImage = styled.img`
@@ -172,6 +185,10 @@ const ContentImage = styled.img`
   object-fit: cover;
   border-radius: 10px;
   margin: 1rem 0;
+
+  @media (max-width: 768px) {
+    max-height: 200px;
+  }
 `;
 
 const BlogDate = styled.p`
@@ -284,6 +301,10 @@ const Sidebar = styled.div`
   padding: 1rem;
   border-radius: 10px;
   height: fit-content;
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
 `;
 
 const SidebarHeading = styled.h2`
@@ -308,6 +329,22 @@ const SidebarItem = styled.div`
     text-decoration: none;
     color: var(--primary-color);
     font-weight: bold;
+  }
+`;
+
+const BlogCard = styled.div`
+  background: var(--white);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%; /* Full width on mobile */
   }
 `;
 
