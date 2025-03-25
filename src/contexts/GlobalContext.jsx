@@ -259,7 +259,7 @@ const GlobalContextProvider = ({ children }) => {
       return;
     }
     try {
-      const response = await axios.post(`${BASE_URL}/store/nearest`, {
+      const response = await axios.post(`${BASE_URL}/store/nearby-stores`, {
         long, lat 
       });
       setNearbyStores([response.data.nearestStore]);

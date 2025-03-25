@@ -12,7 +12,7 @@ import StoreDetails from "./StoreDetails";
 const MyStore = () => {
   const [isNearbyStoresVisible, setIsNearbyStoresVisible] = useState(false);
   const [nearestStore, setNearestStore] = useState(null);
-  const { currentStoreLocation, displayLocationModal, nearbyStores, setCurrentStoreLocation } = useGlobalContext();
+  const { currentStoreLocation, displayLocationModal, nearbyStores, setCurrentStoreLocation, fetchAllStores } = useGlobalContext();
   const [allStores, setAllStores] = useState([]);
 
   const hideMyStore = () => {
@@ -23,11 +23,11 @@ const MyStore = () => {
   useEffect(() => {
     hideMyStore();
     // Fetch all stores
-    const fetchStores = async () => {
-      const stores = await fetchStores();
+    const loadStores = async () => {
+      const stores = await fetchAllStores();
       setAllStores(stores);
     };
-    fetchStores();
+    loadStores();
     setNearestStore(nearbyStores[0]); // Set the nearest store
   }, [currentStoreLocation]);
 
@@ -86,38 +86,26 @@ const MyStore = () => {
           ) : (
             <>
               <ContainerDiv>
-                {/* {nearestStore && (
-                  <LocationCard
-                    shopLocation={nearestStore.shopLocation}
-                    phoneNumber={nearestStore.phoneNumber}
-                    email={nearestStore.email}
-                    link={nearestStore?.link}
-                    couponLink={nearestStore?.couponLink}
-                    financingLink={nearestStore?.financingLink}
-                    onClick={() => {
-                      setCurrentStoreLocation(nearestStore);
-                      setIsNearbyStoresVisible(false);
-                    }}
-                  />
-                )} */}
-                {nearbyStores.length > 0 ? (
-                  nearbyStores.map((store) => (
-                    <LocationCard
-                      key={store.id}
-                      shopLocation={store.shopLocation}
-                      phoneNumber={store.phoneNumber}
-                      email={store.email}
-                      link={store.link}
-                      couponLink={store.couponLink}
-                      financingLink={store.financingLink}
-                      onClick={() => {
-                        setCurrentStoreLocation(store);
-                        setIsNearbyStoresVisible(false);
-                      }}
-                    />
-                  ))
-                ) : (
+                {nearbyStores.length === 0 ? ( // Check if nearbyStores is empty
                   <NormalPara>No nearby stores found.</NormalPara>
+                ) : (
+                  nearbyStores
+                    .filter((store) => store && store.shopLocation) // Filter out invalid entries
+                    .map((store) => (
+                      <LocationCard
+                        key={store.id}
+                        shopLocation={store.shopLocation}
+                        phoneNumber={store.phoneNumber}
+                        email={store.email}
+                        link={store.link}
+                        couponLink={store.couponLink}
+                        financingLink={store.financingLink}
+                        onClick={() => {
+                          setCurrentStoreLocation(store);
+                          setIsNearbyStoresVisible(false);
+                        }}
+                      />
+                    ))
                 )}
               </ContainerDiv>
               <Button onClick={() => setIsNearbyStoresVisible(false)}>Back to All Stores</Button>
