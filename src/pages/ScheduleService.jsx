@@ -572,7 +572,7 @@ const LocationCardCont = styled.div`
   }
 `;
 
-const LocationCard = ({
+export const LocationCard = ({
   shopLocation,
   phoneNumber,
   email,

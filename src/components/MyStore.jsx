@@ -6,13 +6,13 @@ import hoursOfOperation, {
 } from "../data/hours-of-operation";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { SearchComponent } from "./Advert";
-import { LocationModal } from "../pages/ScheduleService";
+import { LocationModal, LocationCard } from "../pages/ScheduleService";
 import StoreDetails from "./StoreDetails";
 
 const MyStore = () => {
   const [isNearbyStoresVisible, setIsNearbyStoresVisible] = useState(false);
   const [nearestStore, setNearestStore] = useState(null);
-  const { currentStoreLocation, displayLocationModal, nearbyStores } = useGlobalContext();
+  const { currentStoreLocation, displayLocationModal, nearbyStores, setCurrentStoreLocation } = useGlobalContext();
   const [allStores, setAllStores] = useState([]);
 
   const hideMyStore = () => {
@@ -28,7 +28,7 @@ const MyStore = () => {
       setAllStores(stores);
     };
     fetchStores();
-    setNearestStore(nearbyStores);
+    setNearestStore(nearbyStores[0]); // Set the nearest store
   }, [currentStoreLocation]);
 
 
@@ -86,12 +86,30 @@ const MyStore = () => {
           ) : (
             <>
               <ContainerDiv>
-                
+                {nearestStore && (
+                  <LocationCard
+                    shopLocation={nearestStore.shopLocation}
+                    phoneNumber={nearestStore.phoneNumber}
+                    email={nearestStore.email}
+                    link={nearestStore?.link}
+                    couponLink={nearestStore?.couponLink}
+                    financingLink={nearestStore?.financingLink}
+                    onClick={() => {
+                      setCurrentStoreLocation(nearestStore);
+                      setIsNearbyStoresVisible(false);
+                    }}
+                  />
+                )}
                 {nearbyStores.length > 0 ? (
                   nearbyStores.map((store) => (
-                    <StoreDetails
+                    <LocationCard
                       key={store.id}
-                      store={store}
+                      shopLocation={store.shopLocation}
+                      phoneNumber={store.phoneNumber}
+                      email={store.email}
+                      link={store.link}
+                      couponLink={store.couponLink}
+                      financingLink={store.financingLink}
                       onClick={() => {
                         setCurrentStoreLocation(store);
                         setIsNearbyStoresVisible(false);
