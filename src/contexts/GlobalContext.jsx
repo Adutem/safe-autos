@@ -3,7 +3,6 @@ import { models, makes, modelYears, states, services } from "../data";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import serviceLocations from "../data/service-location-data";
 import localforage from "localforage";
 
 const GlobalContext = createContext(null);
@@ -291,6 +290,18 @@ const GlobalContextProvider = ({ children }) => {
     getUserLocation();
   }, []);
 
+const fetchAllStores = async () => {
+    console.log("Fetching all stores..."); // Debugging line to check function call
+
+    try {
+      const response = await axios.get(`${BASE_URL}/store/`);
+      return response.data.stores;
+    } catch (error) {
+      console.error("Error fetching all stores:", error);
+      return [];
+    }
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -322,6 +333,7 @@ const GlobalContextProvider = ({ children }) => {
         displayLocationModal,
         hideLocationModal,
         nearbyStores,
+        fetchAllStores,
       }}
     >
       {children}

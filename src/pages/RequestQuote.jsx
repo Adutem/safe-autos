@@ -22,15 +22,11 @@ import {
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { contactOptions } from "./ScheduleService";
 import { toast } from "react-toastify";
-import serviceLocations from "../data/service-location-data";
 import { SearchComponent } from "../components/Advert";
-import { LocationModal } from "./ScheduleService";
 import hoursOfOperation from "../data/hours-of-operation";
 import { waitOptions } from "./ScheduleService";
 
 const customId = "kl239wesdjof";
-
-// const selects = ["year", "model", "make", "state", "option"];
 const selects = ["state"];
 
 const requiredFields = [
@@ -45,11 +41,6 @@ const requiredFields = [
   "lastName",
   "email",
   "phoneNumber",
-  // "address",
-  // "city",
-  // "state",
-  // "zipCode",
-  // "comment",
   "sendEmailsAndPromo",
   "serviceLocation",
 ];
@@ -66,14 +57,18 @@ const RequestQuote = () => {
     currentStoreLocation,
     setCurrentStoreLocation,
     displayLocationModal,
+    fetchAllStores // Use fetchAllStores from the context
   } = useGlobalContext();
+  
   const [quotingData, setQuotingData] = useState({
     sendEmailsAndPromo: "No",
     serviceLocation: currentStoreLocation?.shopLocation,
   });
+  
   const { state } = useLocation();
   const quotingForm = useRef(null);
   const [disableBtn, setDisableBtn] = useState(false);
+  const [allStores, setAllStores] = useState([]);
 
   const stateUpdater = (name, value) => {
     setQuotingData((prev) => ({ ...prev, [name]: value }));
@@ -104,12 +99,6 @@ const RequestQuote = () => {
         return { ...prev, [name]: newServiceTypes };
       });
     }
-    if (
-      selects.includes(name) &&
-      value.startsWith("--") &&
-      value.endsWith("--")
-    )
-      return stateUpdater(name, "");
     stateUpdater(name, value);
   };
 
@@ -127,6 +116,14 @@ const RequestQuote = () => {
       serviceLocation: currentStoreLocation?.shopLocation,
     }));
   }, [currentStoreLocation]);
+
+  useEffect(() => {
+    const fetchStores = async () => {
+      const stores = await fetchAllStores();
+      setAllStores(stores);
+    };
+    fetchStores();
+  }, []);
 
   const validateForm = (e) => {
     e.preventDefault();
@@ -221,20 +218,8 @@ const RequestQuote = () => {
             linkType={"link"}
             hideBrowseLink={true}
           />
-          {/* <OptimizedFormButton onClick={displaySearchModal}>
-            Continue{" "}
-            <i className="fi fi-sr-arrow-up-right-from-square"></i>
-          </OptimizedFormButton> */}
           <OptimizedGridLayout style={{ margin: "0 1rem 1rem" }}>
             <LeftContainer>
-              {/* <FormGroupComponent
-                type={"select"}
-                options={["--Select Year--", ...modelYears.reverse()]}
-                name={"year"}
-                value={quotingData?.year}
-                placeholder={"Select Year"}
-                onChange={handleInputChange}
-              /> */}
               <FormGroupComponent
                 type={"text"}
                 name={"year"}
@@ -244,14 +229,6 @@ const RequestQuote = () => {
                 placeholder={"Enter Vehicle year"}
                 onChange={handleInputChange}
               />
-              {/* <FormGroupComponent
-                type={"select"}
-                options={["--Select Model--", ...models]}
-                name={"model"}
-                value={quotingData?.model}
-                placeholder={"Select Model"}
-                onChange={handleInputChange}
-              /> */}
               <FormGroupComponent
                 type={"text"}
                 name={"make"}
@@ -262,14 +239,6 @@ const RequestQuote = () => {
               />
             </LeftContainer>
             <RightContainer>
-              {/* <FormGroupComponent
-                type={"select"}
-                options={["--Select Make--", ...makes]}
-                name={"make"}
-                value={quotingData?.make}
-                placeholder={"Select Make"}
-                onChange={handleInputChange}
-              /> */}
               <FormGroupComponent
                 type={"text"}
                 name={"model"}
@@ -286,14 +255,6 @@ const RequestQuote = () => {
                 placeholder={"Enter Vehicle Sub Model"}
                 onChange={handleInputChange}
               />
-              {/* <FormGroupComponent
-                type={"select"}
-                options={[]}
-                name={"option"}
-                value={quotingData?.option}
-                placeholder={"Select Option"}
-                onChange={handleInputChange}
-              /> */}
             </RightContainer>
           </OptimizedGridLayout>
           <OptimizedGridLayout waitTillTab={true}>
@@ -325,7 +286,6 @@ const RequestQuote = () => {
               />
             </LeftContainer>
             <RightContainer>
-              {/* <GoogleMapComp style={{ marginTop: "0" }} /> */}
               <OptimizedSectionPara style={{ fontSize: "1.3rem" }}>
                 Hours
               </OptimizedSectionPara>

@@ -5,7 +5,6 @@ import footerLinks from "../data/footer-links";
 import { ColumnFlexContainer } from "./reusables/Styles";
 import { SearchComponent } from "./Advert";
 import { useGlobalContext } from "../contexts/GlobalContext";
-// import { LocationModal } from "../pages/ScheduleService";
 
 const Footer = () => {
   const { currentStoreLocation, displayLocationModal } = useGlobalContext();

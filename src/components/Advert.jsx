@@ -12,8 +12,6 @@ import {
   FormButton,
   NormalPara,
 } from "./reusables/Styles";
-import { LocationModal } from "../pages/ScheduleService";
-import serviceLocations from "../data/service-location-data";
 import { useGlobalContext } from "../contexts/GlobalContext";
 
 const Advert = () => {

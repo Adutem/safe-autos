@@ -4,44 +4,39 @@ import { Button, NormalPara, SectionPara } from "./reusables/Styles";
 import hoursOfOperation, {
   fullHoursOfOperation,
 } from "../data/hours-of-operation";
-import serviceLocations from "../data/service-location-data";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { SearchComponent } from "./Advert";
 import { LocationModal } from "../pages/ScheduleService";
+import StoreDetails from "./StoreDetails";
 
 const MyStore = () => {
   const [isNearbyStoresVisible, setIsNearbyStoresVisible] = useState(false);
   const [nearestStore, setNearestStore] = useState(null);
+  const { currentStoreLocation, displayLocationModal, nearbyStores } = useGlobalContext();
+  const [allStores, setAllStores] = useState([]);
 
   const hideMyStore = () => {
     document.querySelector("#store-container")?.classList.remove("show");
     document.body.style.overflow = "initial";
   };
 
-  const { currentStoreLocation, displayLocationModal, allStores, nearbyStores } = useGlobalContext();
-
   useEffect(() => {
     hideMyStore();
-    // Fetch nearest store details
-    fetchNearestStore();
+    // Fetch all stores
+    const fetchStores = async () => {
+      const stores = await fetchStores();
+      setAllStores(stores);
+    };
+    fetchStores();
+    setNearestStore(nearbyStores);
   }, [currentStoreLocation]);
 
-  const fetchNearestStore = async () => {
-    try {
-      const response = await fetch('/api/nearest-store');
-      const data = await response.json();
-      setNearestStore(data.nearestStore);
-    } catch (error) {
-      console.error('Error fetching nearest store:', error);
-    }
-  };
 
   return (
     <>
       <StoreCompContainer id="store-container">
         <Underlay onClick={hideMyStore} className="underlay" />
         <StoreCompContContainer>
-          {/* ✅ Dynamic Heading */}
           <SectionPara>{isNearbyStoresVisible ? "Stores Nearby" : "All Stores"}</SectionPara>
 
           <SearchComponent
@@ -53,18 +48,17 @@ const MyStore = () => {
             storeOptions={
               isNearbyStoresVisible
                 ? nearbyStores.length > 0
-                  ? nearbyStores // ✅ Show nearby stores if available
-                  : [] // ❌ Pass empty list if no nearby stores
-                : allStores // ✅ Show all stores when "All Stores" is selected
+                  ? nearbyStores
+                  : []
+                : allStores
             }
             hideBrowseLink={!currentStoreLocation}
-            disabled={isNearbyStoresVisible && nearbyStores.length === 0} // ✅ Disable dropdown if no nearby stores
+            disabled={isNearbyStoresVisible && nearbyStores.length === 0}
           />
 
           <Seperator />
 
           {!isNearbyStoresVisible ? (
-            // ✅ Main Store List View
             <>
               {currentStoreLocation && (
                 <>
@@ -90,60 +84,19 @@ const MyStore = () => {
               <Button onClick={() => setIsNearbyStoresVisible(true)}>Show Nearby Stores</Button>
             </>
           ) : (
-            // ✅ Nearby Stores View
             <>
               <ContainerDiv>
-                {nearestStore && (
-                  <NormalPara
-                    key={nearestStore.id}
-                    onClick={() => {
-                      setCurrentStoreLocation(nearestStore);
-                      setIsNearbyStoresVisible(false);
-                    }}
-                    style={{
-                      margin: "0.5rem 0",
-                      fontSize: "0.75rem",
-                      cursor: "pointer",
-                      display: "grid",
-                      gridTemplateColumns: "repeat(2, 1fr)",
-                    }}
-                  >
-                    <strong>{nearestStore.shopLocation}</strong>
-                    <span>{nearestStore.address}</span>
-                    <span>{nearestStore.phoneNumber}</span>
-                    <a href={nearestStore.link} target="_blank" rel="noopener noreferrer">Visit Store</a>
-                    <a href={nearestStore.couponLink} target="_blank" rel="noopener noreferrer">Coupons</a>
-                    <a href={nearestStore.financingLink} target="_blank" rel="noopener noreferrer">Financing</a>
-                    <a href={nearestStore.facebookLink} target="_blank" rel="noopener noreferrer">Facebook</a>
-                    <a href={nearestStore.mapLink} target="_blank" rel="noopener noreferrer">Map</a>
-                  </NormalPara>
-                  
-                )}
+                
                 {nearbyStores.length > 0 ? (
                   nearbyStores.map((store) => (
-                    <NormalPara
+                    <StoreDetails
                       key={store.id}
+                      store={store}
                       onClick={() => {
                         setCurrentStoreLocation(store);
                         setIsNearbyStoresVisible(false);
                       }}
-                      style={{
-                        margin: "0.5rem 0",
-                        fontSize: "0.75rem",
-                        cursor: "pointer",
-                        display: "grid",
-                        gridTemplateColumns: "repeat(2, 1fr)",
-                      }}
-                    >
-                      <strong>{store.shopLocation}</strong>
-                      <span>{store.address}</span>
-                      <span>{store.phone}</span>
-                      <a href={store.link} target="_blank" rel="noopener noreferrer">Visit Store</a>
-                      <a href={store.couponLink} target="_blank" rel="noopener noreferrer">Coupons</a>
-                      <a href={store.financingLink} target="_blank" rel="noopener noreferrer">Financing</a>
-                      <a href={store.facebookLink} target="_blank" rel="noopener noreferrer">Facebook</a>
-                      <a href={store.mapLink} target="_blank" rel="noopener noreferrer">Map</a>
-                    </NormalPara>
+                    />
                   ))
                 ) : (
                   <NormalPara>No nearby stores found.</NormalPara>
@@ -158,7 +111,6 @@ const MyStore = () => {
   );
 };
 
-
 const StoreCompContContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -167,8 +119,6 @@ const StoreCompContContainer = styled.div`
   position: relative;
   z-index: 4;
   padding: 1rem;
-  // margin-left: auto;
-  // margin-top: 60px;
   padding-bottom: 3rem;
   overflow: auto;
 `;
@@ -186,25 +136,6 @@ const StoreCompContainer = styled.div`
   }
 `;
 
-const AddressComp = styled.address`
-  font-family: var(--mont);
-  font-size: 0.75rem;
-`;
-
-const TelLink = styled.a`
-  color: var(--black);
-  font-family: var(--mont);
-  font-size: 0.75rem;
-  text-decoration: underline;
-  color: var(--primary-color);
-  font-weight: bold;
-
-  i {
-    display: flex;
-    align-items: center;
-  }
-`;
-
 const Seperator = styled.div`
   width: 100%;
   height: 1px;
@@ -212,9 +143,7 @@ const Seperator = styled.div`
   margin: 1rem auto;
 `;
 
-const ContainerDiv = styled.div`
-  //   margin: 1rem 0 1.5rem;
-`;
+const ContainerDiv = styled.div``;
 
 const Underlay = styled.div`
   width: 100%;

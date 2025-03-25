@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   ButtonLink,
@@ -16,10 +16,7 @@ import cashImage from "../assets/cash.svg";
 import discoverImage from "../assets/discover.svg";
 import mastercardImage from "../assets/mastercard.svg";
 import visaImage from "../assets/visa.svg";
-import serviceLocations from "../data/service-location-data";
 import { useGlobalContext } from "../contexts/GlobalContext";
-import { LocationModal } from "./ScheduleService";
-import { SearchComponent } from "../components/Advert";
 
 const methods = [
   {
@@ -45,7 +42,29 @@ const methods = [
 ];
 
 const FindUs = () => {
-  const { currentStoreLocation, displayLocationModal } = useGlobalContext();
+  const { currentStoreLocation, displayLocationModal, fetchAllStores, nearbyStores } = useGlobalContext(); // Use fetchAllStores from context
+  const [allStores, setAllStores] = useState([]);
+  const [isNearbyStoresVisible, setIsNearbyStoresVisible] = useState(false);
+  const [storeOptions, setStoreOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchStores = async () => {
+      const stores = await fetchAllStores();
+      setAllStores(stores);
+      setStoreOptions(stores); // Default to all stores
+    };
+    fetchStores();
+  }, []);
+
+  const handleShowNearbyStores = () => {
+    setIsNearbyStoresVisible(true);
+    setStoreOptions(nearbyStores); // Show only nearby stores
+  };
+
+  const handleShowAllStores = () => {
+    setIsNearbyStoresVisible(false);
+    setStoreOptions(allStores); // Switch back to all stores
+  };
 
   return (
     <FindUsPageContainer>
@@ -59,6 +78,8 @@ const FindUs = () => {
           linkType={"link"}
           hideBrowseLink={true}
           dropdownText={"select store location"}
+          storeOptions={storeOptions} // Dynamically updates based on isNearbyStoresVisible
+          disabled={isNearbyStoresVisible && nearbyStores.length === 0}
         />
         {currentStoreLocation && (
           <>
@@ -100,7 +121,7 @@ const FindUs = () => {
         <SectionHeading>Connect with us</SectionHeading>
         <br />
         <SocialCompCardCont>
-          {serviceLocations.map((location) => (
+          {allStores.map((location) => (
             <SocialComponent {...location} />
           ))}
         </SocialCompCardCont>

@@ -20,7 +20,6 @@ import hoursOfOperation from "../data/hours-of-operation";
 import GoogleMapComp from "../components/reusables/GoogleMapComp";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import serviceLocations from "../data/service-location-data";
 import { SearchComponent } from "../components/Advert";
 
 export const waitOptions = [
@@ -84,13 +83,15 @@ const ScheduleService = () => {
     formatTelephone,
     submitEmail,
     displayLocationModal,
+    fetchAllStores // Use fetchAllStores from the context
   } = useGlobalContext();
   const [serviceData, setServiceData] = useState({
-    serviceLocation: currentStoreLocation?.shopLocationn,
+    serviceLocation: currentStoreLocation?.shopLocation,
   });
   const { states, services } = useGlobalContext();
   const { state } = useLocation();
   const [disableAll, setDisableAll] = useState(false);
+  const [allStores, setAllStores] = useState([]); // State to store all fetched stores
   const scheduleForm = useRef(null);
 
   const stateUpdater = (name, value) => {
@@ -117,6 +118,14 @@ const ScheduleService = () => {
         target: { name: "serviceType", value: state.serviceName },
       });
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchStores = async () => {
+      const stores = await fetchAllStores();
+      setAllStores(stores);
+    };
+    fetchStores();
   }, []);
 
   useEffect(() => {
@@ -152,10 +161,13 @@ const ScheduleService = () => {
         toastId: customId,
       });
     }
+    if (!serviceData.serviceLocation) {
+      return toast.error("Please select a location", { toastId: customId });
+    }
 
     setDisableAll(true);
     const formData = new FormData(scheduleForm.current);
-    formData.append("heading", "New email for Safe Tire & Auto");
+    formData.append("heading", "New email for Mimidas Tire & Auto");
     formData.append("template", "service");
     formData.append("firstAppointmentDate", serviceData?.firstAppointmentDate);
     formData.append(
@@ -244,6 +256,7 @@ const ScheduleService = () => {
             style={{ marginTop: "1.5rem" }}
             linkType={"link"}
             hideBrowseLink={true}
+            storeOptions={allStores} // Use fetched stores here
           />
           <OptimizedGridLayout>
             <LeftContainer>
@@ -614,6 +627,17 @@ const LocationCard = ({
 };
 
 export function LocationModal({ portalRef, hideShowModal, handleInputChange }) {
+  const { fetchAllStores } = useGlobalContext(); // Use fetchAllStores from context
+  const [allStores, setAllStores] = useState([]);
+
+  useEffect(() => {
+    const fetchStores = async () => {
+      const stores = await fetchAllStores();
+      setAllStores(stores);
+    };
+    fetchStores();
+  }, []);
+
   return (
     <PortalModalContainer
       onClick={(e) => {
@@ -633,7 +657,7 @@ export function LocationModal({ portalRef, hideShowModal, handleInputChange }) {
           </OptimizedFormButton>
         </HideButtonContainer>
         <LocationCardContainer>
-          {serviceLocations.map((location) => (
+          {allStores.map((location) => (
             <LocationCard
               {...location}
               handleInputChange={handleInputChange}

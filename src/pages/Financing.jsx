@@ -2,8 +2,6 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import backgroundImage from "../assets/image-5.jpg";
 import { SearchComponent } from "../components/Advert";
-import { LocationModal } from "./ScheduleService";
-import serviceLocations from "../data/service-location-data";
 import { useGlobalContext } from "../contexts/GlobalContext";
 
 const Financing = () => {

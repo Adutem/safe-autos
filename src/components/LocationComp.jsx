@@ -6,10 +6,17 @@ import hoursOfOperation, {
 } from "../data/hours-of-operation";
 import { useGlobalContext } from "../contexts/GlobalContext";
 import { SearchComponent } from "./Advert";
-import { LocationModal } from "../pages/ScheduleService";
+import StoreDetails from "./StoreDetails";
 
 const LocationComp = () => {
-  const { currentStoreLocation, displayLocationModal } = useGlobalContext();
+  const { currentStoreLocation, displayLocationModal, nearbyStores } = useGlobalContext(); // Include nearbyStores from context
+  const [nearestStore, setNearestStore] = useState(null);
+
+  useEffect(() => {
+    if (nearbyStores.length > 0) {
+      setNearestStore(nearbyStores[0]); // Set the nearest store if available
+    }
+  }, [nearbyStores]);
 
   const hideLocationComponent = () => {
     document.querySelector("#location-comp")?.classList.remove("show");
@@ -18,7 +25,6 @@ const LocationComp = () => {
 
   useEffect(() => {
     if (document.querySelector("#location-comp")?.classList.contains("show")) {
-      console.log("True");
       document.body.style.overflow = "hidden";
     }
   }, [currentStoreLocation]);
@@ -34,27 +40,26 @@ const LocationComp = () => {
           linkType={"mapLink"}
           linkText={"Get Direction"}
         />
-        {currentStoreLocation && (
+{nearestStore && nearbyStores.length > 0 && (
+
           <>
-            {/* <NormalPara
-              style={{ fontSize: "0.9rem", margin: 0, fontWeight: "bold" }}
-            >
-              Safe Tire & Auto
-            </NormalPara>
-            <AddressComp>591 S Lapeer Road, Lake Orion, MI 48362</AddressComp>
-            <TelLink href="tel:+248-693-7979">248-693-7979</TelLink>
-            <TelLink
-              href="https://www.google.com/maps/place/591+S+Lapeer+Rd,+Lake+Orion,+MI+48362/@42.775254,-83.238598,14z/data=!4m6!3m5!1s0x8824ecda1562952f:0x3f2fb58be35f7fe4!8m2!3d42.7752542!4d-83.2385977!16s%2Fg%2F11b8vch87h?hl=en&entry=ttu"
-              target="_blank"
-            >
-              Direction
-            </TelLink> */}
+            <Seperator />
+            <SectionPara>Nearest Store Details</SectionPara>
+            <ContainerDiv>
+              <StoreDetails store={nearestStore} />
+            </ContainerDiv>
+          </>
+        )}
+        {currentStoreLocation && nearbyStores.length > 0 && (
+
+          <>
             <Seperator />
 
             <SectionPara>Store Hours</SectionPara>
             <ContainerDiv>
               {fullHoursOfOperation.map((hop) => (
                 <NormalPara
+                  key={hop.date}
                   style={{
                     margin: "0.5rem 0",
                     fontSize: "0.75rem",
