@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom"; // Import useParams from react-router-dom
-import { mostVisited } from "../data/blog-data";
-import { getBlog } from "../api/blog"; // Import getBlog API function
+import { getBlog, trackBlogView, getAllBlogs } from "../api/blog"; // Import getBlog, trackBlogView, and getAllBlogs API functions
 
 const BlogDetails = () => {
   const { blogId } = useParams(); // Use useParams to get blogId from the URL
@@ -10,6 +9,7 @@ const BlogDetails = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [reactions, setReactions] = useState({ like: 0, love: 0, laugh: 0, fire: 0 });
+  const [mostVisited, setMostVisited] = useState([]); // Add state for most visited blogs
 
   const fetchBlogDetails = async () => {
     try {
@@ -20,8 +20,21 @@ const BlogDetails = () => {
     }
   };
 
+  const fetchMostVisitedBlogs = async () => {
+    try {
+      const data = await getAllBlogs(); // Fetch all blogs
+      const sortedBlogs = [...data.blogs].sort((a, b) => b.views - a.views); // Sort by views
+      setMostVisited(sortedBlogs.slice(0, 5)); // Take the top 5 most viewed blogs
+    } catch (error) {
+      console.error("Error fetching most visited blogs:", error);
+    }
+  };
+
   useEffect(() => {
-    fetchBlogDetails();
+    fetchBlogDetails().then(() => {
+      trackBlogView(blogId); // Call the API function to track the blog view
+    });
+    fetchMostVisitedBlogs(); // Fetch most visited blogs
   }, [blogId]);
 
   const handleCommentSubmit = () => {
@@ -115,9 +128,9 @@ const BlogDetails = () => {
       <Sidebar>
         <SidebarHeading>Most Visited</SidebarHeading>
         {mostVisited.map((blog) => (
-          <SidebarItem key={blog.id}>
-            <img src={blog.image} alt={blog.title} />
-            <a href={`/blog/${blog.id}`}>{blog.title}</a>
+          <SidebarItem key={blog._id}>
+            <img src={blog.thumbNail.downloadUrl} alt={blog.title} />
+            <a href={`/blog/${blog._id}`}>{blog.title}</a>
           </SidebarItem>
         ))}
       </Sidebar>

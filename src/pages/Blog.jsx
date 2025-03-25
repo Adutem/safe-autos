@@ -15,7 +15,10 @@ const BlogPage = () => {
         try {
             const data = await getAllBlogs(blogsPerPage, currentPage);
             setBlogs(data.blogs);
-            setMostVisited(data.mostVisited); // Assuming the API returns most visited blogs
+
+            // Calculate most visited blogs based on views
+            const sortedBlogs = [...data.blogs].sort((a, b) => b.views - a.views);
+            setMostVisited(sortedBlogs.slice(0, 5)); // Take the top 5 most viewed blogs
         } catch (error) {
             console.error("Error fetching blogs:", error);
         }

@@ -75,3 +75,12 @@ export const deleteBlog = async (blogId: string) => {
     throw error;
   }
 };
+
+export const trackBlogView = async (blogId: string) => {
+  try {
+    await axios.post(`${BASE_URL}/blog/add-view/${blogId}`);
+  } catch (error) {
+    console.error("Error tracking blog view:", error);
+    throw error;
+  }
+};
