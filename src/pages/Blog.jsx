@@ -176,6 +176,11 @@ const SearchBar = styled.div`
     border: 1px solid var(--gray);
     border-radius: 5px;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* Stack inputs vertically on mobile */
+    gap: 0.5rem;
+  }
 `;
 
 const BlogGrid = styled.div`
