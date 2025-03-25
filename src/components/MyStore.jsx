@@ -86,7 +86,7 @@ const MyStore = () => {
           ) : (
             <>
               <ContainerDiv>
-                {nearestStore && (
+                {/* {nearestStore && (
                   <LocationCard
                     shopLocation={nearestStore.shopLocation}
                     phoneNumber={nearestStore.phoneNumber}
@@ -99,7 +99,7 @@ const MyStore = () => {
                       setIsNearbyStoresVisible(false);
                     }}
                   />
-                )}
+                )} */}
                 {nearbyStores.length > 0 ? (
                   nearbyStores.map((store) => (
                     <LocationCard
