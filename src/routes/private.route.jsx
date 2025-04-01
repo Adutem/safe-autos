@@ -32,12 +32,12 @@ const routes = [
   },
   {
     name: "Blogs",
-    Icon: <i className="fi fi-sr-radio"></i>,
+    Icon: <i className="fi fi-sr-document"></i>,
     path: "/admin/blogs",
   },
   {
     name: "Promotions",
-    Icon: <i className="fi fi-sr-radio"></i>,
+    Icon: <i className="fi fi-sr-megaphone"></i>,
     path: "/admin/promotions",
   },
 ];
@@ -49,7 +49,7 @@ const PrivateRoute = () => {
 
   useEffect(() => {
     dispatch(getUser(() => setLoader(false)));
-  }, [location]);
+  }, [dispatch]);
 
   if (loader) return <h2>Loading...</h2>;
 
@@ -57,8 +57,8 @@ const PrivateRoute = () => {
     <>
       <PrivateLayoutContainer>
         <SideNav>
-          {routes.map((route) => (
-            <LinkItem to={route.path}>
+          {routes.map((route, index) => (
+            <LinkItem key={index} to={route.path}>
               {route.Icon} <span>{route.name}</span>
             </LinkItem>
           ))}
@@ -77,6 +77,8 @@ const SideNav = styled.nav`
   gap: 1rem;
   padding: 2rem 0.6rem;
   background: #f2f2f2;
+  overflow-y: auto;
+  max-height: 90vh;
 `;
 
 const PrivateLayoutContainer = styled.div`
