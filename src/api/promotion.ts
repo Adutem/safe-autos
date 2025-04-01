@@ -51,7 +51,7 @@ export const createPromotion = async (data: any) => {
 
 export const updatePromotion = async (promotionId: string, data: any) => {
   try {
-    const response = await axios.put(`${BASE_URL}/promotion/promotion-content/${promotionId}`, data, {
+    const response = await axios.put(`${BASE_URL}/promotion/${promotionId}`, data, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,

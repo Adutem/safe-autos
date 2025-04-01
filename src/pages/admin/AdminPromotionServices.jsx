@@ -6,6 +6,7 @@ import {
     SectionHeading,
 } from "../../components/reusables/Styles";
 import PromotionForm from "../../components/promotionServices/PromotionForm";
+import { getAllPromotions } from "../../api/promotion"; // Import getAllBlogs API function
 
 
 
@@ -20,7 +21,7 @@ const AdminPromotionServicePage = () => {
 
     const fetchPromotionServices = async () => {
         try {
-            const data = await getAllPromotionServices(PromotionServicesPerPage, currentPage);
+            const data = await getAllPromotions(PromotionServicesPerPage, currentPage);
             setPromotionServices(data.PromotionServices);
         } catch (error) {
             console.error("Error fetching PromotionServices:", error);
