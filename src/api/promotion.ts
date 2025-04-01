@@ -13,7 +13,7 @@ console.log(token);
 
 export const getAllPromotions = async (limit: number = 20, page: number = 1) => {
   try {
-    const response = await axios.get(`${BASE_URL}/blog`, {
+    const response = await axios.get(`${BASE_URL}/promotion/all`, {
       params: { limit, page }
     });
     return response.data;
@@ -23,9 +23,9 @@ export const getAllPromotions = async (limit: number = 20, page: number = 1) => 
   }
 };
 
-export const getPromotion = async (blogId: string) => {
+export const getPromotion = async (promotionId: string) => {
   try {
-    const response = await axios.get(`${BASE_URL}/blog/${blogId}`);
+    const response = await axios.get(`${BASE_URL}/promotion/${promotionId}`);
     return response.data;
   } catch (error) {
     toastError(error.message);
@@ -35,7 +35,7 @@ export const getPromotion = async (blogId: string) => {
 
 export const createPromotion = async (data: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/blog/create`, data, {
+    const response = await axios.post(`${BASE_URL}/promotion/create`, data, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
@@ -49,9 +49,9 @@ export const createPromotion = async (data: any) => {
   }
 };
 
-export const updatePromotion = async (blogId: string, data: any) => {
+export const updatePromotion = async (promotionId: string, data: any) => {
   try {
-    const response = await axios.put(`${BASE_URL}/blog/blog-content/${blogId}`, data, {
+    const response = await axios.put(`${BASE_URL}/promotion/promotion-content/${promotionId}`, data, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
@@ -65,9 +65,9 @@ export const updatePromotion = async (blogId: string, data: any) => {
   }
 };
 
-export const deletePromotion = async (blogId: string) => {
+export const deletePromotion = async (promotionId: string) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/blogs/${blogId}`);
+    const response = await axios.delete(`${BASE_URL}/promotions/${promotionId}`);
     toastSuccess("Promotion deleted successfully");
     return response.data;
   } catch (error) {
@@ -76,11 +76,11 @@ export const deletePromotion = async (blogId: string) => {
   }
 };
 
-export const trackPromotionView = async (blogId: string) => {
+export const trackPromotionView = async (promotionId: string) => {
   try {
-    await axios.post(`${BASE_URL}/blog/add-view/${blogId}`);
+    await axios.post(`${BASE_URL}/promotion/add-view/${promotionId}`);
   } catch (error) {
-    console.error("Error tracking blog view:", error);
+    console.error("Error tracking promotion view:", error);
     throw error;
   }
 };
