@@ -1,37 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Typography } from "@mui/material";
+import { Typography, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import styled from "styled-components";
-import { SectionHeading } from "../../components/reusables/Styles";
+import { SectionHeading, Button } from "../../components/reusables/Styles";
 import { useGlobalContext } from "../../contexts/GlobalContext";
+import PromotionForm from "../../components/promotionServices/PromotionForm";
 
 const AdminStorePage = () => {
-    const { fetchAllStores, } = useGlobalContext(); // Assuming nearbyStores contains the fetched data
+    const { fetchAllStores } = useGlobalContext();
     const [allStores, setAllStores] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchCategory, setSearchCategory] = useState("");
     const [searchDate, setSearchDate] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedStore, setSelectedStore] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
     const storesPerPage = 12;
 
     // Fetch stores when component mounts
     useEffect(() => {
         const fetchStores = async () => {
             const stores = await fetchAllStores();
-            // Fetch all stores
             setAllStores(stores); // Set the fetched stores to state
         };
         fetchStores();
-    }, [fetchAllStores]); // Add nearbyStores as a dependency
+    }, [fetchAllStores]);
 
     const filteredStores = allStores.filter(store =>
         (searchTerm === "" || store.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
         (searchCategory === "" || store.category === searchCategory) &&
         (searchDate === "" || store.date === searchDate)
     );
+
     const indexOfLastStore = currentPage * storesPerPage;
     const indexOfFirstStore = indexOfLastStore - storesPerPage;
     const currentStores = filteredStores.slice(indexOfFirstStore, indexOfLastStore);
     const totalPages = Math.ceil(filteredStores.length / storesPerPage);
+
+    const handleOpen = (store) => {
+        setSelectedStore(store);  // Set the selected store to 
+        console.log('Store Selected:', store)
+        setOpenModal(true);  // Open the modal
+    };
+
+    const handleClose = () => {
+        setOpenModal(false); // Close the modal
+        setSelectedStore(null); // Reset selected store
+    };
 
     const getPageNumbers = () => {
         const pages = [];
@@ -50,11 +64,11 @@ const AdminStorePage = () => {
         }
         return pages;
     };
+
     return (
         <DashboardContainer>
             <SectionHeading>Store Management</SectionHeading>
             <ControlPanel>
-
                 <SearchBar>
                     <input type="text" placeholder="Search by title..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                     <select value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
@@ -67,7 +81,6 @@ const AdminStorePage = () => {
             </ControlPanel>
 
             <div style={{ height: '400px', overflowY: 'auto' }}>
-
                 <StoreGrid>
                     {allStores.map((store) => (
                         <StoreCard key={store?._id}>
@@ -91,11 +104,14 @@ const AdminStorePage = () => {
                                     <span>{new Date(store?.createdAt).toLocaleDateString()}</span>
                                 </div>
                             </StoreContent>
+                            <Button color="primary" onClick={() => handleOpen(store)}>
+                                Promote Store
+                            </Button>
                         </StoreCard>
                     ))}
                 </StoreGrid>
-
             </div>
+
             <Pagination>
                 <PageButton onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>First</PageButton>
                 <PageButton onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>Prev</PageButton>
@@ -107,10 +123,22 @@ const AdminStorePage = () => {
                 <PageButton onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>Next</PageButton>
                 <PageButton onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages}>Last</PageButton>
             </Pagination>
+
+            {/* Modal for PromotionForm */}
+
+            {openModal && (
+                <PromotionForm
+                    store={selectedStore}
+                    isOpen={openModal}
+                    onClose={handleClose}
+                    editData={selectedStore}
+                />
+            )}
         </DashboardContainer>
     );
 };
 
+// Styled components
 const DashboardContainer = styled.div`
   padding: 20px;
   background: #f4f4f4;
@@ -168,14 +196,11 @@ const StoreContent = styled.div`
   }
 `;
 
-
 const Pagination = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
 `;
-
-
 
 const PageButton = styled.button`
   margin: 0 5px;
@@ -192,4 +217,5 @@ const PageButton = styled.button`
     color: #fff;
   }
 `;
+
 export default AdminStorePage;
