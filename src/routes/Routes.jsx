@@ -28,6 +28,7 @@ import PrivateRoute from "./private.route";
 import AboutPage from "../pages/admin/AboutPage";
 import AdminBlogPage from "../pages/admin/AdminBlogPage";
 import AdminPromotionServicePage from "../pages/admin/AdminPromotionServices";
+import AdminStorePage from "../pages/admin/AdminStorePage";
 import SubmitReview from "../pages/SubmitReview";
 import ReviewAdmin from "../pages/admin/ReviewAdmin";
 import NewsAdmin from "../pages/admin/NewsAdmin";
@@ -76,6 +77,7 @@ const RoutesComponent = () => {
         <Route path="news" element={<NewsAdmin />} />
         <Route path="blogs" element={<AdminBlogPage />} />
         <Route path="promotions" element={<AdminPromotionServicePage />} />
+        <Route path="stores" element={<AdminStorePage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

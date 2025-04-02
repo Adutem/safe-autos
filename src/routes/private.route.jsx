@@ -16,6 +16,11 @@ const routes = [
     path: "/admin/career",
   },
   {
+    name: "Store",
+    Icon: <i className="fi fi-sr-shop"></i>,
+    path: "/admin/stores",
+  },
+  {
     name: "About",
     Icon: <i className="fi fi-sr-info"></i>,
     path: "/admin/about",
