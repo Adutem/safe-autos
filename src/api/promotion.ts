@@ -13,8 +13,12 @@ console.log(token);
 
 export const getAllPromotions = async (limit: number = 20, page: number = 1) => {
   try {
+   
     const response = await axios.get(`${BASE_URL}/promotion/all`, {
-      params: { limit, page }
+      params: { limit, page },
+      headers: {
+        Authorization: `Bearer ${token}`, // Add the token to the Authorization header
+      },
     });
     return response.data;
   } catch (error) {

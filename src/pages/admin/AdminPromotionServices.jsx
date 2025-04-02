@@ -6,10 +6,7 @@ import {
     SectionHeading,
 } from "../../components/reusables/Styles";
 import PromotionForm from "../../components/promotionServices/PromotionForm";
-import { getAllPromotions } from "../../api/promotion"; // Import getAllBlogs API function
-
-
-
+import { getAllPromotions } from "../../api/promotion"; // Import getAllPromotions API function
 
 const AdminPromotionServicePage = () => {
     const [PromotionServices, setPromotionServices] = useState([]);
@@ -22,7 +19,7 @@ const AdminPromotionServicePage = () => {
     const fetchPromotionServices = async () => {
         try {
             const data = await getAllPromotions(PromotionServicesPerPage, currentPage);
-            setPromotionServices(data.PromotionServices);
+            setPromotionServices(data.promotions); // Update to match the new response structure
         } catch (error) {
             console.error("Error fetching PromotionServices:", error);
         }
@@ -34,8 +31,8 @@ const AdminPromotionServicePage = () => {
 
     const filteredPromotionServices = PromotionServices.filter(PromotionService =>
         (searchTerm === "" || PromotionService.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        (searchCategory === "" || PromotionService.category === searchCategory) &&
-        (searchDate === "" || PromotionService.date === searchDate)
+        (searchCategory === "" || PromotionService.promotionType === searchCategory) &&
+        (searchDate === "" || new Date(PromotionService.startDate).toLocaleDateString() === new Date(searchDate).toLocaleDateString())
     );
 
     const indexOfLastPromotionService = currentPage * PromotionServicesPerPage;
@@ -85,10 +82,10 @@ const AdminPromotionServicePage = () => {
     const handleSubmit = () => {
         if (selectedPromotionService) {
             setPromotionServices(
-                PromotionServices.map((PromotionService) => (PromotionService.id === selectedPromotionService.id ? { ...PromotionService, ...formData } : PromotionService))
+                PromotionServices.map((PromotionService) => (PromotionService._id === selectedPromotionService._id ? { ...PromotionService, ...formData } : PromotionService))
             );
         } else {
-            setPromotionServices([...PromotionServices, { id: Date.now(), ...formData }]);
+            setPromotionServices([...PromotionServices, { _id: Date.now(), ...formData }]);
         }
         handleClose();
     };
@@ -99,7 +96,7 @@ const AdminPromotionServicePage = () => {
     };
 
     const confirmDelete = () => {
-        setPromotionServices(PromotionServices.filter((PromotionService) => PromotionService.id !== currentDeleteId));
+        setPromotionServices(PromotionServices.filter((PromotionService) => PromotionService._id !== currentDeleteId));
         setShowDeleteModal(false);
     };
 
@@ -119,8 +116,8 @@ const AdminPromotionServicePage = () => {
                     <input type="text" placeholder="Search by title..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                     <select value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
                         <option value="">All Categories</option>
-                        <option value="Maintenance">Maintenance</option>
-                        <option value="Uncategorized">Uncategorized</option>
+                        <option value="banner">Banner</option>
+                        <option value="other">Other</option>
                     </select>
                     <input type="date" value={searchDate} onChange={(e) => setSearchDate(e.target.value)} />
                 </SearchBar>
@@ -130,25 +127,23 @@ const AdminPromotionServicePage = () => {
                 <PromotionServiceGrid>
                     {currentPromotionServices.map((PromotionService) => (
                         <PromotionServiceCard key={PromotionService._id}>
-                            <PromotionServiceImage src={PromotionService.thumbNail.downloadUrl} alt={PromotionService.title} />
+                            <PromotionServiceImage src={PromotionService.imageUrl} alt={PromotionService.nanoId} />
                             <PromotionServiceContent>
-                                <Typography variant="h6">{PromotionService.title}</Typography>
-                                <Typography>{PromotionService.shortIntroduction}</Typography>
+                                <Typography variant="h6">{PromotionService.nanoId}</Typography>
+                                <Typography>{PromotionService.promotionType}</Typography>
 
-                                <div style={{display: 'flex', justifyContent: 'space-between',margin: '10px'}}>
-                                    <span>{new Date(PromotionService.publicationDate).toLocaleDateString()}</span>
-                                    <ReadMore href={`/PromotionService/${PromotionService._id}`}>Read More →</ReadMore>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', margin: '10px' }}>
+                                    <span>{new Date(PromotionService.startDate).toLocaleDateString()} - {new Date(PromotionService.endDate).toLocaleDateString()}</span>
+                                    <ReadMore href={PromotionService.redirectUrl}>Read More →</ReadMore>
                                 </div>
 
                                 <PromotionServiceFooter>
-                                    {/* <div style={{ display: "flex", gap: "10px", justifyContent: 'space-between' }}> */}
-                                        <Button color="primary" onClick={() => handleOpen(PromotionService)}>
-                                            Edit
-                                        </Button>
-                                        <Button color="secondary" onClick={() => handleDelete(PromotionService._id)}>
-                                            Delete
-                                        </Button>
-                                    {/* </div> */}
+                                    <Button color="primary" onClick={() => handleOpen(PromotionService)}>
+                                        Edit
+                                    </Button>
+                                    <Button color="secondary" onClick={() => handleDelete(PromotionService._id)}>
+                                        Delete
+                                    </Button>
                                 </PromotionServiceFooter>
                             </PromotionServiceContent>
                         </PromotionServiceCard>
@@ -177,11 +172,11 @@ const AdminPromotionServicePage = () => {
                 <Modal open={showDeleteModal} onClose={handleCancelAction}>
                     <DeleteModalContainer>
                         <Typography variant="h6">Delete PromotionService</Typography>
-                        <Typography style={{marginTop: '20px'}}>Are you sure you want to delete this PromotionService post?</Typography>
-                        <Button style={{marginTop: '20px'}} variant="contained" color="secondary" onClick={confirmDelete}>
+                        <Typography style={{ marginTop: '20px' }}>Are you sure you want to delete this PromotionService post?</Typography>
+                        <Button style={{ marginTop: '20px' }} variant="contained" color="secondary" onClick={confirmDelete}>
                             Yes
                         </Button>
-                        <Button style={{marginTop: '20px'}} variant="contained" onClick={handleCancelAction}>
+                        <Button style={{ marginTop: '20px' }} variant="contained" onClick={handleCancelAction}>
                             No
                         </Button>
                     </DeleteModalContainer>
@@ -259,9 +254,7 @@ const DeleteModalContainer = styled.div`
   width: 300px;
   margin-top: 100px;
   text-align: center;
-  
 `;
-
 
 const PromotionServiceCard = styled.div`
   background: var(--white);
