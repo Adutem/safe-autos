@@ -15,6 +15,7 @@ export interface PromotionPost {
   redirectUrl: string;
   startDate: Date;
   endDate: Date;
+  promotionImage?: File; // Optional promotionImage field
 }
 
 interface PromotionFormProps {
@@ -39,22 +40,28 @@ const PromotionForm = React.memo(({ store, onClose, isOpen, editData }: Promotio
     redirectUrl: yup.string().url("Invalid URL").required("Please provide Redirect URL"),
     startDate: yup.date().required("Please provide Start Date"),
     endDate: yup.date().required("Please provide End Date"),
+    promotionImage: yup.mixed().required("Please upload an promotionImage"), // Add validation for promotionImage
   });
 
   const validation = useFormik({
     enableReinitialize: true,
     initialValues: {
-      storeId: editData?._id || "",
+      storeId: store?._id || "",
       promotionType: editData?.promotionType || "banner",
       redirectUrl: editData?.redirectUrl || "",
       startDate: editData?.startDate ? editData.startDate.toISOString().split('T')[0] : "", // Format date for input
       endDate: editData?.endDate ? editData.endDate.toISOString().split('T')[0] : "", // Format date for input
+      promotionImage: null, // Initialize promotionImage as null
     },
     validationSchema: PromotionSchema,
     onSubmit: (values) => {
       const formData = new FormData();
       Object.keys(values).forEach((key) => {
-        formData.append(key, values[key].toString());
+        if (key === "promotionImage" && values[key]) {
+          formData.append(key, values[key]); // Append the file directly
+        } else {
+          formData.append(key, values[key].toString());
+        }
       });
 
       if (editData && editData._id) {
@@ -97,7 +104,9 @@ const PromotionForm = React.memo(({ store, onClose, isOpen, editData }: Promotio
           p: 4,
         }}
       >
-        <Header>Promotion Form</Header>
+        <Header>
+          <Title>Promotion Form</Title>
+        </Header>
         {isCreatingPromotion && <CircularProgress />}
         <Box
           sx={{
@@ -119,9 +128,8 @@ const PromotionForm = React.memo(({ store, onClose, isOpen, editData }: Promotio
               label="Store ID"
               onBlur={validation.handleBlur}
               onChange={validation.handleChange}
-              value={editData?.storeId || validation.values.storeId} // Display storeId from editData
+              value={store?._id || validation.values.storeId} // Display storeId from editData
               error={Boolean(validation.errors.storeId)}
-              helperText={validation.errors.storeId}
               fullWidth
               variant="outlined"
               margin="normal"
@@ -187,6 +195,24 @@ const PromotionForm = React.memo(({ store, onClose, isOpen, editData }: Promotio
                 shrink: true,
               }}
             />
+            <TextField
+              type="file"
+              name="promotionImage"
+              label="Upload promotionImage"
+              onBlur={validation.handleBlur}
+              onChange={(event) => {
+                const target = event.currentTarget as HTMLInputElement; // Type assertion
+                if (target.files && target.files.length > 0) {
+                  validation.setFieldValue("promotionImage", target.files[0]); // Set the selected file
+                }
+              }}
+              error={Boolean(validation.errors.promotionImage)}
+              helperText={validation.errors.promotionImage}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              inputProps={{ accept: "promotionImage/*" }} // Accept only promotionImage files
+            />
             <Button
               type="submit"
               color="primary"
@@ -209,6 +235,15 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+`;
+
+const Title = styled.h2`
+  font-size: 1.25rem;
+  @media (min-width: 640px) {
+    font-size: 1.5rem;
+  }
+  color: black;
+  font-weight: bold;
 `;
 
 const Form = styled.form`

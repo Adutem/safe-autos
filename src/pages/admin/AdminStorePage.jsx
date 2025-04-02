@@ -131,7 +131,6 @@ const AdminStorePage = () => {
                     store={selectedStore}
                     isOpen={openModal}
                     onClose={handleClose}
-                    editData={selectedStore}
                 />
             )}
         </DashboardContainer>
