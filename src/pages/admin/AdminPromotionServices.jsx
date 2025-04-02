@@ -109,9 +109,9 @@ const AdminPromotionServicePage = () => {
         <DashboardContainer>
             <SectionHeading>Promotion Service Management</SectionHeading>
             <ControlPanel>
-                <Button style={{ width: '200px' }} onClick={() => handleOpen()}>
+                {/* <Button style={{ width: '200px' }} onClick={() => handleOpen()}>
                     Add Promotion Service
-                </Button>
+                </Button> */}
                 <SearchBar>
                     <input type="text" placeholder="Search by title..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                     <select value={searchCategory} onChange={(e) => setSearchCategory(e.target.value)}>
