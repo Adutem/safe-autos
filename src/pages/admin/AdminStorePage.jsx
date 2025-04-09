@@ -16,6 +16,30 @@ const AdminStorePage = () => {
     const [openModal, setOpenModal] = useState(false);
     const storesPerPage = 12;
 
+    const [longitude, setLongitude] = useState(null);
+    const [latitude, setLatitude] = useState(null);
+
+
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+                setLatitude(latitude);
+                setLongitude(longitude);
+
+                const storeData = await fetchAllStores(longitude, latitude);
+
+                setAllStores(storeData.allStores || []);
+
+            },
+            (error) => {
+                console.error("Error getting location:", error);
+            }
+        );
+    }, []);
+
+
     // Fetch stores when component mounts
     useEffect(() => {
         const fetchStores = async () => {
