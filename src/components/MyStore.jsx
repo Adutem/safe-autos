@@ -14,6 +14,9 @@ const MyStore = () => {
   const [nearestStore, setNearestStore] = useState(null);
   const { currentStoreLocation, displayLocationModal, nearbyStores, setCurrentStoreLocation, fetchAllStores } = useGlobalContext();
   const [allStores, setAllStores] = useState([]);
+  const [longitude, setLongitude] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+
 
   const hideMyStore = () => {
     document.querySelector("#store-container")?.classList.remove("show");
@@ -22,14 +25,39 @@ const MyStore = () => {
 
   useEffect(() => {
     hideMyStore();
-    // Fetch all stores
-    const loadStores = async () => {
-      const stores = await fetchAllStores();
-      setAllStores(stores);
-    };
-    loadStores();
-    setNearestStore(nearbyStores[0]); // Set the nearest store
-  }, [currentStoreLocation]);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setLatitude(latitude);
+        setLongitude(longitude);
+
+        const storeData = await fetchAllStores(longitude, latitude);
+        setAllStores(storeData);
+        console.log('Store data:', storeData);
+        setNearestStore(nearbyStores[0]);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+      }
+    );
+  }, []);
+
+
+
+  // useEffect(() => {
+  //   hideMyStore();
+  //   navigator.geolocation.getCurrentPosition(
+  //     async (position) => {
+  //       const { latitude, longitude } = position.coords;
+  //       const store = await fetchAllStores(longitude, latitude);
+  //       console.log("Store Data:", storeData);
+  //       setAllStores(storeData);
+  //     },
+  //     (error) => {
+  //       console.error("Error getting location:", error);
+  //     }
+  //   );
+  // }, []);
 
 
   return (
@@ -58,59 +86,6 @@ const MyStore = () => {
 
           <Seperator />
 
-          {!isNearbyStoresVisible ? (
-            <>
-              {currentStoreLocation && (
-                <>
-                  <SectionPara>Store Hours</SectionPara>
-                  <ContainerDiv>
-                    {fullHoursOfOperation.map((hop) => (
-                      <NormalPara
-                        key={hop.date}
-                        style={{
-                          margin: "0.5rem 0",
-                          fontSize: "0.75rem",
-                          display: "grid",
-                          gridTemplateColumns: "repeat(2, 1fr)",
-                        }}
-                      >
-                        <strong>{hop.date}</strong>
-                        {hop.hours.join(" - ")}
-                      </NormalPara>
-                    ))}
-                  </ContainerDiv>
-                </>
-              )}
-              <Button onClick={() => setIsNearbyStoresVisible(true)}>Show Nearby Stores</Button>
-            </>
-          ) : (
-            <>
-              <ContainerDiv>
-                {nearbyStores.length === 0 ? ( // Check if nearbyStores is empty
-                  <NormalPara>No nearby stores found.</NormalPara>
-                ) : (
-                  nearbyStores
-                    .filter((store) => store && store.shopLocation) // Filter out invalid entries
-                    .map((store) => (
-                      <LocationCard
-                        key={store.id}
-                        shopLocation={store.shopLocation}
-                        phoneNumber={store.phoneNumber}
-                        email={store.email}
-                        link={store.link}
-                        couponLink={store.couponLink}
-                        financingLink={store.financingLink}
-                        onClick={() => {
-                          setCurrentStoreLocation(store);
-                          setIsNearbyStoresVisible(false);
-                        }}
-                      />
-                    ))
-                )}
-              </ContainerDiv>
-              <Button onClick={() => setIsNearbyStoresVisible(false)}>Back to All Stores</Button>
-            </>
-          )}
         </StoreCompContContainer>
       </StoreCompContainer>
     </>

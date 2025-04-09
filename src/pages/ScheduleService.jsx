@@ -489,7 +489,7 @@ const OptimizedGridLayout = styled(GridLayoutContainer)`
 
   @media (max-width: 720px) {
     grid-template-columns: ${(props) =>
-      props.waitTillMobile || props.waitTillTab ? "repeat(2, 1fr)" : "1fr"};
+    props.waitTillMobile || props.waitTillTab ? "repeat(2, 1fr)" : "1fr"};
   }
 
   @media (max-width: 600px) {
@@ -626,17 +626,94 @@ export const LocationCard = ({
   );
 };
 
+// export function LocationModal({ portalRef, hideShowModal, handleInputChange }) {
+//   const { fetchAllStores } = useGlobalContext(); // Use fetchAllStores from context
+//   const [allStores, setAllStores] = useState([]);
+
+//   const [longitude, setLongitude] = useState(null);
+//   const [latitude, setLatitude] = useState(null);
+//   useEffect(() => {
+//     navigator.geolocation.getCurrentPosition(
+//       async (position) => {
+//         const { latitude, longitude } = position.coords;
+//         setLatitude(latitude);
+//         setLongitude(longitude);
+
+//         const storeData = await fetchAllStores(longitude, latitude);
+//         setAllStores(storeData);
+//         console.log('Store data:', storeData);
+//       },
+//       (error) => {
+//         console.error("Error getting location:", error);
+//       }
+//     );
+//   }, []);
+
+
+//   return (
+//     <PortalModalContainer
+//       onClick={(e) => {
+//         e.preventDefault();
+//         if (e.target !== portalRef.current) return;
+//         hideShowModal();
+//       }}
+//       ref={portalRef}
+//     >
+//       <LocationsContainer>
+//         <HideButtonContainer>
+//           <OptimizedFormButton
+//             onClick={hideShowModal}
+//             style={{ width: "initial", minWidth: "initial" }}
+//           >
+//             <i className="fi fi-sr-circle-xmark"></i>
+//           </OptimizedFormButton>
+//         </HideButtonContainer>
+//         <LocationCardContainer>
+//           {allStores.map((location) => (
+//             <LocationCard
+//               {...location}
+//               handleInputChange={handleInputChange}
+//               hideShowModal={hideShowModal}
+//             />
+//           ))}
+//         </LocationCardContainer>
+//       </LocationsContainer>
+//     </PortalModalContainer>
+//   );
+// }
+
+
 export function LocationModal({ portalRef, hideShowModal, handleInputChange }) {
   const { fetchAllStores } = useGlobalContext(); // Use fetchAllStores from context
   const [allStores, setAllStores] = useState([]);
+  const [isNearby, setIsNearby] = useState(false); // State to track if stores are nearby
 
-  useEffect(() => {
-    const fetchStores = async () => {
-      const stores = await fetchAllStores();
-      setAllStores(stores);
-    };
-    fetchStores();
-  }, []);
+  const [longitude, setLongitude] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+
+
+
+    useEffect(() => {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          setLatitude(latitude);
+          setLongitude(longitude);
+  
+          const storeData = await fetchAllStores(longitude, latitude);
+          if (storeData?.nearestStore) {
+            setAllStores(storeData.nearestStore);
+            setIsNearby(true); // Set to true if nearest stores are returned
+          } else {
+            setAllStores(storeData.allStores || []);
+            setIsNearby(false); // Set to false if all stores are returned
+          }
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    }, []);
 
   return (
     <PortalModalContainer
@@ -656,9 +733,14 @@ export function LocationModal({ portalRef, hideShowModal, handleInputChange }) {
             <i className="fi fi-sr-circle-xmark"></i>
           </OptimizedFormButton>
         </HideButtonContainer>
+        {/* Add title dynamically */}
+        <h2 style={{ textAlign: "center", margin: "1rem 0" }}>
+          {isNearby ? "Nearby Stores" : "All Stores"}
+        </h2>
         <LocationCardContainer>
-          {allStores.map((location) => (
+          {allStores.map((location, index) => (
             <LocationCard
+              key={index}
               {...location}
               handleInputChange={handleInputChange}
               hideShowModal={hideShowModal}

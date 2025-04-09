@@ -260,7 +260,7 @@ const GlobalContextProvider = ({ children }) => {
     }
     try {
       const response = await axios.post(`${BASE_URL}/store/nearby-stores`, {
-        long, lat 
+        long, lat
       });
       setNearbyStores([response.data.nearestStore]);
       console.log(response.data.nearestStore);
@@ -290,17 +290,44 @@ const GlobalContextProvider = ({ children }) => {
     getUserLocation();
   }, []);
 
-const fetchAllStores = async () => {
-    console.log("Fetching all stores..."); // Debugging line to check function call
+  const fetchAllStores = async (long, lat) => {
+    console.log("Fetching all stores...");
+
+    if (!long || !lat) {
+      console.error("Longitude and latitude are required to fetch stores.");
+      return [];
+    }
 
     try {
-      const response = await axios.get(`${BASE_URL}/store/`);
-      return response.data.stores;
+      const response = await axios.post(`${BASE_URL}/store/nearby-stores`, {
+        long,
+        lat,
+      });
+
+      const data = response.data;
+      console.log("Fetched stores:", data);
+      console.log("Fetched all stores:", data.allStores);
+      // If nearestStore exists and is not null, return it; otherwise return data.store
+      return data;
     } catch (error) {
       console.error("Error fetching all stores:", error);
       return [];
     }
   };
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        const storeData = await fetchAllStores(longitude, latitude);
+
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+      }
+    );
+  }, []);
+
 
   return (
     <GlobalContext.Provider
