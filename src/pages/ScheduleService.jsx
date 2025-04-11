@@ -682,25 +682,26 @@ export const LocationCard = ({
 //   );
 // }
 
-
 export function LocationModal({ portalRef, hideShowModal, handleInputChange }) {
   const { fetchAllStores } = useGlobalContext(); // Use fetchAllStores from context
   const [allStores, setAllStores] = useState([]);
   const [isNearby, setIsNearby] = useState(false); // State to track if stores are nearby
+  const [loading, setLoading] = useState(true); // State to track loading status
 
   const [longitude, setLongitude] = useState(null);
   const [latitude, setLatitude] = useState(null);
 
-
-
-    useEffect(() => {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
+  useEffect(() => {
+    setLoading(true); // Start loading
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
           const { latitude, longitude } = position.coords;
           setLatitude(latitude);
           setLongitude(longitude);
-  
+
           const storeData = await fetchAllStores(longitude, latitude);
+
           if (storeData?.nearestStore) {
             setAllStores(storeData.nearestStore);
             setIsNearby(true); // Set to true if nearest stores are returned
@@ -708,12 +709,18 @@ export function LocationModal({ portalRef, hideShowModal, handleInputChange }) {
             setAllStores(storeData.allStores || []);
             setIsNearby(false); // Set to false if all stores are returned
           }
-        },
-        (error) => {
-          console.error("Error getting location:", error);
+        } catch (error) {
+          console.error("Error fetching stores:", error);
+        } finally {
+          setLoading(false); // Stop loading
         }
-      );
-    }, []);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+        setLoading(false); // Stop loading even if geolocation fails
+      }
+    );
+  }, []);
 
   return (
     <PortalModalContainer
@@ -737,16 +744,20 @@ export function LocationModal({ portalRef, hideShowModal, handleInputChange }) {
         <h2 style={{ textAlign: "center", margin: "1rem 0" }}>
           {isNearby ? "Nearby Stores" : "All Stores"}
         </h2>
-        <LocationCardContainer>
-          {allStores.map((location, index) => (
-            <LocationCard
-              key={index}
-              {...location}
-              handleInputChange={handleInputChange}
-              hideShowModal={hideShowModal}
-            />
-          ))}
-        </LocationCardContainer>
+        {loading ? (
+          <p style={{ textAlign: "center", margin: "2rem 0" }}>Loading...</p>
+        ) : (
+          <LocationCardContainer>
+            {allStores.map((location, index) => (
+              <LocationCard
+                key={index}
+                {...location}
+                handleInputChange={handleInputChange}
+                hideShowModal={hideShowModal}
+              />
+            ))}
+          </LocationCardContainer>
+        )}
       </LocationsContainer>
     </PortalModalContainer>
   );
