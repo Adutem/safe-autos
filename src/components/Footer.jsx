@@ -26,7 +26,7 @@ const Footer = () => {
         ))}
         <Sections>
           <ColumnFlexContainer style={{ alignItems: "flex-start" }}>
-            <Header>Headquarters</Header>
+            {/* <Header>Headquarters</Header>
             <Address>
               <strong>Phone: </strong> 248-693-7979 <br />
               <br />
@@ -34,7 +34,7 @@ const Footer = () => {
               <br />
               <br />
               Lake Orion, MI 48362
-            </Address>
+            </Address> */}
             <Social>
               <a
                 href="https://www.facebook.com/profile.php?id=100089312797389"
