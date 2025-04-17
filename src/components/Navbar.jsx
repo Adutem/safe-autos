@@ -219,12 +219,19 @@ export const MyStoreButton = styled.button`
     props.noHoverEffect || "&:hover { background: var(--primary-color);}"}
 `;
 
-const NormalNavItem = ({ name, path, hideNavbar, icon }) => (
+const NormalNavItem = ({ name, path, hideNavbar, icon, external }) => (
   <MainListItem>
-    <MainLinkItem to={path} onClick={hideNavbar}>
-      {icon}
-      {name}
-    </MainLinkItem>
+    {external ? (
+      <a href={path} target="_blank" rel="noopener noreferrer" onClick={hideNavbar}>
+        {icon}
+        {name}
+      </a>
+    ) : (
+      <MainLinkItem to={path} onClick={hideNavbar}>
+        {icon}
+        {name}
+      </MainLinkItem>
+    )}
   </MainListItem>
 );
 
@@ -236,7 +243,14 @@ const ComposedNavItem = ({ name, routePath, subRoutes, hideNavbar, icon }) => (
     </MainLinkItem>
     <ComposedList className="sub-routes">
       {subRoutes.map((route) => (
-        <ComposedLinkItem to={`${routePath}${route.path}`} onClick={hideNavbar}>
+        <ComposedLinkItem
+          as={route.external ? "a" : Link}
+          href={route.external ? route.path : undefined}
+          to={route.external ? undefined : `${routePath}${route.path}`}
+          target={route.external ? "_blank" : undefined}
+          rel={route.external ? "noopener noreferrer" : undefined}
+          onClick={hideNavbar}
+        >
           {route.icon}
           {route.name}
         </ComposedLinkItem>
@@ -244,4 +258,6 @@ const ComposedNavItem = ({ name, routePath, subRoutes, hideNavbar, icon }) => (
     </ComposedList>
   </ComposedListItem>
 );
+
+
 export default Navbar;

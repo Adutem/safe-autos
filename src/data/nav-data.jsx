@@ -44,6 +44,12 @@ const routes = [
         name: "Car Care Tips",
         icon: <i className="fi fi-sr-car-mechanic"></i>,
       },
+      {
+        path: "https://fleet.mimidas.com",
+        name: "Fleet Management",
+        icon: <i className="fi fi-sr-car-mechanic"></i>,
+        external: true, // Optional: Add a custom property to indicate it's an external link
+      },
     ],
   },
   {
