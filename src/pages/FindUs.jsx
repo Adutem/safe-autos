@@ -17,6 +17,7 @@ import discoverImage from "../assets/discover.svg";
 import mastercardImage from "../assets/mastercard.svg";
 import visaImage from "../assets/visa.svg";
 import { useGlobalContext } from "../contexts/GlobalContext";
+import { SearchComponent } from "../components/Advert";
 
 const methods = [
   {
@@ -42,29 +43,29 @@ const methods = [
 ];
 
 const FindUs = () => {
-  const { currentStoreLocation, displayLocationModal, fetchAllStores, nearbyStores } = useGlobalContext(); // Use fetchAllStores from context
-  const [allStores, setAllStores] = useState([]);
+  const { currentStoreLocation, displayLocationModal, fetchAllStores,allStores, nearbyStores } = useGlobalContext(); // Use fetchAllStores from context
+
   const [isNearbyStoresVisible, setIsNearbyStoresVisible] = useState(false);
   const [storeOptions, setStoreOptions] = useState([]);
 
-  useEffect(() => {
-    const fetchStores = async () => {
-      const stores = await fetchAllStores();
-      setAllStores(stores);
-      setStoreOptions(stores); // Default to all stores
-    };
-    fetchStores();
-  }, []);
+  // useEffect(() => {
+  //   const fetchStores = async () => {
+  //     const stores = await fetchAllStores();
+  //     setAllStores(stores);
+  //     setStoreOptions(stores); // Default to all stores
+  //   };
+  //   fetchStores();
+  // }, []);
 
-  const handleShowNearbyStores = () => {
-    setIsNearbyStoresVisible(true);
-    setStoreOptions(nearbyStores); // Show only nearby stores
-  };
+  // const handleShowNearbyStores = () => {
+  //   setIsNearbyStoresVisible(true);
+  //   setStoreOptions(nearbyStores); // Show only nearby stores
+  // };
 
-  const handleShowAllStores = () => {
-    setIsNearbyStoresVisible(false);
-    setStoreOptions(allStores); // Switch back to all stores
-  };
+  // const handleShowAllStores = () => {
+  //   setIsNearbyStoresVisible(false);
+  //   setStoreOptions(allStores); // Switch back to all stores
+  // };
 
   return (
     <FindUsPageContainer>
@@ -121,7 +122,7 @@ const FindUs = () => {
         <SectionHeading>Connect with us</SectionHeading>
         <br />
         <SocialCompCardCont>
-          {allStores.map((location) => (
+          {allStores?.map((location) => (
             <SocialComponent {...location} />
           ))}
         </SocialCompCardCont>
