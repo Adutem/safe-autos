@@ -37,19 +37,19 @@ const Footer = () => {
             </Address> */}
             <Social>
               <a
-                href="https://www.facebook.com/profile.php?id=100089312797389"
+                // href="https://www.facebook.com/profile.php?id=100089312797389"
                 target="_blank"
               >
                 <i className="fi fi-brands-facebook"></i>
               </a>
               <a
-                href="https://www.google.com/search?q=acorn+tires+%26+auto&rlz=1C1NDCM_enNG1053NG1053&oq=acorn+tires+%26+auto&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yCggCEAAYhgMYigUyCggDEAAYhgMYigUyCggEEAAYhgMYigUyBggFEEUYPNIBCDUzMjZqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8&bshm=rimc/1"
+                // href="https://www.google.com/search?q=acorn+tires+%26+auto&rlz=1C1NDCM_enNG1053NG1053&oq=acorn+tires+%26+auto&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yCggCEAAYhgMYigUyCggDEAAYhgMYigUyCggEEAAYhgMYigUyBggFEEUYPNIBCDUzMjZqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8&bshm=rimc/1"
                 target="_blank"
               >
                 <i className="fi fi-brands-google"></i>
               </a>
               <a
-                href="https://www.linkedin.com/in/acorn-tire-and-auto-a91730245/"
+                // href="https://www.linkedin.com/in/acorn-tire-and-auto-a91730245/"
                 target="_blank"
               >
                 <i className="fi fi-brands-linkedin"></i>
