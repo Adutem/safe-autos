@@ -230,12 +230,12 @@ const SocialComponent = ({
       <OptimizedNormalPara>
         <strong>Tel: </strong> <a href={`tel:+${phoneNumber}`}>{phoneNumber}</a>
       </OptimizedNormalPara>
-      <OptimizedNormalPara>
+      {/* <OptimizedNormalPara>
         <strong>Facebook: </strong>
         <a href={`${facebookLink}`} target="_blank">
           {facebookLink}
         </a>
-      </OptimizedNormalPara>
+      </OptimizedNormalPara> */}
       <OptimizedNormalPara>
         <strong>Direction: </strong>
         <a href={`${mapLink}`} target="_blank">

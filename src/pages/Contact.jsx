@@ -96,7 +96,7 @@ const Contact = () => {
                   {currentStoreLocation?.phoneNumber}
                 </a>
               </AddressPara>
-              <AddressPara>
+              {/* <AddressPara>
                 <a
                   href={`${currentStoreLocation?.facebookLink}`}
                   target="_blank"
@@ -118,7 +118,7 @@ const Contact = () => {
                     }}
                   ></i>
                 </a>
-              </AddressPara>
+              </AddressPara> */}
             </>
           )}
         </AddressSection>
